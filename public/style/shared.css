@@ -1,0 +1,458 @@
+/* **** shared **** */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+header {
+  height: 6vh;
+  display: flex;
+  flex-flow: row nowrap;
+  margin-bottom: 10px;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 0.7%;
+  align-items: center;
+  width: 70%;
+}
+
+nav > a {
+  flex: 1;
+  text-decoration: none;
+  text-align: center;
+  font: 0.8rem "Rubik Mono One", sans-serif;
+  color: #1f1109ee;
+}
+
+nav > a:hover {
+  font-size: 2rem;
+}
+
+#header-buttons {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  width: 30%;
+}
+
+#header-buttons .button {
+  height: 90%;
+  border: 1px solid #1f1109ee;
+  background-color: transparent;
+  font: 500 0.8rem "Rubik", sans-serif;
+  cursor: pointer;
+}
+
+#cluster-map {
+  margin: auto;
+  width: 95vw;
+  height: 90vh;
+  min-width: 250px;
+  max-width: 1400px;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  border: 1.5px solid #1f1109ff;
+}
+
+.table-mode-container {
+  background-color: #c7cac755;
+  margin: auto;
+  width: 95vw;
+  height: 90vh;
+  overflow: scroll;
+  min-width: 250px;
+  max-width: 1400px;
+  border: 1.5px solid #1f1109ff;
+  border-radius: 0.3rem;
+  font: 100 1rem "Rubik", sans-serif;
+  position: relative;
+  padding: 5px 5px;
+}
+
+/* .table-mode-container__thead {
+  background-color: #c7cac7ff;
+  position: sticky;
+  top: 0px;
+} */
+
+.table-mode-container h1 {
+  margin: 0;
+  display: block;
+  font-weight: 500;
+}
+
+.table-mode-container h3 {
+  display: inline;
+  font-size: 1.1rem;
+  line-height: 1.8rem;
+  margin: 0 3% 0 0;
+  font-weight: 500;
+}
+
+#table-mode-container__headers--venue {
+  display: block;
+  text-align: center;
+  padding-top: 1rem;
+}
+#table-mode-container__headers--song {
+  display: block;
+  text-align: center;
+  padding-top: 0.3rem;
+}
+
+.table-mode-container table {
+  position: relative;
+  width: 100%;
+}
+
+th {
+  border: 2px solid black;
+}
+
+tr td {
+  border-bottom: 1px solid black;
+}
+
+td a {
+  text-decoration: none;
+  color: #0000ee;
+}
+
+td > a:hover {
+  font-weight: 500;
+}
+
+/* **** venue-page **** */
+
+#performance-list {
+  margin: auto;
+  text-align: center;
+  line-height: 2.5rem;
+  font-size: 1.3rem;
+  padding-top: 2rem;
+}
+
+#performance-list > a {
+  text-decoration: none;
+  color: #0000ee;
+}
+
+#performance-list > a:hover,
+#performance-list > a:active,
+#performance-list > a:focus {
+  text-decoration: none;
+  border-bottom: 1px solid black;
+  font-size: 1.6rem;
+}
+
+/* **** show-page **** */
+
+#setlist-wrapper ul {
+  list-style-type: none;
+  width: fit-content;
+  margin: auto;
+  padding: 0;
+}
+
+#setlist-wrapper li {
+  width: fit-content;
+}
+
+#setlist-title {
+  margin: 5% 10%;
+  display: block;
+  text-align: center;
+  border-bottom: 1px solid black;
+}
+
+.show-notes {
+  white-space: pre;
+  margin: 3% auto;
+  width: fit-content;
+}
+
+.song-notes {
+  width: fit-content;
+  margin: 3% auto;
+  white-space: pre;
+  overflow: scroll;
+}
+
+#map {
+  margin: auto;
+  width: 95vw;
+  height: 90vh;
+  min-width: 250px;
+  max-width: 1400px;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  border: 1.5px solid #1f1109ff;
+}
+
+/* **** new-show **** */
+
+.show-inputs {
+  margin: 2rem auto;
+  width: fit-content;
+  height: fit-content;
+  overflow: scroll;
+  min-width: 250px;
+  max-width: 1400px;
+  font: 100 1rem "Rubik", sans-serif;
+  position: relative;
+}
+
+.show-inputs div {
+  margin: 1rem 1rem;
+}
+
+#date-input input {
+  margin-left: 5%;
+}
+
+#venue-input input {
+  margin-bottom: 0.3rem;
+}
+
+#venue-input #city,
+#venue-input #state,
+#venue-input #country {
+  margin-left: 27%;
+  margin-right: 0;
+}
+
+.show-inputs button {
+  display: block;
+  margin: auto;
+  height: 2rem;
+  width: 4rem;
+}
+
+#results {
+  overflow: hidden;
+  list-style-type: none;
+  width: fit-content;
+  margin: 0.5rem auto;
+  padding: 0;
+}
+
+#results li {
+  white-space: nowrap;
+  margin-bottom: 0.5rem;
+  width: fit-content;
+}
+
+/* **** coming-soon **** */
+
+.table-mode-container__coming-soon {
+  background-color: #c7cac755;
+  margin: 25vh 5vw;
+  width: fit-content;
+  height: fit-content;
+  overflow: scroll;
+  min-width: 250px;
+  max-width: 500px;
+  border: 1.5px solid #1f1109ff;
+  border-radius: 0.3rem;
+  font: 100 1rem "Rubik", sans-serif;
+  position: relative;
+  padding: 5px 5px;
+}
+
+.table-mode-container__coming-soon h1 {
+  text-align: center;
+  padding: 5px 5px;
+}
+
+.table-mode-container__coming-soon p {
+  font-size: 1.1rem;
+  font-weight: 400;
+  width: 90%;
+  margin: 5% auto;
+}
+
+/* **** utils **** */
+
+.hide {
+  display: none;
+}
+
+/* **** media queries **** */
+
+@media (min-width: 750px) {
+  .table-mode-container {
+    font-size: 1.3rem;
+  }
+
+  .table-mode-container h1 {
+    text-align: center;
+    margin: 0.5rem auto;
+  }
+
+  .table-mode-container h3 {
+    text-align: center;
+    font-size: 1.3rem;
+    margin: auto;
+    display: block;
+  }
+
+  .table-mode-container table {
+    margin-top: 1.3rem;
+  }
+
+  nav > a {
+    font-size: 2rem;
+    font-weight: 600;
+  }
+
+  nav > a:hover {
+    font-size: 2.2rem;
+  }
+
+  header {
+    margin-top: 1vh;
+  }
+
+  #header-buttons .button {
+    font-size: 1rem;
+  }
+
+  #setlist-title {
+    margin: 2% 10%;
+    padding: 1rem;
+  }
+
+  .song-notes {
+    width: fit-content;
+    margin: 3% auto;
+  }
+
+  .show-notes {
+    margin: 3% auto;
+  }
+
+  .table-mode-container__coming-soon {
+    margin: 25vh auto;
+  }
+}
+
+@media (min-width: 450px) and (max-width: 749px) {
+  .table-mode-container {
+    font-size: 1.15rem;
+  }
+
+  .table-mode-container h1 {
+    text-align: center;
+    margin: 0.5rem auto;
+  }
+
+  .table-mode-container h3 {
+    text-align: center;
+    font-size: 1.3rem;
+    margin: auto;
+    display: block;
+  }
+
+  .table-mode-container table {
+    margin-top: 1.3rem;
+  }
+
+  nav > a {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  nav > a:hover {
+    font-size: 2.2rem;
+  }
+
+  header {
+    margin-top: 1vh;
+  }
+
+  #header-buttons .button {
+    font-size: 0.9rem;
+  }
+
+  #setlist-title {
+    margin: 2% 10%;
+    padding: 1rem;
+  }
+
+  .song-notes {
+    width: fit-content;
+    margin: 3% auto;
+  }
+
+  .show-notes {
+    margin: 3% auto;
+  }
+
+  .table-mode-container__coming-soon {
+    margin: 25vh auto;
+  }
+}
+
+@media (max-width: 374px) {
+  .table-mode-container h3,
+  h1 {
+    text-align: center;
+    display: block;
+  }
+}
+
+/* **** inital color palette ****
+
+CSS HEX
+--light-french-beige: #c6a680ff;
+--smoky-black: #1f1109ff;
+--russet: #804a20ff;
+--fulvous: #df7d0cff;
+--silver-sand: #c7cac7ff;
+
+CSS HSL
+--light-french-beige: hsla(33, 38%, 64%, 1);
+--smoky-black: hsla(22, 55%, 8%, 1);
+--russet: hsla(26, 60%, 31%, 1);
+--fulvous: hsla(32, 90%, 46%, 1);
+--silver-sand: hsla(120, 3%, 79%, 1);
+
+SCSS HEX
+$light-french-beige: #c6a680ff;
+$smoky-black: #1f1109ff;
+$russet: #804a20ff;
+$fulvous: #df7d0cff;
+$silver-sand: #c7cac7ff;
+
+SCSS HSL
+$light-french-beige: hsla(33, 38%, 64%, 1);
+$smoky-black: hsla(22, 55%, 8%, 1);
+$russet: hsla(26, 60%, 31%, 1);
+$fulvous: hsla(32, 90%, 46%, 1);
+$silver-sand: hsla(120, 3%, 79%, 1);
+
+SCSS RGB
+$light-french-beige: rgba(198, 166, 128, 1);
+$smoky-black: rgba(31, 17, 9, 1);
+$russet: rgba(128, 74, 32, 1);
+$fulvous: rgba(223, 125, 12, 1);
+$silver-sand: rgba(199, 202, 199, 1);
+
+SCSS Gradient
+$gradient-top: linear-gradient(0deg, #c6a680ff, #1f1109ff, #804a20ff, #df7d0cff, #c7cac7ff);
+$gradient-right: linear-gradient(90deg, #c6a680ff, #1f1109ff, #804a20ff, #df7d0cff, #c7cac7ff);
+$gradient-bottom: linear-gradient(180deg, #c6a680ff, #1f1109ff, #804a20ff, #df7d0cff, #c7cac7ff);
+$gradient-left: linear-gradient(270deg, #c6a680ff, #1f1109ff, #804a20ff, #df7d0cff, #c7cac7ff);
+$gradient-top-right: linear-gradient(45deg, #c6a680ff, #1f1109ff, #804a20ff, #df7d0cff, #c7cac7ff);
+$gradient-bottom-right: linear-gradient(135deg, #c6a680ff, #1f1109ff, #804a20ff, #df7d0cff, #c7cac7ff);
+$gradient-top-left: linear-gradient(225deg, #c6a680ff, #1f1109ff, #804a20ff, #df7d0cff, #c7cac7ff);
+$gradient-bottom-left: linear-gradient(315deg, #c6a680ff, #1f1109ff, #804a20ff, #df7d0cff, #c7cac7ff);
+$gradient-radial: radial-gradient(#c6a680ff, #1f1109ff, #804a20ff, #df7d0cff, #c7cac7ff); */

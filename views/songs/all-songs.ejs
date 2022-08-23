@@ -1,0 +1,30 @@
+<% layout('layouts/boilerplate') %> <%- include('../partials/header') %>
+
+<div class="table-mode-container">
+  <h1>All Songs</h1>
+  <h3 id="heading-three">Unique Songs: <%- rows.length %></h3>
+  <h3>Total Plays: <%- totalPerformed %></h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th colspan="2">Title</th>
+        <th colspan="2">Writer</th>
+        <th colspan="2"># played</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% rows.forEach((row) => { %>
+      <tr>
+        <td colspan="2">
+          <a href="/songs/<%- row.id %> "> <%- row.title %></a>
+        </td>
+        <td colspan="2"><%- row.author %></td>
+        <td colspan="2"><%- row.timesPlayed %></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<script src="/public/scripts/songs-script.js"></script>

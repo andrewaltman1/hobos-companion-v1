@@ -1,0 +1,33 @@
+<% layout('layouts/boilerplate') %>
+
+<h1>Is This Correct?</h1>
+<h3><%- venue.place_name %></h3>
+
+<div id="map" style="width: 400px; height: 300px; margin: auto"></div>
+
+<button type="submit">Yes</button>
+<button type="submit">No</button>
+
+<script>
+  const mapToken = "<%-process.env.MAPBOX_TOKEN%>";
+  const venue = <%- JSON.stringify(venue) %>
+</script>
+
+<script>
+  mapboxgl.accessToken = mapToken;
+  const map = new mapboxgl.Map({
+    container: "map",
+    style: "mapbox://styles/mapbox/light-v10", // stylesheet location
+    center: venue.geometry.coordinates, // starting position [lng, lat]
+    zoom: 11, // starting zoom
+  });
+
+  map.addControl(new mapboxgl.NavigationControl());
+
+  new mapboxgl.Marker()
+    .setLngLat(venue.geometry.coordinates)
+    .setPopup(
+      new mapboxgl.Popup({ offset: 25 }).setHTML(`<h3>${venue.text}</h3>`)
+    )
+    .addTo(map);
+</script>

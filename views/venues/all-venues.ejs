@@ -1,0 +1,45 @@
+<% layout('layouts/boilerplate') %> <%- include('../partials/header') %>
+
+<div class="table-mode-container">
+  <h1 class>All Venues</h1>
+  <h3>Unique Venues: <%- allVenues.features.length %></h3>
+  <h3>Total Plays: <%- totalPerformances %></h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th colspan="2">Name</th>
+        <th colspan="2">City</th>
+        <th colspan="2">State</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% allVenues.features.forEach((feature) => { let state =
+      !feature.properties.state && feature.properties.country ?
+      feature.properties.country : feature.properties.state %>
+      <tr>
+        <td colspan="2">
+          <a href="/venues/<%- feature.properties.venueId %> "
+            ><%- feature.properties.venue %></a>
+        </td>
+        <td colspan="2">
+          <a href="/venues/cities/<%- feature.properties.city %>.<%- state %>"
+            ><%- feature.properties.city %></a>
+        </td>
+        <td colspan="2">
+          <a href="/venues/states/<%- state %>"><%- state %></a>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<div id="cluster-map"></div>
+
+<script>
+  window.mapToken = "<%-process.env.MAPBOX_TOKEN%>";
+  window.mapData = <%- JSON.stringify(allVenues) %>
+</script>
+
+<script src="/public/scripts/venues-script.js"></script>

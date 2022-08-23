@@ -1,0 +1,22 @@
+<header>
+  <nav>
+    <a href="/">Shows</a>
+    <a href="/songs">Songs</a>
+    <a href="/venues">Venues</a>
+  </nav>
+  <div id="header-buttons">
+    <button id="view-mode-button" class="button" type="button">
+      Table Mode
+    </button>
+    <% if (user) { %>
+    <form action="/logout" method="post">
+      <button class="button" name="logout" type="submit">Sign Out</button>
+    </form>
+    <% } else {%>
+    <form action="/coming-soon" method="get">
+      <button name="login" class="button" type="submit">Sign In</button>
+    </form>
+    <% } %>
+  </div>
+  </script>
+</header>

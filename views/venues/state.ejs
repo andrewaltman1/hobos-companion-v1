@@ -1,0 +1,57 @@
+<% layout('layouts/boilerplate') %> <%- include('../partials/header') %>
+
+<div class="table-mode-container">
+  <h1>
+    <% if (stateShows.features[0].properties.state) { %> <%- stateName %>,<% }
+    %> <%- stateShows.features[0].properties.country %>
+  </h1>
+
+  <h3>Unique Venues: <%- stateShows.features.length %></h3>
+  <h3>
+    Total Plays: <%- stateShows.features.reduce((p, c) => p +
+    c.properties.total, 0) %>
+  </h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th colspan="2">Total</th>
+        <th colspan="2">Venue</th>
+        <th colspan="2">Location</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% stateShows.features.forEach((feature) => { let state =
+      !feature.properties.state && feature.properties.country ?
+      feature.properties.country : feature.properties.state %>
+      <tr>
+        <td colspan="2">
+          <a href="/venues/<%-feature.properties.venueId %> "
+            ><%- feature.properties.total %></a
+          >
+        </td>
+        <td colspan="2">
+          <a href="/venues/<%- feature.properties.venueId %> "
+            ><%- feature.properties.venue %></a
+          >
+        </td>
+        <td colspan="2">
+          <a href="/venues/cities/<%- feature.properties.city %>.<%- state %> "
+            ><%- feature.properties.city%>, <%- state %></a
+          >
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<div id="cluster-map"></div>
+
+<script>
+  window.mapToken = "<%-process.env.MAPBOX_TOKEN%>";
+  window.mapData = <%- JSON.stringify(stateShows) %>
+  window.center = <%- JSON.stringify(center) %>
+</script>
+
+<script src="/public/scripts/state-script.js"></script>

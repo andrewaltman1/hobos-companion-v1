@@ -1,0 +1,39 @@
+<% layout('layouts/boilerplate') %> <%- include('../partials/header') %>
+
+<div class="table-mode-container">
+  <h1 id="table-mode-container__headers--venue"><%- show.venue.name %>!</h1>
+  <h3 id="table-mode-container__headers--venue"><%- show.date %></h3>
+
+  <% /* %>
+  <button type="button" class="attendance">
+    <% if (user.attended) {%> I was there. <%} else {%> Did you attend? <% } %>
+  </button>
+  <% */ %>
+  <div id="setlist-wrapper">
+    <% for (let i = 1; i <= show.setCount; i++){%>
+    <section class="set-<%- i %>">
+      <h3 id="setlist-title"><%= show.setCount < 2 ? '' : `Set ${i}` %></h3>
+      <ul>
+        <% show.sets[i].forEach((song) => { %>
+        <li><%= song.title %> <%- song.versionNotes%></li>
+        <% }) %>
+      </ul>
+    </section>
+    <% }%>
+  </div>
+
+  <% if (show.notes){ %>
+  <section class="show-notes"><%=show.notes %></section>
+  <% } %>
+</div>
+
+<%# implement map mode later
+<div id="map"></div>
+%>
+
+<script>
+  // window.mapToken = "<%-process.env.MAPBOX_TOKEN%>";
+  // window.mapData = <%- JSON.stringify(show) %>
+</script>
+
+<script src="/public/show-script.js"></script>
