@@ -7,14 +7,16 @@
     const tableBody = document.querySelector("tbody");
     const tableRows = tableBody.children;
     let isSorted = "Name";
+    let element;
     document.querySelector("thead").addEventListener("click", (e) => {
-      e.target.tagName == "TH" ? selectionSort(e) : "";
+      element = e.target;
+      element.tagName == "TH" ? selectionSort(element) : selectionSort(element.parentElement);
     });
 
     modeButton.addEventListener("click", modeToggle);
 
-    function value(e, i) {
-      let type = e.target.textContent.trim();
+    function value(element, i) {
+      let type = element.textContent.trim();
       if (type == "Name") {
         return tableRows[i].children[0].children[0].textContent;
       } else if (type == "City") {
@@ -24,14 +26,14 @@
       }
     }
 
-    function selectionSort(e) {
-      if (isSorted == e.target.textContent.trim()) {
+    function selectionSort(element) {
+      if (isSorted == element.textContent.trim()) {
         reverse();
       } else {
         for (let i = 0; i < tableRows.length; i++) {
           let min = i;
           for (let j = i + 1; j < tableRows.length; j++) {
-            if (value(e, j) < value(e, min)) {
+            if (value(element, j) < value(element, min)) {
               min = j;
             }
           }
@@ -39,7 +41,7 @@
             tableBody.insertBefore(tableRows[min], tableRows[i]);
           }
         }
-        isSorted = e.target.textContent.trim();
+        isSorted = element.textContent.trim();
       }
     }
 

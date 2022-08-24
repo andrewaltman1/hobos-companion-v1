@@ -7,15 +7,17 @@
     const table = document.querySelector(".table-mode-container");
     const tableBody = document.querySelector("tbody");
     const tableRows = tableBody.children;
+    let element;
     document.querySelector("thead").addEventListener("click", (e) => {
-      e.target.tagName == "TH" ? selectionSort(e) : "";
+      element = e.target
+      element.tagName == "TH" ? selectionSort(element) : selectionSort(element.parentElement);
     });
     modeButton.addEventListener("click", modeToggle);
 
-    function value(e, i) {
-      let type = e.target.textContent.trim();
+    function value(element, i) {
+      let type = element.textContent.trim();
       if (type == "Total") {
-        return tableRows[i].children[0].children[0].textContent;
+        return new Number(tableRows[i].children[0].children[0].textContent);
       } else if (type == "Venue") {
         return tableRows[i].children[1].children[0].textContent;
       } else if (type == "Recent") {
@@ -23,15 +25,15 @@
       }
     }
 
-    function selectionSort(e) {
+    function selectionSort(element) {
       console.log("sorting");
-      if (isSorted == e.target.textContent.trim()) {
+      if (isSorted == element.textContent.trim()) {
         reverse();
       } else {
         for (let i = 0; i < tableRows.length; i++) {
           let min = i;
           for (let j = i + 1; j < tableRows.length; j++) {
-            if (value(e, j) < value(e, min)) {
+            if (value(element, j) < value(element, min)) {
               min = j;
             }
           }
@@ -39,7 +41,7 @@
             tableBody.insertBefore(tableRows[min], tableRows[i]);
           }
         }
-        isSorted = e.target.textContent.trim();
+        isSorted = element.textContent.trim();
       }
     }
 
