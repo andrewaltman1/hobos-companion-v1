@@ -10,7 +10,9 @@
     let element;
     document.querySelector("thead").addEventListener("click", (e) => {
       element = e.target;
-      element.tagName == "TH" ? selectionSort(element) : selectionSort(element.parentElement);
+      element.tagName == "TH"
+        ? selectionSort(element)
+        : selectionSort(element.parentElement);
     });
 
     modeButton.addEventListener("click", modeToggle);
@@ -117,7 +119,7 @@
         filter: ["!", ["has", "point_count"]],
         paint: {
           "circle-color": "#11b4da",
-          "circle-radius": 4,
+          "circle-radius": 9,
           "circle-stroke-width": 1,
           "circle-stroke-color": "#fff",
         },
@@ -166,6 +168,12 @@
         map.getCanvas().style.cursor = "pointer";
       });
       map.on("mouseleave", "clusters", function () {
+        map.getCanvas().style.cursor = "";
+      });
+      map.on("mouseenter", "unclustered-point", function () {
+        map.getCanvas().style.cursor = "pointer";
+      });
+      map.on("mouseleave", "unclustered-point", function () {
         map.getCanvas().style.cursor = "";
       });
     });

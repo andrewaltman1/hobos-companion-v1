@@ -62,6 +62,16 @@ nav > a:hover {
   border: 1.5px solid #1f1109ff;
 }
 
+.mapboxgl-popup-content {
+  width: fit-content;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.mapboxgl-popup-content h1 {
+  font-size: 1rem;
+}
+
 .table-mode-container {
   background-color: #c7cac755;
   margin: auto;

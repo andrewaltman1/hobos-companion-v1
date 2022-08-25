@@ -118,7 +118,7 @@
         filter: ["!", ["has", "point_count"]],
         paint: {
           "circle-color": "#11b4da",
-          "circle-radius": 4,
+          "circle-radius": 9,
           "circle-stroke-width": 1,
           "circle-stroke-color": "#fff",
         },
@@ -182,6 +182,12 @@
         map.getCanvas().style.cursor = "pointer";
       });
       map.on("mouseleave", "clusters", function () {
+        map.getCanvas().style.cursor = "";
+      });
+      map.on("mouseenter", "unclustered-point", function () {
+        map.getCanvas().style.cursor = "pointer";
+      });
+      map.on("mouseleave", "unclustered-point", function () {
         map.getCanvas().style.cursor = "";
       });
     });
