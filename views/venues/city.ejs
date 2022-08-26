@@ -2,8 +2,10 @@
 
 <div class="table-mode-container">
   <h1>
-    <%- cityShows.features[0].properties.city%>, <%-
-    cityShows.features[0].properties.state %>
+    <%- cityShows.features[0].properties.city%>, <% if
+    (!cityShows.features[0].properties.state) {%> <%-
+    cityShows.features[0].properties.country %> <%} else { %> <%-
+    cityShows.features[0].properties.state %> <% } %>
   </h1>
 
   <h3>Unique Venues: <%- cityShows.features.length %></h3>

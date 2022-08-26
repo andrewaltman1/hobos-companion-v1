@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== "production") {
 
 const express = require("express");
 const app = express();
-const port = 3000;
+const port = 300;
 const path = require("path");
 const { catchAsync, toCamel } = require("./utils");
 const ejsMate = require("ejs-mate");

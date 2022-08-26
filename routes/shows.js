@@ -20,16 +20,19 @@ pool.connect();
 router.get(
   "/",
   catchAsync(async (req, res) => {
-    const user = req.user;
     let { rows } = await pool.query(
       'SELECT venues.id as "venueId", shows.id as "showId", name as "venueName", city, state, country, date, ST_AsGeoJSON(geom) AS geometry, ST_X(geom) AS lng, ST_Y(geom) AS lat FROM venues JOIN shows ON shows.venue_id = venues.id ORDER BY date'
     );
 
-    let allShows = new FeatureCollection(rows);
-    let date = allShows.features[allShows.features.length - 1].properties.date;
-    let totalYears = date.slice(date.length - 4, date.length) - 2000;
+    let latestDate = rows[rows.length - 1].date.toLocaleDateString();
 
-    res.render("shows/all-shows", { allShows, user, totalYears });
+    res.render("shows/all-shows", {
+      user: req.user,
+      allShows: new FeatureCollection(rows),
+      totalYears: `${
+        latestDate.slice(latestDate.length - 4, latestDate.length) - 2000
+      }`,
+    });
   })
 );
 
@@ -37,15 +40,15 @@ router.get(
   "/show/:id",
   catchAsync(async (req, res) => {
     const { id } = req.params;
-    const user = req.user;
     let { rows } = await pool.query(
       `SELECT to_char(date,'MM/DD/YYYY') As date, city, show_notes as "showNotes", state, country, ST_AsGeoJSON(geom) AS geometry, ST_X(geom) AS lng, ST_Y(geom) AS lat, name, title, position, set_number as "setNumber", song_notes as "versionNotes", transition FROM shows JOIN venues ON venues.id = shows.venue_id JOIN versions ON shows.id = show_id JOIN songs ON songs.id = song_id WHERE shows.id = $1`,
       [id]
     );
 
-    let show = new Show(rows[0].date, rows[0], rows, rows[0].showNotes);
-
-    res.render("shows/single-show", { show, user });
+    res.render("shows/single-show", {
+      show: new Show(rows[0].date, rows[0], rows, rows[0].showNotes),
+      user: req.user,
+    });
   })
 );
 
@@ -53,15 +56,15 @@ router.get(
   "/show/date/:date",
   catchAsync(async (req, res) => {
     const { date } = req.params;
-    const user = req.user;
     let { rows } = await pool.query(
       `SELECT to_char(date,'MM/DD/YYYY') As date, city, show_notes as "showNotes", state, country, ST_AsGeoJSON(geom) AS geometry, ST_X(geom) AS lng, ST_Y(geom) AS lat, name, title, position, set_number as "setNumber", song_notes as "versionNotes", transition FROM shows JOIN venues ON venues.id = shows.venue_id JOIN versions ON shows.id = show_id JOIN songs ON songs.id = song_id WHERE shows.date = $1`,
       [date]
     );
 
-    let show = new Show(rows[0].date, rows[0], rows, rows[0].show_notes);
-
-    res.render("shows/single-show", { show, user });
+    res.render("shows/single-show", {
+      show: new Show(rows[0].date, rows[0], rows, rows[0].show_notes),
+      user: req.user,
+    });
   })
 );
 

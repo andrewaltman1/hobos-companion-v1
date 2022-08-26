@@ -4,7 +4,10 @@
   <h1 id="table-mode-container__headers--venue"><%- venue.name %></h1>
   <br />
   <h3 id="table-mode-container__headers--venue">
-    <%- venue.city %>, <%- venue.state %> - <% if (venue.shows.length < 2) {%>
+    <%- venue.city %>, <% if
+    (!venue.state) {%> <%-
+    venue.country %> <%} else { %> <%-
+    venue.state %> <% } %> - <% if (venue.shows.length < 2) {%>
     <%- venue.shows.length %> Performance <% } else {%> <%- venue.shows.length
     %> Performances <% } %>
   </h3>

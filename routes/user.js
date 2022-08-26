@@ -110,8 +110,7 @@ passport.deserializeUser(function (user, cb) {
 });
 
 router.get("/coming-soon", (req, res) => {
-  const user = req.user;
-  res.render("coming-soon", { user });
+  res.render("coming-soon", { user: req.user });
 });
 
 // auth for new users is working but password funtionality needs to be implemented
@@ -156,8 +155,7 @@ router.get("/coming-soon", (req, res) => {
 // });
 
 // router.get("/login", (req, res) => {
-//   let msg = res.locals.messages;
-//   res.render("login", { msg });
+//   res.render("login", { msg: res.locals.messages });
 // });
 
 // router.post(

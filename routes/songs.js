@@ -16,14 +16,15 @@ pool.connect();
 router.get(
   "/songs",
   catchAsync(async (req, res) => {
-    const user = req.user;
     let { rows } = await pool.query(
       `SELECT id, title, author, versions_count as "timesPlayed" FROM songs WHERE songs.is_song = true ORDER BY "timesPlayed" DESC`
     );
 
-    let totalPerformed = sumSinglePropOfArrEl(rows);
-
-    res.render("songs/all-songs", { rows, totalPerformed, user });
+    res.render("songs/all-songs", {
+      rows,
+      totalPerformed: sumSinglePropOfArrEl(rows),
+      user: req.user,
+    });
   })
 );
 
@@ -31,7 +32,6 @@ router.get(
   "/songs/:id",
   catchAsync(async (req, res) => {
     const { id } = req.params;
-    const user = req.user;
     let { rows } = await pool.query(
       `SELECT title, author, notes, versions_count as "timesPlayed", (
         SELECT to_char(MIN(date), 'MM-DD-YYYY') as "firstTimePlayed" from shows JOIN versions on shows.id = show_id JOIN songs on songs.id = song_id WHERE songs.id = $1
@@ -42,11 +42,10 @@ router.get(
       [id]
     );
 
-    let song = new Song(rows[0]);
-
-    // res.send(song);
-
-    res.render("songs/single-song", { song, user });
+    res.render("songs/single-song", {
+      song: new Song(rows[0]),
+      user: req.user,
+    });
   })
 );
 
