@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Pool } = require("pg");
+const db = require("../db");
 const { catchAsync, stateNameToAbrev } = require("../utils");
 const { isAdmin, isLoggedIn } = require("../middleware");
 const Show = require("../models/show");
@@ -8,21 +8,10 @@ const FeatureCollection = require("../models/feature-collection");
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const geocoder = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
 
-const pool = new Pool({
-  user: "andrewaltman",
-  host: "localhost",
-  database: "rre-shows",
-  password: process.env.DATABASE_PASSWORD,
-  port: 5432,
-});
-pool.connect();
-
 router.get(
   "/",
   catchAsync(async (req, res) => {
-    let { rows } = await pool.query(
-      'SELECT venues.id as "venueId", shows.id as "showId", name as "venueName", city, state, country, date, ST_AsGeoJSON(geom) AS geometry, ST_X(geom) AS lng, ST_Y(geom) AS lat FROM venues JOIN shows ON shows.venue_id = venues.id ORDER BY date'
-    );
+    let { rows } = await db.getAllShows();
 
     let latestDate = rows[rows.length - 1].date.toLocaleDateString();
 
@@ -40,10 +29,7 @@ router.get(
   "/show/:id",
   catchAsync(async (req, res) => {
     const { id } = req.params;
-    let { rows } = await pool.query(
-      `SELECT to_char(date,'MM/DD/YYYY') As date, city, show_notes as "showNotes", state, country, ST_AsGeoJSON(geom) AS geometry, ST_X(geom) AS lng, ST_Y(geom) AS lat, name, title, position, set_number as "setNumber", song_notes as "versionNotes", transition FROM shows JOIN venues ON venues.id = shows.venue_id JOIN versions ON shows.id = show_id JOIN songs ON songs.id = song_id WHERE shows.id = $1`,
-      [id]
-    );
+    let { rows } = await db.getShowByID(id);
 
     res.render("shows/single-show", {
       show: new Show(rows[0].date, rows[0], rows, rows[0].showNotes),
@@ -56,10 +42,7 @@ router.get(
   "/show/date/:date",
   catchAsync(async (req, res) => {
     const { date } = req.params;
-    let { rows } = await pool.query(
-      `SELECT to_char(date,'MM/DD/YYYY') As date, city, show_notes as "showNotes", state, country, ST_AsGeoJSON(geom) AS geometry, ST_X(geom) AS lng, ST_Y(geom) AS lat, name, title, position, set_number as "setNumber", song_notes as "versionNotes", transition FROM shows JOIN venues ON venues.id = shows.venue_id JOIN versions ON shows.id = show_id JOIN songs ON songs.id = song_id WHERE shows.date = $1`,
-      [date]
-    );
+    let { rows } = await db.getShowByDate(date);
 
     res.render("shows/single-show", {
       show: new Show(rows[0].date, rows[0], rows, rows[0].show_notes),
