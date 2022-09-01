@@ -3,9 +3,21 @@
     console.log("DOM fully loaded and parsed");
     const tableBody = document.querySelector("tbody");
     const tableRows = tableBody.children;
+    const thead = document.querySelector("thead");
     let isSorted = "Plays";
     let element;
-    document.querySelector("thead").addEventListener("click", (e) => {
+    
+    const observer = new IntersectionObserver(
+      ([e]) =>
+        e.target.classList.toggle(
+          "table-mode-container__thead--no-transparency",
+          e.intersectionRatio < 1
+        ),
+      { threshold: [1] }
+    );
+    observer.observe(thead);
+
+    thead.addEventListener("click", (e) => {
       element = e.target;
       element.tagName == "TH" ? selectionSort(element) : selectionSort(element.parentElement);
     });

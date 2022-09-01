@@ -87,11 +87,16 @@ nav > a:hover {
   padding: 5px 5px;
 }
 
-/* .table-mode-container__thead {
-  background-color: #c7cac7ff;
+.table-mode-container__thead {
   position: sticky;
-  top: 0px;
-} */
+  top: -6px;
+}
+
+.table-mode-container__thead--no-transparency {
+  background-color: #c7cac7ff;
+  transition-property: background-color;
+  transition-duration: 0.1s;
+}
 
 .table-mode-container h1 {
   margin: 0;
