@@ -9,6 +9,8 @@ const pool = new Pool({
 });
 pool.connect();
 
+module.exports.pool = pool;
+
 module.exports.getAllShows = () => {
   return pool.query(
     'SELECT venues.id as "venueId", shows.id as "showId", name as "venueName", city, state, country, date, ST_AsGeoJSON(geom) AS geometry, ST_X(geom) AS lng, ST_Y(geom) AS lat FROM venues JOIN shows ON shows.venue_id = venues.id ORDER BY date'

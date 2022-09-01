@@ -17,49 +17,18 @@ const {
   isAdmin,
   isLoggedIn,
 } = require("./middleware");
-const { Pool } = require("pg");
-const session = require("express-session");
-const passport = require("passport");
-const LocalStrategy = require("passport-local");
-const crypto = require("crypto");
-const pgSession = require("connect-pg-simple")(session);
-// const res = require("express/lib/response");
 const userRoutes = require("./routes/user");
 const showRoutes = require("./routes/shows");
 const songRoutes = require("./routes/songs");
 const venueRoutes = require("./routes/venues");
 const helmet = require("helmet");
-const User = require("./models/user");
-
-const pool = new Pool({
-  user: "andrewaltman",
-  host: "localhost",
-  database: "rre-shows",
-  password: process.env.DATABASE_PASSWORD,
-  port: 5432,
-});
-pool.connect();
+const auth = require("./auth.js");
 
 app.engine("ejs", ejsMate);
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use("/public", express.static(path.join(__dirname, "public")));
-const sessionConfig = {
-  store: new pgSession({
-    pool: pool,
-    tableName: "session",
-    createTableIfMissing: true,
-  }),
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    httpOnly: true,
-    expires: Date.now() + 1000 * 60 * 60 * 24,
-    maxAge: 1000 * 60 * 60 * 24,
-  },
-};
 
 const scriptSrcUrls = [
   "https://api.mapbox.com/",
@@ -81,55 +50,8 @@ app.use(
     },
   })
 );
-app.use(session(sessionConfig));
-app.use(passport.initialize());
-app.use(passport.session());
 
-passport.use(
-  new LocalStrategy(function verify(email, password, cb) {
-    pool.query(
-      "SELECT email, is_admin, first_name, salt, hashed_password FROM users WHERE email = $1",
-      [email],
-      function (err, row) {
-        if (err) {
-          return cb(err);
-        }
-        if (!row.rows[0]) {
-          return cb(null, false, {
-            message: "Incorrect email or password.",
-          });
-        }
-
-        crypto.pbkdf2(
-          password,
-          row.rows[0].salt,
-          310000,
-          32,
-          "sha256",
-          function (err, hashedPassword) {
-            if (err) {
-              return cb(err);
-            }
-            if (
-              !crypto.timingSafeEqual(
-                row.rows[0].hashed_password,
-                hashedPassword
-              )
-            ) {
-              return cb(null, false, {
-                message: "Incorrect email or password.",
-              });
-            }
-            let user = new User(row.rows[0]);
-            return cb(null, user);
-          }
-        );
-      }
-    );
-  })
-);
-
-app.use(passport.authenticate("session"));
+app.use(auth.expressSession, auth.initialize, auth.passportSession);
 
 app.use(function (req, res, next) {
   var msgs = req.session.messages || [];
@@ -137,22 +59,6 @@ app.use(function (req, res, next) {
   res.locals.hasMessages = !!msgs.length;
   req.session.messages = [];
   next();
-});
-
-passport.serializeUser(function (user, cb) {
-  process.nextTick(function () {
-    cb(null, {
-      email: user.email,
-      admin: user.admin,
-      firstName: user.firstName,
-    });
-  });
-});
-
-passport.deserializeUser(function (user, cb) {
-  process.nextTick(function () {
-    return cb(null, user);
-  });
 });
 
 app.use("/", userRoutes);
