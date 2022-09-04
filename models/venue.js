@@ -16,7 +16,7 @@ class Venue {
     return arr.map((el) => {
       return {
         id: el.id,
-        date: el.date,
+        date: el.date.toLocaleDateString(),
       };
     });
   }

@@ -73,6 +73,7 @@ nav > a:hover {
 }
 
 .table-mode-container {
+  position: relative;
   background-color: #c7cac755;
   margin: auto;
   width: 95vw;
@@ -83,19 +84,7 @@ nav > a:hover {
   border: 1.5px solid #1f1109ff;
   border-radius: 0.3rem;
   font: 100 1rem "Rubik", sans-serif;
-  position: relative;
   padding: 5px 5px;
-}
-
-.table-mode-container__thead {
-  position: sticky;
-  top: -6px;
-}
-
-.table-mode-container__thead--no-transparency {
-  background-color: #c7cac7ff;
-  transition-property: background-color;
-  transition-duration: 0.1s;
 }
 
 .table-mode-container h1 {
@@ -123,7 +112,7 @@ nav > a:hover {
   padding-top: 0.3rem;
 }
 
-.table-mode-container table {
+.table-mode-container > table {
   position: relative;
   width: 100%;
 }
@@ -134,12 +123,15 @@ th {
   border: 1.5px solid black;
 }
 
-.icon {
-  position: relative;
-  top: 0.1rem;
-  width: 1rem;
-  height: 1rem;
-  margin: auto;
+.table-mode-container__thead {
+  position: sticky;
+  top: -6px;
+}
+
+.table-mode-container__thead--no-transparency {
+  background-color: #c7cac7ff;
+  transition-property: background-color;
+  transition-duration: 0.1s;
 }
 
 tr td {
@@ -153,6 +145,14 @@ td a {
 
 td > a:hover {
   font-weight: 500;
+}
+
+.icon {
+  position: relative;
+  top: 0.1rem;
+  width: 1rem;
+  height: 1rem;
+  margin: auto;
 }
 
 /* **** venue-page **** */
@@ -333,6 +333,10 @@ td > a:hover {
     margin-top: 1.3rem;
   }
 
+  th {
+    min-width: 10rem;
+  }
+
   nav > a {
     font-size: 2rem;
     font-weight: 600;
@@ -426,13 +430,23 @@ td > a:hover {
   }
 }
 
-@media (max-width: 374px) {
+@media (max-width: 384px) {
   .table-mode-container h3,
   h1 {
     text-align: center;
     display: block;
   }
+
+  tr td {
+    font-size: 0.93rem;
+  }
 }
+
+/* @media (max-width: 360px) {
+  tr td {
+    font-size: 0.71rem;
+  }
+} */
 
 /* **** inital color palette ****
 

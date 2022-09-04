@@ -16,6 +16,7 @@ router.get(
     let latestDate = rows[rows.length - 1].date.toLocaleDateString();
 
     res.render("shows/all-shows", {
+      title: "All Shows",
       user: req.user,
       allShows: new FeatureCollection(rows),
       totalYears: `${
@@ -34,6 +35,25 @@ router.get(
     res.render("shows/single-show", {
       show: new Show(rows[0].date, rows[0], rows, rows[0].showNotes),
       user: req.user,
+    });
+  })
+);
+
+router.get(
+  "/shows/:songid",
+  catchAsync(async (req, res) => {
+    const { songid } = req.params;
+    let { rows } = await db.getShowsBySongID(songid);
+
+    let totalYears =
+      rows[rows.length - 1].date.getYear() - rows[0].date.getYear();
+    console.log(rows[0].date.getYear());
+
+    res.render("shows/all-shows", {
+      title: rows[0].title,
+      user: req.user,
+      allShows: new FeatureCollection(rows),
+      totalYears: totalYears,
     });
   })
 );

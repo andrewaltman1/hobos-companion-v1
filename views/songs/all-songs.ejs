@@ -1,23 +1,23 @@
 <% layout('layouts/boilerplate') %> <%- include('../partials/header') %>
 
 <div class="table-mode-container">
-  <h1>All Songs</h1>
+  <h1><%- title %></h1>
   <h3 id="heading-three">Unique Songs: <%- rows.length %></h3>
   <h3>Total Plays: <%- totalPerformed %></h3>
 
   <table>
     <thead class="table-mode-container__thead">
       <tr>
-        <th colspan="2">
+        <th>
+          Plays
+          <img class="icon" src="/public/sort.svg" alt="icon image" />
+        </th>
+        <th>
           Title
           <img class="icon" src="/public/sort.svg" alt="icon image" />
         </th>
-        <th colspan="2">
+        <th>
           Writer
-          <img class="icon" src="/public/sort.svg" alt="icon image" />
-        </th>
-        <th colspan="2">
-          Plays
           <img class="icon" src="/public/sort.svg" alt="icon image" />
         </th>
       </tr>
@@ -25,11 +25,11 @@
     <tbody>
       <% rows.forEach((row) => { %>
       <tr>
-        <td colspan="2">
+        <td> <a href="/shows/<%- row.id %>"><%- row.timesPlayed %></a></td>
+        <td>
           <a href="/songs/<%- row.id %> "> <%- row.title %></a>
         </td>
-        <td colspan="2"><%- row.author %></td>
-        <td colspan="2"><%- row.timesPlayed %></td>
+        <td><a href="/songs/author/<%- row.author %>"><%- row.author %></a></td>
       </tr>
       <% }) %>
     </tbody>

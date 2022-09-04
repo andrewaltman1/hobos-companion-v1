@@ -15,13 +15,13 @@
   <table>
     <thead class="table-mode-container__thead">
       <tr>
-        <th colspan="2">
+        <th>
           Total <img class="icon" src="/public/sort.svg" alt="icon image" />
         </th>
-        <th colspan="2">
+        <th>
           Venue <img class="icon" src="/public/sort.svg" alt="icon image" />
         </th>
-        <th colspan="2">
+        <th>
           Location <img class="icon" src="/public/sort.svg" alt="icon image" />
         </th>
       </tr>
@@ -31,17 +31,17 @@
       !feature.properties.state && feature.properties.country ?
       feature.properties.country : feature.properties.state %>
       <tr>
-        <td colspan="2">
+        <td>
           <a href="/venues/<%-feature.properties.venueId %> "
             ><%- feature.properties.total %></a
           >
         </td>
-        <td colspan="2">
+        <td>
           <a href="/venues/<%- feature.properties.venueId %> "
             ><%- feature.properties.venue %></a
           >
         </td>
-        <td colspan="2">
+        <td>
           <a href="/venues/cities/<%- feature.properties.city %>.<%- state %> "
             ><%- feature.properties.city%>, <%- state %></a
           >

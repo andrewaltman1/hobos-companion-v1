@@ -25,11 +25,11 @@
     function value(element, i) {
       let type = element.textContent.trim();
       if (type == "Title") {
-        return tableRows[i].children[0].children[0].textContent;
+        return tableRows[i].children[1].children[0].textContent;
       } else if (type == "Writer") {
-        return tableRows[i].children[1].textContent;
+        return tableRows[i].children[2].textContent;
       } else if (type == "Plays") {
-        return new Number(tableRows[i].children[2].textContent);
+        return new Number(tableRows[i].children[0].textContent);
       }
     }
 

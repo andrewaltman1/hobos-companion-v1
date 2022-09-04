@@ -1,6 +1,7 @@
 class Song {
   constructor(data) {
-    (this.title = data.title || null),
+    (this.id = data.id || null),
+      (this.title = data.title || null),
       (this.author = data.author || null),
       (this.notes = data.notes || null),
       (this.instrumental = data.instrumental || null),

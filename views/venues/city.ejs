@@ -17,13 +17,13 @@
   <table>
     <thead class="table-mode-container__thead">
       <tr>
-        <th colspan="2">
+        <th>
           Total <img class="icon" src="/public/sort.svg" alt="icon image" />
         </th>
-        <th colspan="2">
+        <th>
           Venue <img class="icon" src="/public/sort.svg" alt="icon image" />
         </th>
-        <th colspan="2">
+        <th>
           Recent <img class="icon" src="/public/sort.svg" alt="icon image" />
         </th>
       </tr>
@@ -31,17 +31,17 @@
     <tbody>
       <% cityShows.features.forEach((feature) => { %>
       <tr>
-        <td colspan="2">
+        <td>
           <a href="/venues/<%- feature.properties.venueId %>"
             ><%- feature.properties.total%></a
           >
         </td>
-        <td colspan="2">
+        <td>
           <a href="/venues/<%- feature.properties.venueId %> "
             ><%- feature.properties.venue %></a
           >
         </td>
-        <td colspan="2">
+        <td>
           <a
             href="/show/date/<%- new Date(feature.properties.mostRecent).toISOString() %> "
             ><%- new Date(feature.properties.mostRecent).toLocaleDateString()

@@ -3,13 +3,13 @@
   <h1 id="table-mode-container__headers--song"><%- song.title %></h1>
   <br />
   <% if (song.author) {%>
-  <h3 id="table-mode-container__headers--song"><%- song.author %></h3>
+  <h3 id="table-mode-container__headers--song"><a href="/songs/author/<%- song.author %>"><%- song.author %></a></h3>
   <% } %> <br />
 
   <h3 id="table-mode-container__headers--song">
     First Performance: <%- song.firstTimePlayed %> <br />
     Most Recent: <%- song.mostRecent %> <br />
-    Total: <%- song.timesPlayed %>
+    Total: <a href="/shows/<%- song.id %>"><%- song.timesPlayed %></a>
   </h3>
 
   <section>

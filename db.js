@@ -17,6 +17,12 @@ module.exports.getAllShows = () => {
   );
 };
 
+module.exports.getShowsBySongID = (id) => {
+  return pool.query(
+    'SELECT songs.title, venues.id as "venueId", shows.id as "showId", name as "venueName", city, state, country, date, ST_AsGeoJSON(geom) AS geometry, ST_X(geom) AS lng, ST_Y(geom) AS lat FROM venues JOIN shows ON shows.venue_id = venues.id JOIN versions ON shows.id = show_id JOIN songs ON songs.id = song_id WHERE songs.id = $1 ORDER BY date', [id]
+  );
+};
+
 module.exports.getShowByID = (id) => {
   return pool.query(
     `SELECT to_char(date,'MM/DD/YYYY') As date, city, show_notes as "showNotes", state, country, ST_AsGeoJSON(geom) AS geometry, ST_X(geom) AS lng, ST_Y(geom) AS lat, name, title, position, set_number as "setNumber", song_notes as "versionNotes", transition FROM shows JOIN venues ON venues.id = shows.venue_id JOIN versions ON shows.id = show_id JOIN songs ON songs.id = song_id WHERE shows.id = $1`,
@@ -37,9 +43,15 @@ module.exports.getAllSongs = () => {
   );
 };
 
+module.exports.getAllSongsByAuthor = (author) => {
+  return pool.query(
+    `SELECT id, title, author, versions_count as "timesPlayed" FROM songs WHERE songs.author LIKE $1 ORDER BY "timesPlayed" DESC`, [`%${author}%`]
+  );
+};
+
 module.exports.getSongByID = (id) => {
   return pool.query(
-    `SELECT title, author, notes, versions_count as "timesPlayed", (
+    `SELECT id, title, author, notes, versions_count as "timesPlayed", (
           SELECT to_char(MIN(date), 'MM-DD-YYYY') as "firstTimePlayed" from shows JOIN versions on shows.id = show_id JOIN songs on songs.id = song_id WHERE songs.id = $1
           ), (
           SELECT to_char(MAX(date), 'MM-DD-YYYY') as "mostRecent" from shows JOIN versions on shows.id = show_id JOIN songs on songs.id = song_id WHERE songs.id = $1
@@ -57,7 +69,7 @@ module.exports.getAllVenues = () => {
 
 module.exports.getVenueByID = (id) => {
   return pool.query(
-    `SELECT name, city, state, country, ST_AsGeoJSON(geom) AS geometry, ST_X(geom) AS lng, ST_Y(geom) AS lat, to_char(date,'MM-DD-YYYY') As date, shows.id FROM venues JOIN shows ON venues.id = shows.venue_id WHERE venues.id = $1`,
+    `SELECT name, city, state, country, ST_AsGeoJSON(geom) AS geometry, ST_X(geom) AS lng, ST_Y(geom) AS lat, date, shows.id FROM venues JOIN shows ON venues.id = shows.venue_id WHERE venues.id = $1 ORDER BY date`,
     [id]
   );
 };
