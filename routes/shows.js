@@ -9,24 +9,6 @@ const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const { resolveInclude } = require("ejs");
 const geocoder = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
 
-// router.get(
-//   "/",
-//   catchAsync(async (req, res) => {
-//     let { rows } = await db.getAllShows();
-
-//     let latestDate = rows[rows.length - 1].date.toLocaleDateString();
-
-//     res.render("shows/all-shows", {
-//       title: "All Shows",
-//       user: req.user,
-//       allShows: new FeatureCollection(rows),
-//       totalYears: `${
-//         latestDate.slice(latestDate.length - 4, latestDate.length) - 2000
-//       }`,
-//     });
-//   })
-// );
-
 router.get(
   "/",
   catchAsync(async (req, res) => {
@@ -34,8 +16,11 @@ router.get(
 
     let latestDate = rows[rows.length - 1].date.toLocaleDateString();
 
-    res.render("shows/all-shows", {
+    let allShows = new FeatureCollection(rows);
+
+    res.render("table-map", {
       user: req.user,
+      allShows: allShows,
       table: {
         title: "All Shows",
         subtitleOne: `Years: ${
@@ -47,7 +32,12 @@ router.get(
         headerThree: "Location ",
         rows: "shows",
       },
-      allShows: new FeatureCollection(rows),
+      clusterMap: {
+        mapToken: process.env.MAPBOX_TOKEN,
+        mapData: allShows,
+        mapCenter: [-103.59179687498357, 40.66995747013945],
+      },
+      scripts: { page: "/public/scripts/shows-script.js" },
     });
   })
 );
@@ -71,15 +61,28 @@ router.get(
     const { songid } = req.params;
     let { rows } = await db.getShowsBySongID(songid);
 
-    let totalYears =
-      rows[rows.length - 1].date.getYear() - rows[0].date.getYear();
-    console.log(rows[0].date.getYear());
+    let allShows = new FeatureCollection(rows);
 
-    res.render("shows/all-shows", {
-      title: rows[0].title,
+    res.render("table-map", {
       user: req.user,
-      allShows: new FeatureCollection(rows),
-      totalYears: totalYears,
+      allShows: allShows,
+      table: {
+        title: `${rows[0].title}`,
+        subtitleOne: `Years: ${
+          rows[rows.length - 1].date.getYear() - rows[0].date.getYear()
+        }`,
+        subtitleTwo: `Total Plays: ${rows.length}`,
+        headerOne: "Date ",
+        headerTwo: "Venue ",
+        headerThree: "Location ",
+        rows: "shows",
+      },
+      clusterMap: {
+        mapToken: process.env.MAPBOX_TOKEN,
+        mapData: allShows,
+        mapCenter: [-103.59179687498357, 40.66995747013945],
+      },
+      scripts: { page: "/public/scripts/shows-script.js" },
     });
   })
 );

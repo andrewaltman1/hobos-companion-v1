@@ -1,0 +1,19 @@
+<% layout('layouts/boilerplate') %> <%- include('./partials/header') %>
+
+<% if
+(user && user.firstName.length) { %>
+<h3>Hello, <%- user.firstName %></h3>
+<% } %>
+
+<%- include('./partials/table') %>
+
+<% if (clusterMap) {%>
+<div id="cluster-map"></div>
+<script>
+  window.mapToken = "<%-clusterMap.mapToken%>";
+  window.mapData = <%- JSON.stringify(clusterMap.mapData) %>;
+  window.center = <%- JSON.stringify(clusterMap.mapCenter)%>;
+</script>
+<% } %>
+
+<script src="<%- scripts.page %>"></script>

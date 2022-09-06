@@ -9,8 +9,9 @@ router.get(
   catchAsync(async (req, res) => {
     let { rows } = await db.getAllSongs();
 
-    res.render("songs/all-songs", {
+    res.render("table-map", {
       user: req.user,
+      clusterMap: false,
       table: {
         title: "All Songs",
         subtitleOne: `Unique Songs:  ${rows.length}`,
@@ -21,26 +22,10 @@ router.get(
         rows: "songs",
       },
       rows: rows,
+      scripts: { page: "/public/scripts/songs-script.js" },
     });
   })
 );
-
-// router.get(
-//   "/songs",
-//   catchAsync(async (req, res) => {
-//     let { rows } = await db.getAllSongs();
-
-//     res.render("partials/table", {
-//       user: req.user,
-//       table: {
-//         tableHeaderOne: "Plays",
-//         tableHeaderTwo: "Title",
-//         tableHeaderThree: "Writer",
-//         rows: rows,
-//       },
-//     });
-//   })
-// );
 
 router.get(
   "/songs/author/:author",
@@ -48,13 +33,21 @@ router.get(
     const { author } = req.params;
     let { rows } = await db.getAllSongsByAuthor(author);
 
-    console.log(rows);
 
-    res.render("songs/all-songs", {
-      title: author,
-      rows,
-      totalPerformed: sumSinglePropOfArrEl(rows),
+    res.render("table-map", {
       user: req.user,
+      clusterMap: false,
+      table: {
+        title: author,
+        subtitleOne: `Unique Songs:  ${rows.length}`,
+        subtitleTwo: `Total Plays:  ${sumSinglePropOfArrEl(rows)}`,
+        headerOne: "Plays ",
+        headerTwo: "Title ",
+        headerThree: "Writer ",
+        rows: "songs",
+      },
+      rows: rows,
+      scripts: { page: "/public/scripts/songs-script.js" },
     });
   })
 );

@@ -10,8 +10,10 @@ router.get(
   catchAsync(async (req, res) => {
     let { rows } = await db.getAllVenues();
 
-    res.render("venues/all-venues", {
-      allVenues: new FeatureCollection(rows),
+    let allVenues = new FeatureCollection(rows);
+
+    res.render("table-map", {
+      allVenues: allVenues,
       user: req.user,
       table: {
         title: "All Venues",
@@ -22,6 +24,11 @@ router.get(
         headerThree: "State ",
         rows: "venues",
       },
+      clusterMap: {
+        mapToken: process.env.MAPBOX_TOKEN,
+        mapData: allVenues,
+        mapCenter: [-103.59179687498357, 40.66995747013945]},
+      scripts: { page: "/public/scripts/venues-script.js" },
     });
   })
 );
@@ -30,7 +37,10 @@ router.get(
   "/venues/:id",
   catchAsync(async (req, res) => {
     const { id } = req.params;
+    console.log(id);
     let { rows } = await db.getVenueByID(id);
+
+    console.log(rows);
 
     res.render("venues/single-venue", {
       venue: new Venue(rows[0], rows),
@@ -47,26 +57,31 @@ router.get(
 
     let cityShows = new FeatureCollection(rows);
 
-    res.render("venues/city", {
+    res.render("table-map", {
       cityShows: cityShows,
-      center: [rows[0].centerLng, rows[0].centerLat],
       user: req.user,
       table: {
         title: `${cityShows.features[0].properties.city}, ${
           !cityShows.features[0].properties.state
-            ? cityShows.features[0].properties.country
-            : cityShows.features[0].properties.state
+          ? cityShows.features[0].properties.country
+          : cityShows.features[0].properties.state
         }`,
         subtitleOne: `Unique Venues: ${cityShows.features.length}`,
         subtitleTwo: `Total Plays: ${cityShows.features.reduce(
           (p, c) => p + c.properties.total,
           0
-        )}`,
-        headerOne: "Total ",
-        headerTwo: "Venue ",
-        headerThree: "Recent ",
-        rows: "city",
-      },
+          )}`,
+          headerOne: "Total ",
+          headerTwo: "Venue ",
+          headerThree: "Recent ",
+          rows: "city",
+        },
+        clusterMap: {
+          mapToken: process.env.MAPBOX_TOKEN,
+          mapData: cityShows,
+          mapCenter: [rows[0].centerLng, rows[0].centerLat],
+        },
+      scripts: { page: "/public/scripts/city-script.js" },
     });
   })
 );
@@ -79,17 +94,17 @@ router.get(
 
     let stateShows = new FeatureCollection(rows);
 
-    res.render("venues/state", {
-      // stateName: state.length == 2 ? stateAbrevToName(state) : state,
+    res.render("table-map", {
       stateShows: stateShows,
-      center: [rows[0].centerLng, rows[0].centerLat],
       user: req.user,
       table: {
         title: `${
           stateShows.features[0].properties.state
-            ? (state.length == 2
-              ? `${stateAbrevToName(state)}, ${stateShows.features[0].properties.country}`
-              : `${state}, ${stateShows.features[0].properties.country}`)
+            ? state.length == 2
+              ? `${stateAbrevToName(state)}, ${
+                  stateShows.features[0].properties.country
+                }`
+              : `${state}, ${stateShows.features[0].properties.country}`
             : stateShows.features[0].properties.country
         }`,
         subtitleOne: `Unique Venues: ${stateShows.features.length}`,
@@ -102,6 +117,12 @@ router.get(
         headerThree: "Location ",
         rows: "state",
       },
+      clusterMap: {
+        mapToken: process.env.MAPBOX_TOKEN,
+        mapData: stateShows,
+        mapCenter: [rows[0].centerLng, rows[0].centerLat],
+      },
+      scripts: {page: "/public/scripts/state-script.js"}
     });
   })
 );
