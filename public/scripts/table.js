@@ -1,8 +1,12 @@
-let isSorted = "Date";
+let isSorted = "table-column-1";
 const table = document.querySelector(".table-mode-container");
 const thead = document.querySelector("thead");
 const tableBody = document.querySelector("tbody");
 const tableRows = tableBody.children;
+const tableData = (i) => {
+  return tableRows[i].children[0].children[0].textContent;
+};
+
 let element;
 
 const observer = new IntersectionObserver(
@@ -16,27 +20,31 @@ const observer = new IntersectionObserver(
 observer.observe(thead);
 
 document.querySelector("thead").addEventListener("click", (e) => {
-  element = e.target;
-  element.tagName == "TH"
-    ? selectionSort(element)
-    : selectionSort(element.parentElement);
+  e.target.tagName == "TH"
+    ? (column = e.target)
+    : (column = e.target.parentElement);
+    let type = element.textContent.trim();
+  selectionSort(column, type);
 });
 modeButton.addEventListener("click", modeToggle);
 
+function tableData(type, i) {
+  return tableRows[i].children[0].children[0].textContent;
+};
+
 function value(element, i) {
-  let type = element.textContent.trim();
-  if (type == "Date") {
-    return new Date(tableRows[i].children[0].children[0].textContent);
-  } else if (type == "Venue") {
-    return tableRows[i].children[1].children[0].textContent;
-  } else if (type == "Location") {
-    return tableRows[i].children[2].children[0].textContent;
+  let column = element.id;
+  if (column == "table-column-1") {
+    tableDataOne(i);
+  } else if (column == "table-column-2") {
+    tableDataTwo(i);
+  } else if (column == "table-column-3") {
+    tableDataThree(i);
   }
 }
 
-function selectionSort(element) {
-  console.log(element.textContent.trim());
-  if (isSorted == element.textContent.trim()) {
+function selectionSort(column) {
+  if (isSorted == column.id) {
     reverse();
   } else {
     for (let i = 0; i < tableRows.length; i++) {
@@ -50,7 +58,7 @@ function selectionSort(element) {
         tableBody.insertBefore(tableRows[min], tableRows[i]);
       }
     }
-    isSorted = element.textContent.trim();
+    isSorted = element.id;
   }
 }
 

@@ -19,7 +19,8 @@ module.exports.getAllShows = () => {
 
 module.exports.getShowsBySongID = (id) => {
   return pool.query(
-    'SELECT songs.title, venues.id as "venueId", shows.id as "showId", name as "venueName", city, state, country, date, ST_AsGeoJSON(geom) AS geometry, ST_X(geom) AS lng, ST_Y(geom) AS lat FROM venues JOIN shows ON shows.venue_id = venues.id JOIN versions ON shows.id = show_id JOIN songs ON songs.id = song_id WHERE songs.id = $1 ORDER BY date', [id]
+    'SELECT songs.title, venues.id as "venueId", shows.id as "showId", name as "venueName", city, state, country, date, ST_AsGeoJSON(geom) AS geometry, ST_X(geom) AS lng, ST_Y(geom) AS lat FROM venues JOIN shows ON shows.venue_id = venues.id JOIN versions ON shows.id = show_id JOIN songs ON songs.id = song_id WHERE songs.id = $1 ORDER BY date',
+    [id]
   );
 };
 
@@ -45,7 +46,8 @@ module.exports.getAllSongs = () => {
 
 module.exports.getAllSongsByAuthor = (author) => {
   return pool.query(
-    `SELECT id, title, author, versions_count as "timesPlayed" FROM songs WHERE songs.author LIKE $1 ORDER BY "timesPlayed" DESC`, [`%${author}%`]
+    `SELECT id, title, author, versions_count as "timesPlayed" FROM songs WHERE songs.author LIKE $1 ORDER BY "timesPlayed" DESC`,
+    [`%${author}%`]
   );
 };
 

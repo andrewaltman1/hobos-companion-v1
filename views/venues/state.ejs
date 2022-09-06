@@ -1,56 +1,6 @@
 <% layout('layouts/boilerplate') %> <%- include('../partials/header') %>
 
-<div class="table-mode-container">
-  <h1>
-    <% if (stateShows.features[0].properties.state) { %> <%- stateName %>,<% }
-    %> <%- stateShows.features[0].properties.country %>
-  </h1>
-
-  <h3>Unique Venues: <%- stateShows.features.length %></h3>
-  <h3>
-    Total Plays: <%- stateShows.features.reduce((p, c) => p +
-    c.properties.total, 0) %>
-  </h3>
-
-  <table>
-    <thead class="table-mode-container__thead">
-      <tr>
-        <th>
-          Total <img class="icon" src="/public/sort.svg" alt="icon image" />
-        </th>
-        <th>
-          Venue <img class="icon" src="/public/sort.svg" alt="icon image" />
-        </th>
-        <th>
-          Location <img class="icon" src="/public/sort.svg" alt="icon image" />
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <% stateShows.features.forEach((feature) => { let state =
-      !feature.properties.state && feature.properties.country ?
-      feature.properties.country : feature.properties.state %>
-      <tr>
-        <td>
-          <a href="/venues/<%-feature.properties.venueId %> "
-            ><%- feature.properties.total %></a
-          >
-        </td>
-        <td>
-          <a href="/venues/<%- feature.properties.venueId %> "
-            ><%- feature.properties.venue %></a
-          >
-        </td>
-        <td>
-          <a href="/venues/cities/<%- feature.properties.city %>.<%- state %> "
-            ><%- feature.properties.city%>, <%- state %></a
-          >
-        </td>
-      </tr>
-      <% }) %>
-    </tbody>
-  </table>
-</div>
+<%- include('../partials/table') %>
 
 <div id="cluster-map"></div>
 

@@ -1,0 +1,9 @@
+<% rows.forEach((row) => { %>
+    <tr>
+      <td> <a href="/shows/<%- row.id %>"><%- row.timesPlayed %></a></td>
+      <td>
+        <a href="/songs/<%- row.id %> "> <%- row.title %></a>
+      </td>
+      <td><a href="/songs/author/<%- row.author %>"><%- row.author %></a></td>
+    </tr>
+    <% }) %>

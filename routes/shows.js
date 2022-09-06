@@ -6,7 +6,26 @@ const { isAdmin, isLoggedIn } = require("../middleware");
 const Show = require("../models/show");
 const FeatureCollection = require("../models/feature-collection");
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const { resolveInclude } = require("ejs");
 const geocoder = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
+
+// router.get(
+//   "/",
+//   catchAsync(async (req, res) => {
+//     let { rows } = await db.getAllShows();
+
+//     let latestDate = rows[rows.length - 1].date.toLocaleDateString();
+
+//     res.render("shows/all-shows", {
+//       title: "All Shows",
+//       user: req.user,
+//       allShows: new FeatureCollection(rows),
+//       totalYears: `${
+//         latestDate.slice(latestDate.length - 4, latestDate.length) - 2000
+//       }`,
+//     });
+//   })
+// );
 
 router.get(
   "/",
@@ -16,12 +35,19 @@ router.get(
     let latestDate = rows[rows.length - 1].date.toLocaleDateString();
 
     res.render("shows/all-shows", {
-      title: "All Shows",
       user: req.user,
+      table: {
+        title: "All Shows",
+        subtitleOne: `Years: ${
+          latestDate.slice(latestDate.length - 4, latestDate.length) - 2000
+        }`,
+        subtitleTwo: `Total Plays: ${rows.length}`,
+        headerOne: "Date ",
+        headerTwo: "Venue ",
+        headerThree: "Location ",
+        rows: "shows",
+      },
       allShows: new FeatureCollection(rows),
-      totalYears: `${
-        latestDate.slice(latestDate.length - 4, latestDate.length) - 2000
-      }`,
     });
   })
 );

@@ -10,13 +10,37 @@ router.get(
     let { rows } = await db.getAllSongs();
 
     res.render("songs/all-songs", {
-      title: "All Songs",
-      rows,
-      totalPerformed: sumSinglePropOfArrEl(rows),
       user: req.user,
+      table: {
+        title: "All Songs",
+        subtitleOne: `Unique Songs:  ${rows.length}`,
+        subtitleTwo: `Total Plays:  ${sumSinglePropOfArrEl(rows)}`,
+        headerOne: "Plays ",
+        headerTwo: "Title ",
+        headerThree: "Writer ",
+        rows: "songs",
+      },
+      rows: rows,
     });
   })
 );
+
+// router.get(
+//   "/songs",
+//   catchAsync(async (req, res) => {
+//     let { rows } = await db.getAllSongs();
+
+//     res.render("partials/table", {
+//       user: req.user,
+//       table: {
+//         tableHeaderOne: "Plays",
+//         tableHeaderTwo: "Title",
+//         tableHeaderThree: "Writer",
+//         rows: rows,
+//       },
+//     });
+//   })
+// );
 
 router.get(
   "/songs/author/:author",
@@ -40,7 +64,7 @@ router.get(
   catchAsync(async (req, res) => {
     const { id } = req.params;
     let { rows } = await db.getSongByID(id);
-    console.log(new Song(rows[0]))
+    console.log(new Song(rows[0]));
 
     res.render("songs/single-song", {
       song: new Song(rows[0]),

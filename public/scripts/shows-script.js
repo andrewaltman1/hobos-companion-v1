@@ -21,10 +21,11 @@
     observer.observe(thead);
 
     document.querySelector("thead").addEventListener("click", (e) => {
-      element = e.target;
-      element.tagName == "TH"
-        ? selectionSort(element)
-        : selectionSort(element.parentElement);
+      e.target.tagName == "TH"
+        ? (element = e.target)
+        : (element = e.target.parentElement);
+      console.dir(element);
+      selectionSort(element);
     });
     modeButton.addEventListener("click", modeToggle);
 

@@ -1,39 +1,5 @@
 <% layout('layouts/boilerplate') %> <%- include('../partials/header') %>
 
-<div class="table-mode-container">
-  <h1><%- title %></h1>
-  <h3 id="heading-three">Unique Songs: <%- rows.length %></h3>
-  <h3>Total Plays: <%- totalPerformed %></h3>
-
-  <table>
-    <thead class="table-mode-container__thead">
-      <tr>
-        <th>
-          Plays
-          <img class="icon" src="/public/sort.svg" alt="icon image" />
-        </th>
-        <th>
-          Title
-          <img class="icon" src="/public/sort.svg" alt="icon image" />
-        </th>
-        <th>
-          Writer
-          <img class="icon" src="/public/sort.svg" alt="icon image" />
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <% rows.forEach((row) => { %>
-      <tr>
-        <td> <a href="/shows/<%- row.id %>"><%- row.timesPlayed %></a></td>
-        <td>
-          <a href="/songs/<%- row.id %> "> <%- row.title %></a>
-        </td>
-        <td><a href="/songs/author/<%- row.author %>"><%- row.author %></a></td>
-      </tr>
-      <% }) %>
-    </tbody>
-  </table>
-</div>
+<%- include('../partials/table') %>
 
 <script src="/public/scripts/songs-script.js"></script>

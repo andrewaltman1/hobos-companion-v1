@@ -1,0 +1,19 @@
+<% allVenues.features.forEach((feature) => { let state =
+!feature.properties.state && feature.properties.country ?
+feature.properties.country : feature.properties.state %>
+<tr>
+  <td>
+    <a href="/venues/<%- feature.properties.venueId %> "
+      ><%- feature.properties.venue %></a
+    >
+  </td>
+  <td>
+    <a href="/venues/cities/<%- feature.properties.city %>.<%- state %>"
+      ><%- feature.properties.city %></a
+    >
+  </td>
+  <td>
+    <a href="/venues/states/<%- state %>"><%- state %></a>
+  </td>
+</tr>
+<% }) %>

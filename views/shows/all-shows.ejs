@@ -3,43 +3,7 @@
 <h3>Hello, <%- user.firstName %></h3>
 <% } %>
 
-<div class="table-mode-container">
-  <h1><%- title %></h1>
-  <h3>Years: <%- totalYears %></h3>
-  <h3>Total Plays: <%- allShows.features.length %></h3>
-
-  <table>
-    <thead class="table-mode-container__thead">
-      <tr>
-        <th >Date <img class="icon" src="/public/sort.svg" alt="icon image"></th>
-        <th >Venue <img class="icon" src="/public/sort.svg" alt="icon image"></th>
-        <th >Location <img class="icon" src="/public/sort.svg" alt="icon image"></th>
-      </tr>
-    </thead>
-      <tbody>
-        <% allShows.features.forEach((feature) => { let state =
-        !feature.properties.state && feature.properties.country ?
-        feature.properties.country : feature.properties.state %>
-        <tr>
-          <td >
-            <a href="/show/<%- feature.properties.showId %> "
-              ><%- feature.properties.date %></a>
-          </td>
-          <td >
-            <a href="/venues/<%- feature.properties.venueId %> "
-              ><%- feature.properties.venue %></a>
-          </td>
-          <td >
-            <a href="/venues/cities/<%- feature.properties.city %>.<%- state %>"
-              ><%- feature.properties.city%>, <% if (feature.properties.country
-              !== "USA"){%><%-feature.properties.country %> <% } else { %><%-
-              feature.properties.state %><% } %></a>
-          </td>
-        </tr>
-        <% }) %>
-      </tbody>
-  </table>
-</div>
+<%- include('../partials/table') %>
 
 <div id="cluster-map"></div>
 
