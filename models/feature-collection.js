@@ -12,7 +12,7 @@ class FeatureCollection {
             country: feature.country || null,
             date: !feature.date
               ? null
-              : new Date(feature.date).toLocaleDateString(),
+              : feature.date,
             showId: +feature.showId || null,
             total: +feature.total || null,
             mostRecent: feature.mostRecent || null,

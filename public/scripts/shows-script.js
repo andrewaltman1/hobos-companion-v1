@@ -170,6 +170,7 @@
         const mostRecent = shows[shows.length - 1];
         const id = mostRecent.properties.showId;
         const coordinates = e.features[0].geometry.coordinates.slice();
+
         // Ensure that if the map is zoomed out such that
         // multiple copies of the feature are visible, the
         // popup appears over the copy being pointed to.
@@ -180,7 +181,9 @@
         new mapboxgl.Popup()
           .setLngLat(coordinates)
           .setHTML(
-            `<h1>${venue}</h1>latest: <a href="/show/${id}">${mostRecent.properties.date}</a>`
+            `<h1>${venue}</h1>latest: <a href="/show/${id}">${new Date(
+              mostRecent.properties.date
+            ).toLocaleDateString()}</a>`
           )
           .addTo(map);
       });

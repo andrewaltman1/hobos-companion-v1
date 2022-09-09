@@ -1,10 +1,10 @@
-<% allShows.features.forEach((feature) => { let state =
+<% clusterMap.mapData.features.forEach((feature) => { let state =
 !feature.properties.state && feature.properties.country ?
 feature.properties.country : feature.properties.state %>
 <tr>
   <td>
     <a href="/show/<%- feature.properties.showId %> "
-      ><%- feature.properties.date %></a
+      ><%- feature.properties.date.toLocaleDateString() %></a
     >
   </td>
   <td>

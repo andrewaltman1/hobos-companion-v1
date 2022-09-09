@@ -5,7 +5,34 @@
 <h3>Hello, <%- user.firstName %></h3>
 <% } %>
 
-<%- include('./partials/table') %>
+<div class="table-mode-container">
+  <h1><%- table.title %></h1>
+  <h3><%- table.subtitleOne %></h3>
+  <h3><%- table.subtitleTwo %></h3>
+
+  <table>
+    <thead class="table-mode-container__thead">
+      <tr>
+        <th id="table-column-0">
+          <%- table.headerOne %>
+          <img class="icon" src="/public/sort.svg" alt="icon image" />
+        </th>
+        <th id="table-column-1">
+          <%- table.headerTwo %>
+          <img class="icon" src="/public/sort.svg" alt="icon image" />
+        </th>
+        <th id="table-column-2">
+          <%- table.headerThree %>
+          <img class="icon" src="/public/sort.svg" alt="icon image" />
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% let partial = table.rowsPartial %> <%-
+      include(`./partials/table-rows/${partial}`) %>
+    </tbody>
+  </table>
+</div>
 
 <% if (clusterMap) {%>
 <div id="cluster-map"></div>

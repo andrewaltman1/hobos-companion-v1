@@ -4,54 +4,15 @@ const db = require("../db");
 const { catchAsync, stateNameToAbrev } = require("../utils");
 const { isAdmin, isLoggedIn } = require("../middleware");
 const Show = require("../models/show");
-const FeatureCollection = require("../models/feature-collection");
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
-const { resolveInclude } = require("ejs");
 const geocoder = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
+const data = require("../data.js");
 
 router.get(
   "/",
   catchAsync(async (req, res) => {
     let { rows } = await db.getAllShows();
-
-    let latestDate = rows[rows.length - 1].date.toLocaleDateString();
-
-    let allShows = new FeatureCollection(rows);
-
-    res.render("table-map", {
-      user: req.user,
-      allShows: allShows,
-      table: {
-        title: "All Shows",
-        subtitleOne: `Years: ${
-          latestDate.slice(latestDate.length - 4, latestDate.length) - 2000
-        }`,
-        subtitleTwo: `Total Plays: ${rows.length}`,
-        headerOne: "Date ",
-        headerTwo: "Venue ",
-        headerThree: "Location ",
-        rows: "shows",
-      },
-      clusterMap: {
-        mapToken: process.env.MAPBOX_TOKEN,
-        mapData: allShows,
-        mapCenter: [-103.59179687498357, 40.66995747013945],
-      },
-      scripts: { page: "/public/scripts/shows-script.js" },
-    });
-  })
-);
-
-router.get(
-  "/show/:id",
-  catchAsync(async (req, res) => {
-    const { id } = req.params;
-    let { rows } = await db.getShowByID(id);
-
-    res.render("shows/single-show", {
-      show: new Show(rows[0].date, rows[0], rows, rows[0].showNotes),
-      user: req.user,
-    });
+    res.render("table-map", data.allShows(req, rows));
   })
 );
 
@@ -60,29 +21,18 @@ router.get(
   catchAsync(async (req, res) => {
     const { songid } = req.params;
     let { rows } = await db.getShowsBySongID(songid);
+    res.render("table-map", data.allShows(req, rows));
+  })
+);
 
-    let allShows = new FeatureCollection(rows);
-
-    res.render("table-map", {
+router.get(
+  "/show/:id",
+  catchAsync(async (req, res) => {
+    const { id } = req.params;
+    let { rows } = await db.getShowByID(id);
+    res.render("show", {
+      show: new Show(rows[0].date, rows[0], rows, rows[0].showNotes),
       user: req.user,
-      allShows: allShows,
-      table: {
-        title: `${rows[0].title}`,
-        subtitleOne: `Years: ${
-          rows[rows.length - 1].date.getYear() - rows[0].date.getYear()
-        }`,
-        subtitleTwo: `Total Plays: ${rows.length}`,
-        headerOne: "Date ",
-        headerTwo: "Venue ",
-        headerThree: "Location ",
-        rows: "shows",
-      },
-      clusterMap: {
-        mapToken: process.env.MAPBOX_TOKEN,
-        mapData: allShows,
-        mapCenter: [-103.59179687498357, 40.66995747013945],
-      },
-      scripts: { page: "/public/scripts/shows-script.js" },
     });
   })
 );
@@ -92,8 +42,7 @@ router.get(
   catchAsync(async (req, res) => {
     const { date } = req.params;
     let { rows } = await db.getShowByDate(date);
-
-    res.render("shows/single-show", {
+    res.render("show", {
       show: new Show(rows[0].date, rows[0], rows, rows[0].show_notes),
       user: req.user,
     });

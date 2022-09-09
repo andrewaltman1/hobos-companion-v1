@@ -3,7 +3,7 @@ const { objKeysToCamel } = require("../utils");
 
 class Show {
   constructor(date, venue, songs, notes) {
-    (this.date = date || null),
+    (this.date = date.toLocaleDateString() || null),
       (this.venue = new Venue(venue) || null),
       (this.notes = notes || null),
       (this.setCount = this.calcSetNumber(songs) || null),
