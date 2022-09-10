@@ -37,9 +37,9 @@
 <% if (clusterMap) {%>
 <div id="cluster-map"></div>
 <script>
-  window.mapToken = "<%-clusterMap.mapToken%>";
-  window.mapData = <%- JSON.stringify(clusterMap.mapData) %>;
-  window.center = <%- JSON.stringify(clusterMap.mapCenter)%>;
+  window.mapToken = "<%-clusterMap.token%>";
+  window.mapData = <%- JSON.stringify(clusterMap.data) %>;
+  window.center = <%- JSON.stringify(clusterMap.center)%>;
 </script>
 <% } %>
 

@@ -8,17 +8,7 @@ const tableData = (i) => {
 };
 
 let element;
-
-const observer = new IntersectionObserver(
-  ([e]) =>
-    e.target.classList.toggle(
-      "table-mode-container__thead--no-transparency",
-      e.intersectionRatio < 1
-    ),
-  { threshold: [1] }
-);
-observer.observe(thead);
-
+  
 document.querySelector("thead").addEventListener("click", (e) => {
   e.target.tagName == "TH"
     ? (column = e.target)
@@ -68,3 +58,13 @@ function reverse() {
     tableBody.insertBefore(tableRows[i], tableRows[j]);
   }
 }
+
+const observer = new IntersectionObserver(
+  ([e]) =>
+    e.target.classList.toggle(
+      "table-mode-container__thead--no-transparency",
+      e.intersectionRatio < 1
+    ),
+  { threshold: [1] }
+);
+observer.observe(thead);

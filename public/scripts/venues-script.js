@@ -1,13 +1,14 @@
 (() => {
   window.addEventListener("DOMContentLoaded", (event) => {
     console.log("DOM fully loaded and parsed");
+
+    let isSorted = "Total";
     const modeButton = document.getElementById("view-mode-button");
     const mapContainer = document.querySelector("#cluster-map");
     const table = document.querySelector(".table-mode-container");
     const tableBody = document.querySelector("tbody");
     const tableRows = tableBody.children;
     const thead = document.querySelector("thead");
-    let isSorted = "Name";
     let element;
 
     const observer = new IntersectionObserver(
@@ -19,23 +20,22 @@
       { threshold: [1] }
     );
     observer.observe(thead);
-    
+
     thead.addEventListener("click", (e) => {
       element = e.target;
       element.tagName == "TH"
         ? selectionSort(element)
         : selectionSort(element.parentElement);
     });
-
     modeButton.addEventListener("click", modeToggle);
 
     function value(element, i) {
       let type = element.textContent.trim();
-      if (type == "Name") {
-        return tableRows[i].children[0].children[0].textContent;
-      } else if (type == "City") {
+      if (type == "Total") {
+        return new Number(tableRows[i].children[0].children[0].textContent);
+      } else if (type == "Venue") {
         return tableRows[i].children[1].children[0].textContent;
-      } else if (type == "State") {
+      } else if (type == "Location") {
         return tableRows[i].children[2].children[0].textContent;
       }
     }
@@ -71,7 +71,7 @@
       container: "cluster-map",
       style: "mapbox://styles/mapbox/light-v10",
       center: window.center,
-      zoom: 1,
+      zoom: window.center[0] == -103.59179687498357 ? 1 : 5,
     });
 
     map.addControl(new mapboxgl.NavigationControl());
