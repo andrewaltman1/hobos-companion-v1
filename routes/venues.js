@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../db");
-const { catchAsync, stateAbrevToName } = require("../utils");
+const { catchAsync } = require("../utils");
 const Venue = require("../models/venue");
 const data = require("../data");
 

@@ -1,21 +1,21 @@
 (() => {
   // implement map mode later
 
-  // mapboxgl.accessToken = window.mapToken;
+  // mapboxgl.accessToken = window.clusterMap.mapToken;
   // const map = new mapboxgl.Map({
   //   container: "map",
   //   style: "mapbox://styles/mapbox/light-v10",
-  //   center: window.mapData.venue.geometry.coordinates,
+  //   center: window.clusterMap.mapData.venue.geometry.coordinates,
   //   zoom: 10,
   //   boxZoom: false,
   //   scrollZoom: false,
   // });
 
   // new mapboxgl.Marker()
-  //   .setLngLat(window.mapData.venue.geometry.coordinates)
+  //   .setLngLat(window.clusterMap.mapData.venue.geometry.coordinates)
   //   .setPopup(
   //     new mapboxgl.Popup({ offset: 25 }).setHTML(
-  //       `<h3>${window.mapData.venue.name}</h3><p>${window.mapData.date}</p>`
+  //       `<h3>${window.clusterMap.mapData.venue.name}</h3><p>${window.clusterMap.mapData.date}</p>`
   //     )
   //   )
   //   .addTo(map);

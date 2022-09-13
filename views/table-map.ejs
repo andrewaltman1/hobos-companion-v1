@@ -29,18 +29,31 @@
     </thead>
     <tbody>
       <% let partial = table.rowsPartial %> <%-
-      include(`./partials/table-rows/${partial}`) %>
+      include(`./partials/table-rows/${ partial }`) %>
     </tbody>
   </table>
 </div>
 
+<script>
+  window.columnTypes = "<%- table.columnTypes %>";
+</script>
+
 <% if (clusterMap) {%>
 <div id="cluster-map"></div>
 <script>
-  window.mapToken = "<%-clusterMap.token%>";
-  window.mapData = <%- JSON.stringify(clusterMap.data) %>;
-  window.center = <%- JSON.stringify(clusterMap.center)%>;
+  // window.clusterMap.mapToken = "<%-clusterMap.token%>";
+  // window.clusterMap.mapData = <%- JSON.stringify(clusterMap.data) %>;
+  // window.clusterMap.center = <%- JSON.stringify(clusterMap.center)%>;
+  window.clusterMap = {
+    mapToken: "<%-clusterMap.token%>",
+    mapData: <%- JSON.stringify(clusterMap.data) %>,
+    center: <%- JSON.stringify(clusterMap.center)%>, 
+    zoom: "<%- clusterMap.zoom %>",
+  }
 </script>
 <% } %>
 
-<script src="<%- scripts.page %>"></script>
+<% scripts.forEach((script) => {%>
+  <script src="<%- script %>"></script>
+<%})%>
+

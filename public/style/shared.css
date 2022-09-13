@@ -68,6 +68,13 @@ nav > a:hover {
   font-size: 1rem;
 }
 
+.mapboxgl-popup-content ul {
+  list-style-type: none;
+  padding: 0;
+  margin: auto;
+  line-height: 1.3rem;
+}
+
 .mapboxgl-popup-content h1 {
   font-size: 1rem;
 }
