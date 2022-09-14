@@ -1,0 +1,27 @@
+<% layout('layouts/boilerplate') %> <%- include('partials/header') %>
+<div class="table-mode-container">
+  <h1 id="table-mode-container__headers--venue"><%- title %></h1>
+  <h3 id="table-mode-container__headers--venue"><%- subtitle %></h3>
+
+  <% if (show) {%>
+  <div id="setlist-wrapper">
+    <% for (let i = 1; i <= show.setCount; i++){%>
+    <section class="set-<%- i %>">
+      <h3 id="setlist-title"><%= show.setCount < 2 ? '' : `Set ${i}` %></h3>
+      <ul>
+        <% show.sets[i].forEach((song) => { %>
+        <li><%= song.title %> <%- song.versionNotes%></li>
+        <% }) %>
+      </ul>
+    </section>
+    <% }%>
+  </div>
+  <% } %>
+  <section>
+    <p id="<%- section.idString %>"><%- section.data %></p>
+  </section>
+</div>
+
+<script>
+  document.querySelector("#view-mode-button").classList.toggle("hide");
+</script>

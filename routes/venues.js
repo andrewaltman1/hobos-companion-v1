@@ -36,10 +36,7 @@ router.get(
   catchAsync(async (req, res) => {
     const { id } = req.params;
     let { rows } = await db.getVenueByID(id);
-    res.render("venue", {
-      venue: new Venue(rows[0], rows),
-      user: req.user,
-    });
+    res.render("single-model", data.singleVenue(req, rows));
   })
 );
 

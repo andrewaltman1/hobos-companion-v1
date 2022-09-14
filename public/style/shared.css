@@ -113,11 +113,6 @@ nav > a:hover {
   text-align: center;
   padding-top: 1rem;
 }
-#table-mode-container__headers--song {
-  display: block;
-  text-align: center;
-  padding-top: 0.3rem;
-}
 
 .table-mode-container > table {
   position: relative;
@@ -205,13 +200,13 @@ td > a:hover {
   border-bottom: 1px solid black;
 }
 
-.show-notes {
+#show-notes {
   white-space: pre;
   margin: 3% auto;
   width: fit-content;
 }
 
-.song-notes {
+#song-notes {
   width: fit-content;
   margin: 3% auto;
   white-space: pre;
@@ -366,12 +361,12 @@ td > a:hover {
     padding: 1rem;
   }
 
-  .song-notes {
+  #song-notes {
     width: fit-content;
     margin: 3% auto;
   }
 
-  .show-notes {
+  #show-notes {
     margin: 3% auto;
   }
 
@@ -423,12 +418,12 @@ td > a:hover {
     padding: 1rem;
   }
 
-  .song-notes {
+  #song-notes {
     width: fit-content;
     margin: 3% auto;
   }
 
-  .show-notes {
+  #show-notes {
     margin: 3% auto;
   }
 

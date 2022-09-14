@@ -1,5 +1,8 @@
 const { sumSinglePropOfArrEl, stateAbrevToName } = require("./utils");
 const FeatureCollection = require("./models/feature-collection");
+const Song = require("./models/song");
+const Venue = require("./models/venue");
+const Show = require("./models/show");
 
 function venueTitle(rows) {
   const state = `${
@@ -16,7 +19,11 @@ function venueTitle(rows) {
 }
 
 function mapZoom(rows) {
-  return rows[0].mostRecent ? 10 : rows[0].centerLng && rows[0].centerLat ? 5 : 1;
+  return rows[0].mostRecent
+    ? 10
+    : rows[0].centerLng && rows[0].centerLat
+    ? 5
+    : 1;
 }
 
 module.exports.allShows = (req, rows) => {
@@ -121,5 +128,63 @@ module.exports.venuesByCity = (req, rows) => {
       "/public/scripts/mapbox.js",
       "/public/scripts/shared.js",
     ],
+  };
+};
+
+module.exports.singleSong = (req, rows) => {
+  const song = new Song(rows[0]);
+  return {
+    user: req.user,
+    title: song.title,
+    subtitle: song.author
+      ? `<a href="/songs/author/${song.author}">${song.author}</a><br />
+    Total Plays:
+    <a href="/shows/${song.id}">${song.timesPlayed}</a>`
+      : `<br />
+    Total Plays:
+    <a href="/shows/${song.id}">${song.timesPlayed}</a>`,
+    show: false,
+    section: {
+      idString: "song-notes",
+      data: song.notes,
+    },
+  };
+};
+
+module.exports.singleVenue = (req, rows) => {
+  const venue = new Venue(rows[0], rows);
+  let html = "";
+  venue.shows.forEach((show) => {
+    html += `<a href="/show/${show.id}">${show.date}</a><br />`;
+  });
+  return {
+    user: req.user,
+    title: venue.name,
+    subtitle:
+      (!venue.state
+        ? `${venue.city}, ${venue.country} - `
+        : `${venue.city}, ${venue.state} - `) +
+      (venue.shows.length < 2
+        ? `${venue.shows.length} Performance`
+        : `${venue.shows.length} Performances`),
+    show: false,
+    section: {
+      idString: "performance-list",
+      data: html,
+    },
+  };
+};
+
+module.exports.singleShow = (req, rows) => {
+  const show = new Show(rows[0].date, rows[0], rows, rows[0].showNotes);
+  return {
+    user: req.user,
+    title: show.venue.name,
+    subtitle: show.date,
+    show: show,
+    section: {
+      idString: "show-notes", 
+      data: show.notes,
+    },
   };
 };

@@ -27,10 +27,7 @@ router.get(
   catchAsync(async (req, res) => {
     const { id } = req.params;
     let { rows } = await db.getSongByID(id);
-    res.render("song", {
-      song: new Song(rows[0]),
-      user: req.user,
-    });
+    res.render("single-model", data.singleSong(req, rows));
   })
 );
 

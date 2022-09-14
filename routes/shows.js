@@ -30,10 +30,7 @@ router.get(
   catchAsync(async (req, res) => {
     const { id } = req.params;
     let { rows } = await db.getShowByID(id);
-    res.render("show", {
-      show: new Show(rows[0].date, rows[0], rows, rows[0].showNotes),
-      user: req.user,
-    });
+    res.render("single-model", data.singleShow(req, rows));
   })
 );
 
@@ -42,10 +39,7 @@ router.get(
   catchAsync(async (req, res) => {
     const { date } = req.params;
     let { rows } = await db.getShowByDate(date);
-    res.render("show", {
-      show: new Show(rows[0].date, rows[0], rows, rows[0].show_notes),
-      user: req.user,
-    });
+    res.render("single-model", data.singleShow(req, rows));
   })
 );
 
