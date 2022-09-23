@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db");
 const { catchAsync } = require("../utils");
-const Song = require("../models/song");
 const data = require("../data")
 
 router.get(
@@ -16,17 +15,15 @@ router.get(
 router.get(
   "/songs/author/:author",
   catchAsync(async (req, res) => {
-    const { author } = req.params;
-    let { rows } = await db.getAllSongsByAuthor(author);
-    res.render("table-map", data.allSongs(req, rows, author));
+    let { rows } = await db.getAllSongsByAuthor(req.params.author);
+    res.render("table-map", data.allSongs(req, rows, req.params.author));
   })
 );
 
 router.get(
   "/songs/:id",
   catchAsync(async (req, res) => {
-    const { id } = req.params;
-    let { rows } = await db.getSongByID(id);
+    let { rows } = await db.getSongByID(req.params.id);
     res.render("single-model", data.singleSong(req, rows));
   })
 );

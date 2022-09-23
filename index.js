@@ -6,17 +6,7 @@ const express = require("express");
 const app = express();
 const port = 300;
 const path = require("path");
-const { catchAsync, toCamel } = require("./utils");
 const ejsMate = require("ejs-mate");
-const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
-const mapboxToken = process.env.MAPBOX_TOKEN;
-const geocoder = mbxGeocoding({ accessToken: mapboxToken });
-const {
-  makeGeoJSON,
-  updateAllVenueGeom,
-  isAdmin,
-  isLoggedIn,
-} = require("./middleware");
 const userRoutes = require("./routes/user");
 const showRoutes = require("./routes/shows");
 const songRoutes = require("./routes/songs");
@@ -87,7 +77,7 @@ app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
-
+  
   // render the error page
   res.status(err.status || 500);
   res.render("error");
