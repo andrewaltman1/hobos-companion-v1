@@ -8,25 +8,25 @@
 
 <form action="<%- form.action %>" method="post">
   <section>
-    <label for="username">e-mail</label>
+    <label for="email">e-mail</label>
     <input
-      id="username"
-      name="username"
+      id="email"
+      name="email"
       type="text"
-      autocomplete="username"
+      autocomplete="email"
       required
       autofocus
     />
   </section>
   <section>
-    <label for="current-password">Password</label>
+    <label for="<%- form.password %>">Password</label>
     <input
-      id="current-password"
+      id="<%- form.password %>"
       name="password"
       type="password"
-      autocomplete="current-password"
+      autocomplete="<%- form.password %>"
       required
     />
   </section>
-  <button type="submit">Sign in</button>
+  <button type="submit"><%- userAction %></button>
 </form>

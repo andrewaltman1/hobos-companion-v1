@@ -188,3 +188,27 @@ module.exports.singleShow = (req, rows) => {
     },
   };
 };
+
+module.exports.signUp = (req, res) => {
+  return {
+    user: req.user,
+    userAction: "Sign Up",
+    form: {
+      action: "/signup",
+      password: "new-password"
+    },
+    msg: res.locals.messages
+  }
+}
+
+module.exports.login = (req, res) => {
+  return {
+    user: req.user,
+    userAction: "Log In",
+    form: {
+      action: "/login/password",
+      password: "current-password"
+    },
+    msg: res.locals.messages
+  }
+}
