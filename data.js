@@ -183,7 +183,7 @@ module.exports.singleShow = (req, rows) => {
     subtitle: show.date,
     show: show,
     section: {
-      idString: "show-notes", 
+      idString: "show-notes",
       data: show.notes,
     },
   };
@@ -195,11 +195,11 @@ module.exports.signUp = (req, res) => {
     userAction: "Sign Up",
     form: {
       action: "/signup",
-      password: "new-password"
+      password: "new-password",
     },
-    msg: res.locals.messages
-  }
-}
+    msg: res.locals.messages,
+  };
+};
 
 module.exports.login = (req, res) => {
   return {
@@ -207,8 +207,8 @@ module.exports.login = (req, res) => {
     userAction: "Log In",
     form: {
       action: "/login/password",
-      password: "current-password"
+      password: "current-password",
     },
-    msg: res.locals.messages
-  }
-}
+    msg: res.locals.messages,
+  };
+};

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db");
 const { catchAsync } = require("../utils");
-const data = require("../data")
+const data = require("../data");
 
 router.get(
   "/songs",

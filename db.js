@@ -28,7 +28,7 @@ module.exports.getShowByID = (id) => {
   return pool.query(
     `SELECT name, city, state, country, date, ST_AsGeoJSON(geom) AS geometry, ST_X(geom) AS lng, ST_Y(geom) AS lat, show_notes as "showNotes", title, position, set_number as "setNumber", song_notes as "versionNotes", transition FROM shows JOIN venues ON venues.id = shows.venue_id JOIN versions ON shows.id = show_id JOIN songs ON songs.id = song_id WHERE shows.id = $1`,
     [id]
-  );      
+  );
 };
 
 module.exports.getShowByDate = (date) => {
@@ -85,7 +85,15 @@ module.exports.getVenuesByCity = (city, state) => {
 
 module.exports.getVenueByID = (id) => {
   return pool.query(
-    `SELECT name, city, state, country, ST_AsGeoJSON(geom) AS geometry, ST_X(geom) AS lng, ST_Y(geom) AS lat, date, shows.id FROM venues JOIN shows ON venues.id = shows.venue_id WHERE venues.id = $1 ORDER BY date`,
+    `SELECT venues.id AS "venueId", shows.id AS "showId", name, city, state, country, ST_AsGeoJSON(geom) AS geometry, ST_X(geom) AS lng, ST_Y(geom) AS lat, date FROM venues JOIN shows ON venues.id = shows.venue_id WHERE venues.id = $1 ORDER BY date`,
     [id]
   );
+};
+
+module.exports.getVenueGeoData = async (venueId) => {
+  let { rows } = await pool.query(
+    `SELECT ST_asGeoJSON(geom) from venues WHERE venues.id = $1`,
+    [venueId]
+  );
+  return JSON.parse(rows[0].st_asgeojson);
 };

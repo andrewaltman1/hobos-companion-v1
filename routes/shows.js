@@ -1,11 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../db");
-const { catchAsync, stateNameToAbrev } = require("../utils");
+const { catchAsync, getNewGeoData, stateNameToAbrev } = require("../utils");
 const { isAdmin, isLoggedIn } = require("../middleware");
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const geocoder = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
 const data = require("../data.js");
+
+// router.use((req, res, next) => {
+//   console.log(req.session);
+//   next();
+// });
 
 router.get(
   "/",
@@ -46,14 +51,8 @@ router.get(
   isLoggedIn,
   isAdmin,
   catchAsync(async (req, res) => {
-    let user = req.user;
-    let { rows } = await pool.query(
-      "SELECT id, name, city, state, country FROM venues"
-    );
-
-    let venueList = rows;
-
-    res.render("new-show/venue-input", { venueList, user });
+    let { rows } = await db.getAllVenues();
+    res.render("new-show/venue-input", { venueList: rows, user: req.user });
   })
 );
 
@@ -62,34 +61,48 @@ router.post(
   isLoggedIn,
   isAdmin,
   catchAsync(async (req, res) => {
-    let { name, date, state } = req.body;
-    let { rows } = await pool.query(`SELECT name FROM venues WHERE name=$1`, [
-      name,
-    ]);
+    if (req.body.address) {
+      let venue = req.session.newShow.venue;
+      req.session.newShow.venue.geometry = await getNewGeoData(
+        req.body.address,
+        venue.city,
+        venue.state,
+        venue.country
+      );
+    } else {
+      let { date, name, city, state, country, venueId } = req.body;
 
-    req.session.date = new Date(date);
-    req.session.venueName = name;
+      req.session.newShow = {
+        date: date,
+        venue: {
+          name: name,
+          city: city,
+          state: state,
+          country: country,
+          geometry: !venueId
+            ? await getNewGeoData(name, city, state, country)
+            : await db.getVenueGeoData(venueId),
+        },
+      };
+    }
 
-    const geoData = await geocoder
-      .forwardGeocode({
-        query: `${req.body.name}, ${req.body.city}, ${req.body.state}, ${req.body.country}`,
-        limit: 1,
-      })
-      .send();
-
-    console.log(geoData.body.features[0]);
-    console.log(new Date(date));
-
-    res.send("THANKS");
-
-    let venue = geoData.body.features[0];
-
-    res.render("new-show/venue-check", { name, venue });
+    res.render("new-show/venue-check", {
+      user: req.user,
+      venue: {
+        name: req.session.newShow.venue.name,
+        city: req.session.newShow.venue.city,
+        state: req.session.newShow.venue.state,
+        country: req.session.newShow.venue.country,
+        geometry: req.session.newShow.venue.geometry,
+      },
+      mapToken: process.env.MAPBOX_TOKEN,
+    });
   })
 );
 
-router.get("/new-show/date-songs", isLoggedIn, isAdmin, (req, res) => {
-  res.render("new-show/date-songs");
+router.get("/new-show/songs", isLoggedIn, isAdmin, (req, res) => {
+  res.send(req.session.newShow)
+  // res.render("new-show/date-songs");
 });
 
 // the route below contains code for updating geodata

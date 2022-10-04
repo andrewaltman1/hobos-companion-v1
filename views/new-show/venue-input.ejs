@@ -1,12 +1,20 @@
 <% layout('layouts/boilerplate') %> <%- include('../partials/header') %>
 
-<div class="table-mode-container--new-show">
+<div>
   <form class="show-inputs" action="/new-show/venue-check" method="POST">
     <fieldset>
       <legend>Date/Venue Details</legend>
       <div id="date-input">
         <label for="date">Date:</label>
-        <input type="text" name="date" placeholder="Date" id="date" />
+        <input
+          type="date"
+          name="date"
+          min="2000-07-01"
+          pattern="\d{2}\/\d{2}\/\d{4}"
+          placeholder="MM/DD/YYYY"
+          id="date"
+          required
+        />
       </div>
       <div id="venue-input">
         <label for="venue-name">Venue:</label>
@@ -15,26 +23,52 @@
           name="name"
           placeholder="Venue Name"
           id="venue-name"
+          autocomplete="off"
+          required
         /><br />
         <ul id="results"></ul>
-        <input type="text" name="city" placeholder="City" id="city" /><br />
-        <input type="text" name="state" placeholder="State" id="state" /><br />
-        <input type="text" name="country" placeholder="Country" id="country" />
+        <input
+          type="text"
+          name="city"
+          placeholder="City"
+          id="city"
+          required
+        /><br />
+        <input
+          type="text"
+          name="state"
+          placeholder="State"
+          id="state"
+          required
+        /><br />
+        <input
+          type="text"
+          name="country"
+          placeholder="Country"
+          id="country"
+          required
+        />
+        <input type="text" name="venueId" placeholder="venueId" id="venueId" />
       </div>
-      <button type="submit">Enter</button>
+      <button type="submit">Submit</button>
     </fieldset>
   </form>
 </div>
 
 <script>
+    const showInputs = document.querySelector('.show-inputs');
     const showResults = document.querySelector('#results')
+    const dateField = document.querySelector("#date")
     const venueField = document.querySelector('#venue-input')
     const nameField = document.querySelector('#venue-name')
     const cityField = document.querySelector('#city')
     const stateField = document.querySelector('#state')
     const countryField = document.querySelector('#country')
+    const venueIdField = document.querySelector('#venueId')
+    const venueListJSON = <%- JSON.stringify(venueList)%>;
 
-    const venueListJSON = <%- JSON.stringify(venueList)%>
+    venueIdField.style.display = "none";
+    dateField.max = new Date(new Date(Date.now() + 1000 * 60 * 60 * 24 * 10)).toISOString().split("T")[0];
 
     const options = {
     isCaseSensitive: false,
@@ -51,7 +85,7 @@
     ignoreFieldNorm: false,
     fieldNormWeight: 1,
     keys: [
-      "name"
+      "venueName"
     ]
   };
 
@@ -64,23 +98,23 @@
     let results = fuse.search(event.target.value)
     let list =  '';
     for (i=0; i<results.length; i++) {
-       list += '<li>' + results[i].item.name + '</li>';
+       list += '<li>' + results[i].item.venueName + '</li>';
       }
     showResults.innerHTML = list
     document.querySelectorAll('li').forEach(li => li.addEventListener('click', () => {
-      showResults.classList.add("hide")
-      let returnVenue = results.find(el => el.item.name === event.target.innerHTML)
-      nameField.value = returnVenue.item.name
-      cityField.value =  returnVenue.item.city
-      stateField.value = returnVenue.item.state
-      countryField.value = returnVenue.item.country
+      showResults.classList.add("hide");
+      let returnVenue = results.find(el => el.item.venueName === event.target.innerHTML);
+      nameField.value = returnVenue.item.venueName;
+      cityField.value =  returnVenue.item.city;
+      stateField.value = returnVenue.item.state;
+      countryField.value = returnVenue.item.country;
+      venueIdField.value = returnVenue.item.venueId;
     }))
   })
 
   venueField.addEventListener('input', () => {
     let input = event.target.value;
     const re = /\b(\w)/g;
-    // let field = document.getElementById(`${event.target.id}`)
     if (event.target.id == "country") {
       input.length < 4 ? countryField.value = input.toUpperCase() : countryField.value = input.toLowerCase().replaceAll(re, letter => letter.toUpperCase()
     ) ;
@@ -92,5 +126,14 @@
     )
     }
   })
+
+  dateField.addEventListener("input", () => {
+    let input = event.target.value;
+    const re = /\d+\//;
+    // dateRegEx adapted from https://www.regular-expressions.info/dates.html
+    const dateRegEx = /^([1-9]|0[1-9]|1[012])[/]([1-9]|0[1-9]|[12][0-9]|3[01])[/](19|20)\d\d$/
+    console.log(input)
+    console.log(new Date(`${input}T00:00:00`).toLocaleDateString());
+    console.log(dateRegEx.test(new Date(`${input}T00:00:00`).toLocaleDateString()))
+  })
 </script>
-.

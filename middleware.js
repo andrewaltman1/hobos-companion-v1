@@ -20,7 +20,7 @@ module.exports.updateAllVenueGeom = async () => {
 
 module.exports.isAdmin = (req, res, next) => {
   if (!req.user.admin) {
-    req.session.messages = "Admins only please.";
+    req.session.messages = "Please, admins only";
     res.redirect("/login");
   }
   next();

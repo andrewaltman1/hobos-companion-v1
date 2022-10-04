@@ -6,6 +6,20 @@
 //   });
 // };
 
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const geocoder = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
+
+module.exports.getNewGeoData = async (name, city, state, country) => {
+  let geoData = await geocoder
+    .forwardGeocode({
+      query: `${name}, ${city}, ${state}, ${country}`,
+      limit: 1,
+    })
+    .send();
+
+  return geoData.body.features[0].geometry;
+};
+
 module.exports.objKeysToCamel = (obj) => {
   function strToCamel(s) {
     return s.replace(/([_][a-z])/gi, (r) => {

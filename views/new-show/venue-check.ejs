@@ -1,33 +1,68 @@
-<% layout('layouts/boilerplate') %>
+<% layout('layouts/boilerplate') %><%- include('../partials/header') %>
 
-<h1>Is This Correct?</h1>
-<h3><%- venue.place_name %></h3>
-
-<div id="map" style="width: 400px; height: 300px; margin: auto"></div>
-
-<button type="submit">Yes</button>
-<button type="submit">No</button>
+<div id="map"></div>
 
 <script>
-  const mapToken = "<%-process.env.MAPBOX_TOKEN%>";
-  const venue = <%- JSON.stringify(venue) %>
+  window.mapToken = "<%- mapToken %>";
+  window.venue = {
+    name: <%- JSON.stringify(venue.name) %>,
+    geometry: <%- JSON.stringify(venue.geometry) %>
+    }
 </script>
 
 <script>
-  mapboxgl.accessToken = mapToken;
+  mapboxgl.accessToken = window.mapToken;
   const map = new mapboxgl.Map({
     container: "map",
-    style: "mapbox://styles/mapbox/light-v10", // stylesheet location
-    center: venue.geometry.coordinates, // starting position [lng, lat]
-    zoom: 11, // starting zoom
+    style: "mapbox://styles/mapbox/light-v10",
+    center: window.venue.geometry.coordinates,
+    zoom: 11,
   });
 
-  map.addControl(new mapboxgl.NavigationControl());
+  new mapboxgl.Popup({ offset: 25, closeButton: false, closeOnClick: false, })
+  .setLngLat(venue.geometry.coordinates)
+  .setHTML(`
+          <h1>Does the map look correct?</h1>
+          <p><%- venue.name %> </br> <%- !venue.state ? `${venue.city}, ${venue.country}` :
+          `${venue.city}, ${venue.state}` %>
+          </p>
+          <div id="address-form">
+            <form action="/new-show/venue-check" method="POST">
+            <label for="address">Add Street Address</label>
+            <input
+            type="text"
+            name="address"
+            placeholder="ex: 123 Main Street"
+            id="address"
+            autocomplete="off"
+            />
+            </br>
+            <button type="submit" class="map-popup-buttons">Submit</button>
+            <button type="button" class="map-popup-buttons" id="cancel-button">Cancel
+            </button>
+            </form>
+          </div>
+          <button type="button" class="map-popup-buttons" id="edit-button">Edit</button>
+          <button type="button" class="map-popup-buttons" id="yes-button">
+          <a href="/new-show/songs">Yes <img src="/public/icons/right-arrow.svg" alt="right arrow icon"></a>
+          </button>
+        `)
+  .addTo(map);
 
-  new mapboxgl.Marker()
-    .setLngLat(venue.geometry.coordinates)
-    .setPopup(
-      new mapboxgl.Popup({ offset: 25 }).setHTML(`<h3>${venue.text}</h3>`)
-    )
-    .addTo(map);
+  const addressForm = document.querySelector("#address-form")
+  const editButton = document.querySelector("#edit-button");
+  const yesButton = document.querySelector("#yes-button");
+  const cancelButton = document.querySelector("#cancel-button");
+
+  addressForm.classList.toggle("hide");
+  editButton.addEventListener("click", () => {
+    addressForm.classList.toggle("hide");
+    editButton.classList.toggle("hide");
+    yesButton.classList.toggle("hide");
+  })
+  cancelButton.addEventListener("click", () => {
+    addressForm.classList.toggle("hide");
+    editButton.classList.toggle("hide");
+    yesButton.classList.toggle("hide");
+  })
 </script>

@@ -1,13 +1,13 @@
 class Venue {
-  constructor(location, shows) {
-    (this.name = location.name || null),
-      (this.city = location.city || null),
-      (this.state = location.state || null),
-      (this.country = location.country || null),
+  constructor(venue, shows) {
+    (this.name = venue.name || null),
+      (this.city = venue.city || null),
+      (this.state = venue.state || null),
+      (this.country = venue.country || null),
       (this.geometry =
         {
           type: "Point",
-          coordinates: [location.lng, location.lat],
+          coordinates: [venue.lng, venue.lat],
         } || null),
       (this.shows = !shows ? [] : this.showFormatter(shows));
   }

@@ -226,7 +226,41 @@ td > a:hover {
 
 /* **** login **** */
 
+#auth-forms {
+  margin: 2rem auto;
+  width: fit-content;
+  height: fit-content;
+  min-width: 250px;
+  max-width: 1400px;
+  border: 1.5px solid #1f1109ff;
+  border-radius: 0.3rem;
+  font: 100 1rem "Rubik", sans-serif;
+  position: relative;
+}
 
+#auth-forms h1 {
+  text-align: center;
+}
+
+#user-messages {
+  text-align: center;
+  margin: 1rem 2.5%;
+}
+
+#auth-forms section {
+  margin: 1rem 2.5%;
+  position: relative;
+}
+
+#auth-forms #email {
+  margin-left: 2rem;
+}
+
+#auth-forms button {
+  margin: 1rem 35%;
+  position: relative;
+  width: 30%;
+}
 
 /* **** new-show **** */
 
@@ -279,6 +313,38 @@ td > a:hover {
   white-space: nowrap;
   margin-bottom: 0.5rem;
   width: fit-content;
+}
+
+#map {
+  width: 95vw;
+  height: 90vh;
+  margin: auto;
+}
+
+#address-form button {
+  margin: 1rem auto;
+}
+
+.map-popup-buttons {
+  color: #1f1109ff;
+  padding: 0.2rem 1rem;
+  background-color: #c7cac755;
+  border: 1px solid #804a2066;
+  border-radius: 0.5rem;
+}
+
+.map-popup-buttons:hover {
+  border: 3px solid #804a2066;
+}
+
+.map-popup-buttons a {
+  text-decoration: none;
+}
+
+.map-popup-buttons img {
+  margin-left: 0.1rem;
+  height: 0.8rem;
+  width: 0.8rem;
 }
 
 /* **** coming-soon **** */

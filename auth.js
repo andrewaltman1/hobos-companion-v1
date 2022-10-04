@@ -1,4 +1,4 @@
-const db = require("./db.js")
+const db = require("./db.js");
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -39,7 +39,7 @@ passport.use(
         }
         if (!row.rows[0]) {
           return cb(null, false, {
-            message: "Incorrect email or password.",
+            message: "Incorrect email/password",
           });
         }
 
@@ -60,7 +60,7 @@ passport.use(
               )
             ) {
               return cb(null, false, {
-                message: "Incorrect email or password.",
+                message: "Incorrect email/password",
               });
             }
             let user = new User(row.rows[0]);
@@ -102,22 +102,22 @@ module.exports.crypto = (req, res, next) => {
       );
     }
   );
-}
+};
 
 module.exports.authenticate = passport.authenticate("session");
 
 passport.serializeUser(function (user, cb) {
-    process.nextTick(function () {
-      cb(null, {
-        email: user.email,
-        admin: user.admin,
-        firstName: user.firstName,
-      });
+  process.nextTick(function () {
+    cb(null, {
+      email: user.email,
+      admin: user.admin,
+      firstName: user.firstName,
     });
   });
+});
 
-  passport.deserializeUser(function (user, cb) {
-    process.nextTick(function () {
-      return cb(null, user);
-    });
+passport.deserializeUser(function (user, cb) {
+  process.nextTick(function () {
+    return cb(null, user);
   });
+});

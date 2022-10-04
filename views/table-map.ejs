@@ -15,15 +15,15 @@
       <tr>
         <th id="table-column-0">
           <%- table.headerOne %>
-          <img class="icon" src="/public/sort.svg" alt="icon image" />
+          <img class="icon" src="/public/icons/sort.svg" alt="icon image" />
         </th>
         <th id="table-column-1">
           <%- table.headerTwo %>
-          <img class="icon" src="/public/sort.svg" alt="icon image" />
+          <img class="icon" src="/public/icons/sort.svg" alt="icon image" />
         </th>
         <th id="table-column-2">
           <%- table.headerThree %>
-          <img class="icon" src="/public/sort.svg" alt="icon image" />
+          <img class="icon" src="/public/icons/sort.svg" alt="icon image" />
         </th>
       </tr>
     </thead>
@@ -35,15 +35,12 @@
 </div>
 
 <script>
-  window.columnTypes = "<%- table.columnTypes %>";
+  window.columnTypes = "<%- table.columnTypes %>";  
 </script>
 
 <% if (clusterMap) {%>
 <div id="cluster-map"></div>
 <script>
-  // window.clusterMap.mapToken = "<%-clusterMap.token%>";
-  // window.clusterMap.mapData = <%- JSON.stringify(clusterMap.data) %>;
-  // window.clusterMap.center = <%- JSON.stringify(clusterMap.center)%>;
   window.clusterMap = {
     mapToken: "<%-clusterMap.token%>",
     mapData: <%- JSON.stringify(clusterMap.data) %>,
