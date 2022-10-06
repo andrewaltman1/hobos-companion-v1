@@ -52,7 +52,7 @@ router.get(
   isAdmin,
   catchAsync(async (req, res) => {
     let { rows } = await db.getAllVenues();
-    res.render("new-show/venue-input", { venueList: rows, user: req.user });
+    res.render("new-show/venue-input", data.newShowInput(req, rows));
   })
 );
 
@@ -71,7 +71,6 @@ router.post(
       );
     } else {
       let { date, name, city, state, country, venueId } = req.body;
-
       req.session.newShow = {
         date: date,
         venue: {
@@ -86,23 +85,19 @@ router.post(
       };
     }
 
-    res.render("new-show/venue-check", {
-      user: req.user,
-      venue: {
-        name: req.session.newShow.venue.name,
-        city: req.session.newShow.venue.city,
-        state: req.session.newShow.venue.state,
-        country: req.session.newShow.venue.country,
-        geometry: req.session.newShow.venue.geometry,
-      },
-      mapToken: process.env.MAPBOX_TOKEN,
-    });
+    res.render("new-show/venue-check", data.venueCheck(req));
   })
 );
 
-router.get("/new-show/songs", isLoggedIn, isAdmin, (req, res) => {
-  res.send(req.session.newShow)
-  // res.render("new-show/date-songs");
+router.get("/new-show/set-input", isLoggedIn, isAdmin, (req, res) => {
+  res.render("new-show/set-input", { user: req.user });
+});
+
+router.post("/new-show/show-confirm", (req, res) => {
+  req.session.newShow.songs = req.body.songs;
+  req.session.newShow.notes = req.body.notes;
+  console.log(req.session.newShow);
+  res.send(req.session.newShow.songs);
 });
 
 // the route below contains code for updating geodata

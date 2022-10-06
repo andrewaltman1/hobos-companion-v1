@@ -51,6 +51,11 @@ nav > a:hover {
   cursor: pointer;
 }
 
+#user-display {
+  font: 500 1rem "Rubik", sans-serif;
+  text-align: center;
+}
+
 #cluster-map {
   margin: auto;
   width: 95vw;
@@ -345,6 +350,47 @@ td > a:hover {
   margin-left: 0.1rem;
   height: 0.8rem;
   width: 0.8rem;
+}
+
+#set-input {
+  width: 95vw;
+  max-width: 700px;
+  height: 95vh;
+  margin: auto;
+}
+
+#set-input form {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+#set-input label {
+  font: 400 1.2rem "Rubik", sans-serif;
+  text-align: center;
+}
+
+#set-input #songs {
+  height: 45vh;
+  width: 100%;
+}
+
+#set-input #notes {
+  height: 15vh;
+  width: 100%;
+}
+
+#set-input button {
+  height: 6vh;
+  width: 50%;
+  margin-top: 0.4rem;
+  text-align: center;
+  font: 400 1.2rem "Rubik", sans-serif;
+  color: #1f1109ff;
+  background-color: #c7cac755;
+  border: 1px solid #767676;
+  border-radius: 0.5rem;
 }
 
 /* **** coming-soon **** */

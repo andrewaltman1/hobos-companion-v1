@@ -189,6 +189,24 @@ module.exports.singleShow = (req, rows) => {
   };
 };
 
+module.exports.newShowInput = (req, rows) => {
+  return { venueList: rows, user: req.user }
+}
+
+module.exports.venueCheck = (req) => {
+  return {
+    user: req.user,
+    venue: {
+      name: req.session.newShow.venue.name,
+      city: req.session.newShow.venue.city,
+      state: req.session.newShow.venue.state,
+      country: req.session.newShow.venue.country,
+      geometry: req.session.newShow.venue.geometry,
+    },
+    mapToken: process.env.MAPBOX_TOKEN,
+  }
+}
+
 module.exports.signUp = (req, res) => {
   return {
     user: req.user,

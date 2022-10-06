@@ -1,0 +1,34 @@
+<% layout('layouts/boilerplate') %><%- include('../partials/header') %>
+
+<div id="set-input">
+  <form action="/new-show/show-confirm" method="POST">
+    <label for="songs">Songs</label>
+    <textarea
+      name="songs"
+      id="songs"
+      placeholder="Set 1:
+Song
+Song
+Song> ('>' denotes transition)
+Song* (character denotes song note)
+
+Set 2:
+Song
+Song^ (character denotes song note)
+Song
+
+Encore:
+Song"
+    ></textarea>
+    <label for="notes">Notes</label>
+    <textarea
+      name="notes"
+      id="notes"
+      placeholder="*song note from above(e.g. special guest)
+^song note from above (e.g. first time played)
+  
+Additional notes about the show if any."
+    ></textarea>
+    <button type="submit">Submit</button>
+  </form>
+</div>
