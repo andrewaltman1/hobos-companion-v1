@@ -96,7 +96,67 @@ router.get("/new-show/set-input", isLoggedIn, isAdmin, (req, res) => {
 router.post("/new-show/show-confirm", (req, res) => {
   req.session.newShow.songs = req.body.songs;
   req.session.newShow.notes = req.body.notes;
-  console.log(req.session.newShow);
+
+  // find how many sets
+
+  const isSingleSet = !/(Set\s?[1-9]:?)/gi.test(req.body.songs);
+  const totalSets = !/(Set\s?[1-9]:?)/gi.test(req.body.songs)
+    ? 1
+    : req.body.songs.match(/(Set\s?[1-9]:?)/gi).length;
+  const didEncore = /(Encore\s?:?)/gi.test(req.body.songs);
+
+  // how to handle multiple encores?
+
+  // split songs into arrays for each set
+
+  function splitSets() {
+    let results = [];
+    if (isSingleSet && !didEncore) {
+      return req.body.songs.split(/\r\n/);
+    } else if (isSingleSet && didEncore){
+      results.push(req.body.songs.match(/^.*?(?=\r\n\r\nEncore\s?:?)/gis).toString().split(/\r\n/));
+      results.push(req.body.songs.match(/(?<=Encore\s?:?\r\n).*?$/gis).toString().split(/\r\n/));
+      return results;
+    } else {
+      let positionOne;
+      let positionTwo;
+      let encorePositionOne = `(?<=Encore\\s?:?\\r\\n)`;
+      let encorePositionTwo = `(?=\\r\\n\\r\\nEncore\\s?:?)`;
+      const end = "$";
+      if (didEncore) {
+        for (i = 1; i <= totalSets + 1; i++) {
+          positionOne = `(?<=Set\\s?${i}:?\\r\\n)`;
+          positionTwo = `(?=\\r\\n\\r\\nSet\\s?${i + 1}:?)`;
+          i == totalSets
+            ? (positionTwo = encorePositionTwo)
+            : i == totalSets + 1
+            ? ((positionOne = encorePositionOne), (positionTwo = end))
+            : positionTwo;
+          results.push(
+            req.body.songs
+              .match(new RegExp(`${positionOne}.*?${positionTwo}`, "gis"))
+              .toString()
+              .split(/\r\n/)
+          );
+        }
+        return results;
+      } else {
+        for (i = 1; i <= totalSets; i++) {
+          positionOne = `(?<=Set\\s?${i}:?\\r\\n)`;
+          positionTwo = `(?=\\r\\n\\r\\nSet\\s?${i + 1}:?)`;
+          i == totalSets ? (positionTwo = end) : positionTwo;
+          results.push(
+            req.body.songs
+              .match(new RegExp(`${positionOne}.*?${positionTwo}`, "gis"))
+              .toString()
+              .split(/\r\n/)
+          );
+        }
+        return results;
+      }
+    }
+  }
+  console.log(splitSets());
   res.send(req.session.newShow.songs);
 });
 
