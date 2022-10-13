@@ -152,7 +152,7 @@ module.exports.singleSong = (req, rows) => {
 };
 
 module.exports.singleVenue = (req, rows) => {
-  const venue = new Venue(rows[0], rows);
+  const venue =   (rows[0], rows);
   let html = "";
   venue.shows.forEach((show) => {
     html += `<a href="/show/${show.id}">${show.date}</a><br />`;
@@ -177,6 +177,7 @@ module.exports.singleVenue = (req, rows) => {
 
 module.exports.singleShow = (req, rows) => {
   const show = new Show(rows[0].date, rows[0], rows, rows[0].showNotes);
+  console.log(show)
   return {
     user: req.user,
     title: show.venue.name,

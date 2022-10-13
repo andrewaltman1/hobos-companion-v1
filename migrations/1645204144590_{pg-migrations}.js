@@ -54,5 +54,13 @@ exports.down = (pgm) => {
   pgm.sql(`ALTER TABLE venues DROP COLUMN IF EXISTS shows_count`);
 };
 
+exports.up = (pgm) => {
+  pgm.sql(`CREATE EXTENSION IF NOT EXISTS pg_trgm`);
+};
+
+exports.down = (pgm) => {
+  pgm.sql(`DROP EXTENSION IF EXISTS pg_trgm`);
+};
+
 // to fix "No migrations to run!`
 // Migrations complete!" situation I had to delete recent row from pgmigrations table

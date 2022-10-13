@@ -6,6 +6,7 @@ const { isAdmin, isLoggedIn } = require("../middleware");
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const geocoder = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
 const data = require("../data.js");
+const { VERSION } = require("ejs");
 
 // router.use((req, res, next) => {
 //   console.log(req.session);
@@ -32,6 +33,7 @@ router.get(
   "/show/:id",
   catchAsync(async (req, res) => {
     let { rows } = await db.getShowByID(req.params.id);
+    console.log(rows[0]);
     res.render("single-model", data.singleShow(req, rows));
   })
 );
@@ -93,72 +95,192 @@ router.get("/new-show/set-input", isLoggedIn, isAdmin, (req, res) => {
   res.render("new-show/set-input", { user: req.user });
 });
 
-router.post("/new-show/show-confirm", (req, res) => {
-  req.session.newShow.songs = req.body.songs;
-  req.session.newShow.notes = req.body.notes;
+router.post(
+  "/new-show/show-confirm",
+  isLoggedIn,
+  isAdmin,
+  catchAsync(async (req, res) => {
+    const totalSets = !/(Set\s?[1-9]:?)/gi.test(req.body.songs)
+      ? 1
+      : req.body.songs.match(/(Set\s?[1-9]:?)/gi).length;
 
-  // find how many sets
+    // need to fix this to account for Encore: song
 
-  const isSingleSet = !/(Set\s?[1-9]:?)/gi.test(req.body.songs);
-  const totalSets = !/(Set\s?[1-9]:?)/gi.test(req.body.songs)
-    ? 1
-    : req.body.songs.match(/(Set\s?[1-9]:?)/gi).length;
-  const didEncore = /(Encore\s?:?)/gi.test(req.body.songs);
+    const didEncore = /(Encore\s?:?)/gi.test(req.body.songs);
 
-  // how to handle multiple encores?
+    // song details format from db
 
-  // split songs into arrays for each set
+    // {
+    //   title: song.match(/[\w\s\?'\u2019]+/gi).toString(),
+    //   position: index + 1,
+    //   setNumber: 1,
+    //   transition: />/g.test(song),
+    //   versionNotes: song.match(/[@#\$%\+^&\*]/gis),
+    // }
 
-  function splitSets() {
-    let results = [];
-    if (isSingleSet && !didEncore) {
-      return req.body.songs.split(/\r\n/);
-    } else if (isSingleSet && didEncore){
-      results.push(req.body.songs.match(/^.*?(?=\r\n\r\nEncore\s?:?)/gis).toString().split(/\r\n/));
-      results.push(req.body.songs.match(/(?<=Encore\s?:?\r\n).*?$/gis).toString().split(/\r\n/));
-      return results;
-    } else {
-      let positionOne;
-      let positionTwo;
-      let encorePositionOne = `(?<=Encore\\s?:?\\r\\n)`;
-      let encorePositionTwo = `(?=\\r\\n\\r\\nEncore\\s?:?)`;
-      const end = "$";
-      if (didEncore) {
-        for (i = 1; i <= totalSets + 1; i++) {
-          positionOne = `(?<=Set\\s?${i}:?\\r\\n)`;
-          positionTwo = `(?=\\r\\n\\r\\nSet\\s?${i + 1}:?)`;
-          i == totalSets
-            ? (positionTwo = encorePositionTwo)
-            : i == totalSets + 1
-            ? ((positionOne = encorePositionOne), (positionTwo = end))
-            : positionTwo;
-          results.push(
-            req.body.songs
-              .match(new RegExp(`${positionOne}.*?${positionTwo}`, "gis"))
-              .toString()
-              .split(/\r\n/)
-          );
+    // details needed to save in db
+
+    // does the song exist already? If so, song_id else...
+    // is_song?
+    // created_by?
+    // updated_by?
+    // title?
+    // author?
+    // notes?
+    // instrumental?
+    // slug?
+    // created_at
+    // updated_at
+
+    // console.log(req.body.songs);
+
+    function buildSongDetails() {
+      req.session.newShow.songs = [];
+      const allSongs = req.body.songs
+        .split(/\r\n/)
+        .filter((song) => song.length > 0);
+      let currentSet = 1;
+      let songPosition = 1;
+
+      allSongs.map((song, index) => {
+        if (/(Set\s?[1-9]:?)/gi.test(song) || /(Encore\s?:?)/gi.test(song)) {
+          currentSet = +song.match(/\d/g) || "Encore";
+        } else {
+          req.session.newShow.songs.push({
+            title: song,
+            position: songPosition,
+            setNumber: currentSet,
+            transition: />/.test(song),
+            versionNotes: /[@#\$%\+^&\*](?!\s|\w)/g.test(song) ? song.match(/[@#\$%\+^&\*](?!\s|\w)/g).join("") : null,
+          });
+          songPosition += 1;
         }
+      });
+
+      // for (i = 0; i < allSongs.length; i++) {
+      //   if (
+      //     /(Set\s?[1-9]:?)/gi.test(allSongs[i]) ||
+      //     /(Encore\s?:?)/gi.test(allSongs[i])
+      //   ) {
+      //     currentSet = allSongs[i].match(/\d/g) || "Encore";
+      //   } else {
+      //     console.log(currentSet, songPosition, allSongs[i]);
+      //     songPosition += 1;
+      //   }
+      // }
+    }
+
+    buildSongDetails();
+    console.log(req.session.newShow.songs);
+
+    function splitSets() {
+      let results = [];
+      if (totalSets == 1 && !didEncore) {
+        return req.body.songs.split(/\r\n/);
+      } else if (totalSets == 1 && didEncore) {
+        results.push(
+          req.body.songs
+            .match(/^.*?(?=\r\n\r\nEncore\s?:?)/gis)
+            .toString()
+            .split(/\r\n/)
+        );
+        results.push(
+          req.body.songs
+            .match(/(?<=Encore\s?:?\r\n).*?$/gis)
+            .toString()
+            .split(/\r\n/)
+        );
         return results;
       } else {
-        for (i = 1; i <= totalSets; i++) {
-          positionOne = `(?<=Set\\s?${i}:?\\r\\n)`;
-          positionTwo = `(?=\\r\\n\\r\\nSet\\s?${i + 1}:?)`;
-          i == totalSets ? (positionTwo = end) : positionTwo;
-          results.push(
-            req.body.songs
-              .match(new RegExp(`${positionOne}.*?${positionTwo}`, "gis"))
-              .toString()
-              .split(/\r\n/)
-          );
+        let positionOne;
+        let positionTwo;
+        let encorePositionOne = `(?<=Encore\\s?:?\\r\\n)`;
+        let encorePositionTwo = `(?=\\r\\n\\r\\nEncore\\s?:?)`;
+        const end = "$";
+        if (didEncore) {
+          for (i = 1; i <= totalSets + 1; i++) {
+            positionOne = `(?<=Set\\s?${i}:?\\r\\n)`;
+            positionTwo = `(?=\\r\\n\\r\\nSet\\s?${i + 1}:?)`;
+            i == totalSets
+              ? (positionTwo = encorePositionTwo)
+              : i == totalSets + 1
+              ? ((positionOne = encorePositionOne), (positionTwo = end))
+              : positionTwo;
+            results.push(
+              req.body.songs
+                .match(new RegExp(`${positionOne}.*?${positionTwo}`, "gis"))
+                .toString()
+                .split(/\r\n/)
+            );
+          }
+          return results;
+        } else {
+          for (i = 1; i <= totalSets; i++) {
+            positionOne = `(?<=Set\\s?${i}:?\\r\\n)`;
+            positionTwo = `(?=\\r\\n\\r\\nSet\\s?${i + 1}:?)`;
+            i == totalSets ? (positionTwo = end) : positionTwo;
+            results.push(
+              req.body.songs
+                .match(new RegExp(`${positionOne}.*?${positionTwo}`, "gis"))
+                .toString()
+                .split(/\r\n/)
+            );
+          }
+          return results;
         }
-        return results;
       }
     }
-  }
-  console.log(splitSets());
-  res.send(req.session.newShow.songs);
-});
+
+    function formatSongsForViewAndStorage(arr, totalSets, didEncore) {
+      arr.map((song, index) => {
+        return {
+          title: song.match(/[\w\s\?'\u2019]+/gi).toString(),
+          position: index + 1,
+          setNumber: 1,
+          transition: />/g.test(song),
+          versionNotes: song.match(/[@#\$%\+^&\*]/gis),
+          id: Number || null,
+        };
+      });
+    }
+
+    // console.log(formatSongsForView(splitSets()));
+
+    // function  createSongDetails() {
+    //   splitSets().forEach((set) => {
+    //     let newArr = [];
+    //     set.forEach((song) => {
+    //       newArr.push({
+    //         title: db.existingSongSearch(song),
+    //         position: ,
+    //         setNumber: ,
+    //         transition:
+    //     });
+    //     });
+    //     return newArr;
+    //   });
+    // }
+
+    // check if the songs are already in the db
+    // separate special characters for versions.song_notes
+    // separate > for versions.transition
+
+    // req.session.newShow = {
+    //   notes: ,
+    //   setCount: ,
+    //   songs: [
+    //     title: ,
+    //     position: ,
+    //     setNumber: ,
+    //     transition: ,
+    //     versionNotes: ,
+    //   ],
+    //   sets: ,
+    // }
+
+    res.send("thanks");
+  })
+);
 
 // the route below contains code for updating geodata
 

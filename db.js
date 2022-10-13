@@ -97,3 +97,11 @@ module.exports.getVenueGeoData = async (venueId) => {
   );
   return JSON.parse(rows[0].st_asgeojson);
 };
+
+module.exports.existingSongSearch = async (song) => {
+  let { rows } = await pool.query(
+    `select title, id from songs where is_song = true and similarity(title, $1) > 0.6 limit 1`,
+    [song]
+  );
+  return rows;
+};
