@@ -103,5 +103,5 @@ module.exports.existingSongSearch = async (song) => {
     `select title, id from songs where is_song = true and similarity(title, $1) > 0.6 limit 1`,
     [song]
   );
-  return rows;
+  return rows[0];
 };

@@ -4,7 +4,7 @@ class Show {
   constructor(date, venue, songs, notes) {
     (this.date = date.toLocaleDateString() || null),
       (this.venue = new Venue(venue) || null),
-      (this.notes = notes || null),
+      (this.notes = this.displayEncoreNote(songs, notes) || null),
       (this.setCount = this.calcSetNumber(songs) || null),
       (this.songs = this.songFormatter(songs) || []),
       (this.sets = this.sortSets() || []);
@@ -15,7 +15,7 @@ class Show {
       .map((el) => {
         return {
           title:
-            `${el.setNumber == "Encore" ? "e: " : ""}` +
+            `${el.setNumber == "Encore" ? "<strong>e:</strong> " : ""}` +
             el.title +
             `${el.transition ? " >" : ""}`,
           position: el.position,
@@ -42,6 +42,12 @@ class Show {
       r[a.setNumber].push(a);
       return r;
     }, Object.create(null));
+  }
+
+  displayEncoreNote(arr, notes) {
+    return arr.some((element) => element.setNumber == "Encore")
+      ? (notes = "e: denotes Encore\r\n" + notes)
+      : notes;
   }
 }
 

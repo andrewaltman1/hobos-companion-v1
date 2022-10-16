@@ -152,7 +152,7 @@ module.exports.singleSong = (req, rows) => {
 };
 
 module.exports.singleVenue = (req, rows) => {
-  const venue =   (rows[0], rows);
+  const venue = (rows[0], rows);
   let html = "";
   venue.shows.forEach((show) => {
     html += `<a href="/show/${show.id}">${show.date}</a><br />`;
@@ -176,8 +176,17 @@ module.exports.singleVenue = (req, rows) => {
 };
 
 module.exports.singleShow = (req, rows) => {
-  const show = new Show(rows[0].date, rows[0], rows, rows[0].showNotes);
-  console.log(show)
+  let date, venue, songs, notes;
+  rows
+    ? ((date = rows[0].date),
+      (venue = rows[0]),
+      (songs = rows),
+      (notes = rows[0].showNotes))
+    : ((date = req.session.newShow.date),
+      (venue = req.session.newShow.venue),
+      (songs = req.session.newShow.songs),
+      (notes = req.session.newShow.notes));
+  const show = new Show(new Date(date), venue, songs, notes);
   return {
     user: req.user,
     title: show.venue.name,
@@ -191,8 +200,8 @@ module.exports.singleShow = (req, rows) => {
 };
 
 module.exports.newShowInput = (req, rows) => {
-  return { venueList: rows, user: req.user }
-}
+  return { venueList: rows, user: req.user };
+};
 
 module.exports.venueCheck = (req) => {
   return {
@@ -205,8 +214,8 @@ module.exports.venueCheck = (req) => {
       geometry: req.session.newShow.venue.geometry,
     },
     mapToken: process.env.MAPBOX_TOKEN,
-  }
-}
+  };
+};
 
 module.exports.signUp = (req, res) => {
   return {
