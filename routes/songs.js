@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db");
 const { catchAsync } = require("../utils");
+const { isLoggedIn, isAdmin } = require("../middleware");
 const data = require("../data");
 
 router.get(
@@ -27,5 +28,15 @@ router.get(
     res.render("single-model", data.singleSong(req, rows));
   })
 );
+
+// router.get(
+//   "/songs/song-editor",
+//   isLoggedIn,
+//   isAdmin,
+//   catchAsync(async (req, res) => {
+//     res.send("thanks");
+//     // res.render("/songs/song-editor")
+//   })
+// );
 
 module.exports = router;

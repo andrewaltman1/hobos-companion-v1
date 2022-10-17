@@ -15,7 +15,7 @@ class Show {
       .map((el) => {
         return {
           title:
-            `${el.setNumber == "Encore" ? "<strong>e:</strong> " : ""}` +
+            `${el.setNumber == "Encore" ? "e: " : ""}` +
             el.title +
             `${el.transition ? " >" : ""}`,
           position: el.position,

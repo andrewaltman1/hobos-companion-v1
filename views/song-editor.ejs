@@ -1,0 +1,31 @@
+<% layout('layouts/boilerplate') %><%- include('../partials/header') %>
+
+<h1>These songs appear new. Would you like to edit their details now?</h1>
+
+<form action="/songs/song-editor" method="POST">
+  <% songs.forEach(song => {%>
+  <fieldset>
+    <legend><%- song.title %></legend>
+    <label for="author"></label>
+    <input type="text" name="author" />
+    <fieldset>
+      <legend>
+        Is this a song or something else?(e.g. banter, countdown, etc)
+      </legend>
+      <label for="isSong1">Yes, it's a song.</label>
+      <input type="radio" name="isSong1" value="true" />
+      <label for="isSong2">No, not a song.</label>
+      <input type="radio" name="isSong2" value="false" />
+    </fieldset>
+    <label for="notes">Notes</label>
+    <textarea name="notes" id="" cols="30" rows="10"></textarea>
+    <fieldset>
+      <legend>>Is this song instrumental?</legend>
+      <label for="instrumental1">Yes</label>
+      <input type="radio" name="instrumental" value="true">
+      <label for="instrumental2">No</label>
+      <input type="radio" name="instrumental2" value="false">
+    </fieldset>
+  </fieldset>
+  <% }) %>
+</form>

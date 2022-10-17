@@ -6,7 +6,6 @@ const { isAdmin, isLoggedIn } = require("../middleware");
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const geocoder = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
 const data = require("../data.js");
-const { VERSION } = require("ejs");
 
 // router.use((req, res, next) => {
 //   console.log(req.session);
@@ -85,7 +84,7 @@ router.post(
         },
       };
     }
-  res.render("new-show/venue-check", data.venueCheck(req));
+    res.render("new-show/venue-check", data.venueCheck(req));
   })
 );
 
@@ -99,35 +98,6 @@ router.post(
   isAdmin,
   catchAsync(async (req, res) => {
     req.session.newShow.notes = req.body.notes;
-    const totalSets = !/(Set\s?[1-9]:?)/gi.test(req.body.songs)
-      ? 1
-      : req.body.songs.match(/(Set\s?[1-9]:?)/gi).length;
-
-    const didEncore = /(Encore\s?:?)/gi.test(req.body.songs);
-
-    // song details format from db
-
-    // {
-    //   title: song.match(/[\w\s\?'\u2019]+/gi).toString(),
-    //   position: index + 1,
-    //   setNumber: 1,
-    //   transition: />/g.test(song),
-    //   versionNotes: song.match(/[@#\$%\+^&\*]/gis),
-    // }
-
-    // details needed to save in db
-
-    // does the song exist already? If so, song_id else...
-    // is_song?
-    // created_by?
-    // updated_by?
-    // title?
-    // author?
-    // notes?
-    // instrumental?
-    // slug?
-    // created_at
-    // updated_at
 
     async function buildSongDetails() {
       req.session.newShow.songs = [];
@@ -136,18 +106,18 @@ router.post(
         .filter((song) => song.length > 0);
       let currentSet = 1;
       let songPosition = 1;
-      let dbSearchResult;
+      let dbCompareResult;
 
       for (song of allSongs) {
         if (/(Set\s?[1-9]:?)/gi.test(song) || /(Encore\s?:?)/gi.test(song)) {
           currentSet = +song.match(/\d/g) || "Encore";
         } else {
-          dbSearchResult = await db.existingSongSearch(
+          dbCompareResult = await db.existingSongSearch(
             song.match(/[\w\s\?&#'\-""()/.:\u2019]+/gi).toString()
           );
           req.session.newShow.songs.push({
-            id: !dbSearchResult ? null : dbSearchResult.id,
-            title: !dbSearchResult ? song : dbSearchResult.title,
+            id:  dbCompareResult.id,
+            title:  dbCompareResult.title,
             position: songPosition,
             setNumber: currentSet,
             transition: />/.test(song),
@@ -162,80 +132,19 @@ router.post(
 
     await buildSongDetails();
 
-    // function splitSets() {
-    //   let results = [];
-    //   if (totalSets == 1 && !didEncore) {
-    //     return req.body.songs.split(/\r\n/);
-    //   } else if (totalSets == 1 && didEncore) {
-    //     results.push(
-    //       req.body.songs
-    //         .match(/^.*?(?=\r\n\r\nEncore\s?:?)/gis)
-    //         .toString()
-    //         .split(/\r\n/)
-    //     );
-    //     results.push(
-    //       req.body.songs
-    //         .match(/(?<=Encore\s?:?\r\n).*?$/gis)
-    //         .toString()
-    //         .split(/\r\n/)
-    //     );
-    //     return results;
-    //   } else {
-    //     let positionOne;
-    //     let positionTwo;
-    //     let encorePositionOne = `(?<=Encore\\s?:?\\r\\n)`;
-    //     let encorePositionTwo = `(?=\\r\\n\\r\\nEncore\\s?:?)`;
-    //     const end = "$";
-    //     if (didEncore) {
-    //       for (i = 1; i <= totalSets + 1; i++) {
-    //         positionOne = `(?<=Set\\s?${i}:?\\r\\n)`;
-    //         positionTwo = `(?=\\r\\n\\r\\nSet\\s?${i + 1}:?)`;
-    //         i == totalSets
-    //           ? (positionTwo = encorePositionTwo)
-    //           : i == totalSets + 1
-    //           ? ((positionOne = encorePositionOne), (positionTwo = end))
-    //           : positionTwo;
-    //         results.push(
-    //           req.body.songs
-    //             .match(new RegExp(`${positionOne}.*?${positionTwo}`, "gis"))
-    //             .toString()
-    //             .split(/\r\n/)
-    //         );
-    //       }
-    //       return results;
-    //     } else {
-    //       for (i = 1; i <= totalSets; i++) {
-    //         positionOne = `(?<=Set\\s?${i}:?\\r\\n)`;
-    //         positionTwo = `(?=\\r\\n\\r\\nSet\\s?${i + 1}:?)`;
-    //         i == totalSets ? (positionTwo = end) : positionTwo;
-    //         results.push(
-    //           req.body.songs
-    //             .match(new RegExp(`${positionOne}.*?${positionTwo}`, "gis"))
-    //             .toString()
-    //             .split(/\r\n/)
-    //         );
-    //       }
-    //       return results;
-    //     }
-    //   }
-    // }
-
-    // function formatSongsForViewAndStorage(arr, totalSets, didEncore) {
-    //   arr.map((song, index) => {
-    //     return {
-    //       title: song.match(/[\w\s\?'\u2019]+/gi).toString(),
-    //       position: index + 1,
-    //       setNumber: 1,
-    //       transition: />/g.test(song),
-    //       versionNotes: song.match(/[@#\$%\+^&\*]/gis),
-    //       id: Number || null,
-    //     };
-    //   });
-    // }
-
-    console.log(req.session.newShow.songs.some((element) => element.setNumber == "Encore"), req.session.newShow.notes)
+    // if new songs render song editor option else...
 
     res.render("single-model", data.singleShow(req));
+  })
+);
+
+router.get(
+  "/songs/song-editor",
+  isLoggedIn,
+  isAdmin,
+  catchAsync(async (req, res) => {
+    res.send("thanks");
+    // res.render("/songs/song-editor")
   })
 );
 

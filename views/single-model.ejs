@@ -20,8 +20,19 @@
   <section>
     <p id="<%- section.idString %>"><%- section.data %></p>
   </section>
+  <% if (show && !show.confirmed) {%> <%- include('partials/sticky-show-confirm') %> <%
+  } %>
 </div>
 
 <script>
-  document.querySelector("#view-mode-button").classList.toggle("hide");
+  (() => {
+    window.addEventListener("DOMContentLoaded", () => {
+      document.querySelector("#view-mode-button").classList.toggle("hide");
+      document
+        .querySelector("#edit-back-button")
+        .addEventListener("click", (event) => {
+          history.back();
+        });
+    });
+  })();
 </script>

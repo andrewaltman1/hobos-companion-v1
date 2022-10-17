@@ -393,6 +393,28 @@ td > a:hover {
   border-radius: 0.5rem;
 }
 
+#show-confirm-bar {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 400;
+  background-color: #c7cac7ff;
+  height: 4rem;
+  position: sticky;
+  bottom: 0;
+}
+
+#show-confirm-bar .map-popup-buttons {
+  background-color: #ffffffaa;
+  height: 3rem;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: .3rem;
+}
+
 /* **** coming-soon **** */
 
 .table-mode-container__coming-soon {
@@ -489,6 +511,10 @@ td > a:hover {
   .table-mode-container__coming-soon {
     margin: 25vh auto;
   }
+
+  #show-confirm-bar .map-popup-buttons {
+    font-size: 1.5rem;
+  }
 }
 
 @media (min-width: 450px) and (max-width: 749px) {
@@ -541,6 +567,10 @@ td > a:hover {
 
   #show-notes {
     margin: 3% auto;
+  }
+
+  #show-confirm-bar .map-popup-buttons {
+    font-size: 1.25rem;
   }
 
   .table-mode-container__coming-soon {

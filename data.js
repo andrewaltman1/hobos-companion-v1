@@ -187,6 +187,7 @@ module.exports.singleShow = (req, rows) => {
       (songs = req.session.newShow.songs),
       (notes = req.session.newShow.notes));
   const show = new Show(new Date(date), venue, songs, notes);
+  show.confirmed = req.url == "/new-show/show-confirm" ? false : true;
   return {
     user: req.user,
     title: show.venue.name,
