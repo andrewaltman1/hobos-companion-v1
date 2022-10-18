@@ -138,16 +138,6 @@ router.post(
   })
 );
 
-router.get(
-  "/songs/song-editor",
-  isLoggedIn,
-  isAdmin,
-  catchAsync(async (req, res) => {
-    res.send("thanks");
-    // res.render("/songs/song-editor")
-  })
-);
-
 // the route below contains code for updating geodata
 
 router.get(

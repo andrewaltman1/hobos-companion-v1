@@ -1,31 +1,82 @@
-<% layout('layouts/boilerplate') %><%- include('../partials/header') %>
+<% layout('layouts/boilerplate') %><%- include('partials/header') %>
 
-<h1>These songs appear new. Would you like to edit their details now?</h1>
+<div class="table-mode-container__editor">
+  <h3>
+    Would you like to edit <%- songs.length > 1 ? "these" : "this" %> new song
+    details now?
+  </h3>
 
-<form action="/songs/song-editor" method="POST">
-  <% songs.forEach(song => {%>
-  <fieldset>
-    <legend><%- song.title %></legend>
-    <label for="author"></label>
-    <input type="text" name="author" />
-    <fieldset>
-      <legend>
-        Is this a song or something else?(e.g. banter, countdown, etc)
-      </legend>
-      <label for="isSong1">Yes, it's a song.</label>
-      <input type="radio" name="isSong1" value="true" />
-      <label for="isSong2">No, not a song.</label>
-      <input type="radio" name="isSong2" value="false" />
+  <% if (songs.length > 1) {%>
+  <div id="song-edit-selector">
+    <label for="song-select">Select A Song: </label>
+    <select name="songs" id="song-select">
+      <% songs.forEach(song => { %>
+      <option value="<%- song.title %> "><%- song.title %></option>
+      <% }) %>
+    </select>
+  </div>
+  <% } %>
+
+  <form action="/songs/editor" method="POST" id="song-editor-form">
+    <% songs.forEach(song => { %>
+    <fieldset class="song-edit-fieldset">
+      <legend><%- song.title %></legend>
+      <label for="author">Author(s)</label>
+      <input type="text" name="author" placeholder="list all writers" />
+      <fieldset>
+        <legend>
+          Is this a song or something else?<br />(e.g. banter, countdown, etc)
+        </legend>
+        <label for="isSong">Yes, it's a song.</label>
+        <input type="radio" name="isSong" value="true" required />
+        <label for="isSong">No, not a song.</label>
+        <input type="radio" name="isSong" value="false" />
+      </fieldset>
+      <label for="notes">Notes</label>
+      <textarea
+        name="notes"
+        id=""
+        cols="30"
+        rows="10"
+        placeholder="lyrics, background, etc"
+      ></textarea>
+      <fieldset>
+        <legend>Is this song instrumental?</legend>
+
+        <label for="instrumental">No</label>
+        <input type="radio" name="instrumental" value="false" /><label
+          for="instrumental"
+          >Yes</label
+        >
+        <input type="radio" name="instrumental" value="true" required />
+      </fieldset>
     </fieldset>
-    <label for="notes">Notes</label>
-    <textarea name="notes" id="" cols="30" rows="10"></textarea>
-    <fieldset>
-      <legend>>Is this song instrumental?</legend>
-      <label for="instrumental1">Yes</label>
-      <input type="radio" name="instrumental" value="true">
-      <label for="instrumental2">No</label>
-      <input type="radio" name="instrumental2" value="false">
-    </fieldset>
-  </fieldset>
-  <% }) %>
-</form>
+    <% }) %>
+    <div id="song-editor-form__button-container">
+      <button type="submit">
+        <%- songs.length > 1 ? "Submit All Songs" : "Submit" %>
+      </button>
+      <button type="button">
+        Skip Editing <img src="/public/icons/right-arrow.svg" alt="" />
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+  (() => {
+    window.addEventListener("DOMContentLoaded", (event) => {
+      const songSelect = document.querySelector("#song-select");
+      const songFields = document.querySelectorAll(".song-edit-fieldset");
+      function showField() {
+        songFields.forEach((field) =>
+          songSelect.value.trim() !== field.children[0].textContent
+            ? field.classList.add("hide__song-edit")
+            : field.classList.remove("hide__song-edit")
+        );
+      }
+      showField();
+      songSelect.addEventListener("change", showField);
+    });
+  })();
+</script>

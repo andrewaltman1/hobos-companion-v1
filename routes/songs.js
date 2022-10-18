@@ -14,6 +14,22 @@ router.get(
 );
 
 router.get(
+  "/songs/editor",
+  isLoggedIn,
+  isAdmin,
+  catchAsync(async (req, res) => {
+    res.render("song-editor", {
+      user: req.user,
+      songs: req.session.newShow.songs.filter((songs) => songs.id == null),
+    });
+  })
+);
+
+router.post("/songs/editor", isLoggedIn, isAdmin, catchAsync(async (req, res) => {
+res.send("thanks")
+}))
+
+router.get(
   "/songs/author/:author",
   catchAsync(async (req, res) => {
     let { rows } = await db.getAllSongsByAuthor(req.params.author);
@@ -28,15 +44,5 @@ router.get(
     res.render("single-model", data.singleSong(req, rows));
   })
 );
-
-// router.get(
-//   "/songs/song-editor",
-//   isLoggedIn,
-//   isAdmin,
-//   catchAsync(async (req, res) => {
-//     res.send("thanks");
-//     // res.render("/songs/song-editor")
-//   })
-// );
 
 module.exports = router;
