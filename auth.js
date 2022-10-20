@@ -31,7 +31,7 @@ module.exports.passportSession = passport.session();
 passport.use(
   new LocalStrategy(function verify(email, password, cb) {
     db.pool.query(
-      "SELECT email, is_admin, first_name, salt, hashed_password FROM users WHERE email = $1",
+      "SELECT id, email, is_admin, first_name, salt, hashed_password FROM users WHERE email = $1",
       [email],
       function (err, row) {
         if (err) {
@@ -109,6 +109,7 @@ module.exports.authenticate = passport.authenticate("session");
 passport.serializeUser(function (user, cb) {
   process.nextTick(function () {
     cb(null, {
+      id: user.id,
       email: user.email,
       admin: user.admin,
       firstName: user.firstName,

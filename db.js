@@ -38,6 +38,10 @@ module.exports.getShowByDate = (date) => {
   );
 };
 
+module.exports.insertNewShow = async (req) => {
+  await pool.query(`INSERT INTO shows (date, veune_id, show_notes, created_by, created_at) VALUES ($1, $2, $3, $4, $5) RETURNING id`, [new Date(req.session.newShow.date), req.session.newShow.venue.id, req.session.newShow.notes, req.user.id, "CURRENT_DATE"])
+}
+
 module.exports.getAllSongs = () => {
   return pool.query(
     `SELECT id, title, author, versions_count as "timesPlayed" FROM songs WHERE songs.is_song = true ORDER BY "timesPlayed" DESC`
@@ -97,6 +101,10 @@ module.exports.getVenueGeoData = async (venueId) => {
   );
   return JSON.parse(rows[0].st_asgeojson);
 };
+
+module.exports.insertNewVenue = async (req) => {
+  await pool.query(`INSERT INTO venues (name, city, state, country, created_by, created_at, geom) VALUES ($1, $2, $3, $4, $5, $6, ST_GeomFromGeoJSON('$7')) RETURNING id`, [req.session.newShow.venue.name, req.session.newShow.venue.city, req.session.newShow.venue.state, req.session.newShow.venue.country, req.user.id, "CURRENT_DATE", JSON.stringify(req.session.newShow.venue.geometry)])
+}
 
 module.exports.existingSongSearch = async (song) => {
   let { rows } = await pool.query(

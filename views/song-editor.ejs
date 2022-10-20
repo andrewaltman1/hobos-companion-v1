@@ -1,10 +1,6 @@
 <% layout('layouts/boilerplate') %><%- include('partials/header') %>
 
 <div class="table-mode-container__editor">
-  <h3>
-    Would you like to edit <%- songs.length > 1 ? "these" : "this" %> new song
-    details now?
-  </h3>
 
   <% if (songs.length > 1) {%>
   <div id="song-edit-selector">
@@ -57,7 +53,7 @@
         <%- songs.length > 1 ? "Submit All Songs" : "Submit" %>
       </button>
       <button type="button">
-        Skip Editing <img src="/public/icons/right-arrow.svg" alt="" />
+        <a href="/">Skip Editing</a>
       </button>
     </div>
   </form>
@@ -71,12 +67,15 @@
       function showField() {
         songFields.forEach((field) =>
           songSelect.value.trim() !== field.children[0].textContent
-            ? field.classList.add("hide__song-edit")
-            : field.classList.remove("hide__song-edit")
+            ? field.classList.add("hide")
+            : field.classList.remove("hide")
         );
       }
       showField();
-      songSelect.addEventListener("change", showField);
+      songSelect.addEventListener("change", (event) => {
+        showField();
+      });
+      // alert if some songs do not have input values before submitting
     });
   })();
 </script>

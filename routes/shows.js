@@ -74,6 +74,7 @@ router.post(
       req.session.newShow = {
         date: date,
         venue: {
+          id: venueId || null,
           name: name,
           city: city,
           state: state,
@@ -116,8 +117,8 @@ router.post(
             song.match(/[\w\s\?&#'\-""()/.:\u2019]+/gi).toString()
           );
           req.session.newShow.songs.push({
-            id:  dbCompareResult.id,
-            title:  dbCompareResult.title,
+            id: dbCompareResult.id,
+            title: dbCompareResult.title,
             position: songPosition,
             setNumber: currentSet,
             transition: />/.test(song),
@@ -132,9 +133,34 @@ router.post(
 
     await buildSongDetails();
 
-    // if new songs render song editor option else...
-
     res.render("single-model", data.singleShow(req));
+  })
+);
+
+router.get(
+  "/new-show/confirmation",
+  isLoggedIn,
+  isAdmin,
+  catchAsync(async (req, res) => {
+    req.session.newShow.newSongs = req.session.newShow.songs
+      .filter((song) => song.id == null)
+      .map((song) => song.title);
+
+    console.log(new Date(req.session.newShow.date))
+
+    // write newShow data to db in the following order
+
+    // new venue ? insert venue : insert show
+    // new songs ? insert songs : insert versions
+
+    await db.insertNewVenue(req)
+
+    // render confirmation page with option to edit new song details
+
+    res.render("new-show/confirmation", {
+      user: req.user,
+      songs: req.session.newShow.newSongs,
+    });
   })
 );
 
