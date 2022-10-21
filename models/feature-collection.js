@@ -17,10 +17,7 @@ class FeatureCollection {
             total: +feature.total || null,
             mostRecent: feature.mostRecent || null,
           },
-          geometry: {
-            type: "Point",
-            coordinates: [feature.lng, feature.lat],
-          },
+          geometry: JSON.parse(feature.geometry),
         };
       }));
   }

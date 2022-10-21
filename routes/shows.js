@@ -32,6 +32,10 @@ router.get(
   "/show/:id",
   catchAsync(async (req, res) => {
     let { rows } = await db.getShowByID(req.params.id);
+    // console.log(rows.some(row => row.setNumber == "Encore"));
+    console.log(data.singleShow(req, rows).show);
+    // console.log(data.singleShow(req, rows).show.sets);
+    // res.send("THANKS");
     res.render("single-model", data.singleShow(req, rows));
   })
 );
@@ -98,7 +102,9 @@ router.post(
   isLoggedIn,
   isAdmin,
   catchAsync(async (req, res) => {
-    req.session.newShow.notes = req.body.notes;
+    req.session.newShow.notes = /[^\w]/gi.test(req.body.notes)
+      ? null
+      : req.body.notes;
 
     async function buildSongDetails() {
       req.session.newShow.songs = [];
@@ -146,14 +152,14 @@ router.get(
       .filter((song) => song.id == null)
       .map((song) => song.title);
 
-    console.log(new Date(req.session.newShow.date))
+    console.log(req.session.newShow);
 
     // write newShow data to db in the following order
 
     // new venue ? insert venue : insert show
     // new songs ? insert songs : insert versions
 
-    await db.insertNewVenue(req)
+    // await db.insertNewVenue(req)
 
     // render confirmation page with option to edit new song details
 

@@ -10,7 +10,7 @@
       <h3 id="setlist-title"><%= show.setCount < 2 ? '' : `Set ${i}` %></h3>
       <ul>
         <% show.sets[i].forEach((song) => { %>
-        <li><%- song.title %> <%- song.versionNotes%></li>
+        <li><%- song.title %></li>
         <% }) %>
       </ul>
     </section>

@@ -4,11 +4,7 @@ class Venue {
       (this.city = venue.city || null),
       (this.state = venue.state || null),
       (this.country = venue.country || null),
-      (this.geometry =
-        {
-          type: "Point",
-          coordinates: [venue.lng, venue.lat],
-        } || null),
+      (this.geometry = JSON.parse(venue.geometry) || null),
       (this.shows = !shows ? [] : this.showFormatter(shows));
   }
 

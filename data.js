@@ -152,7 +152,7 @@ module.exports.singleSong = (req, rows) => {
 };
 
 module.exports.singleVenue = (req, rows) => {
-  const venue = (rows[0], rows);
+  const venue = new Venue(rows[0], rows);
   let html = "";
   venue.shows.forEach((show) => {
     html += `<a href="/show/${show.id}">${show.date}</a><br />`;

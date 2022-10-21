@@ -126,14 +126,4 @@
     )
     }
   })
-
-  dateField.addEventListener("input", () => {
-    let input = event.target.value;
-    const re = /\d+\//;
-    // dateRegEx adapted from https://www.regular-expressions.info/dates.html
-    const dateRegEx = /^([1-9]|0[1-9]|1[012])[/]([1-9]|0[1-9]|[12][0-9]|3[01])[/](19|20)\d\d$/
-    console.log(input)
-    console.log(new Date(`${input}T00:00:00`).toLocaleDateString());
-    console.log(dateRegEx.test(new Date(`${input}T00:00:00`).toLocaleDateString()))
-  })
 </script>
