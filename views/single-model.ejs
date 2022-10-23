@@ -1,38 +1,67 @@
 <% layout('layouts/boilerplate') %> <%- include('partials/header') %>
 <div class="table-mode-container">
-  <h1 id="table-mode-container__headers--venue"><%- title %></h1>
-  <h3 id="table-mode-container__headers--venue"><%- subtitle %></h3>
+  <h1 class="table-mode-container__headers--single-model"><%- title %></h1>
+  <h3 class="table-mode-container__headers--single-model"><%- subtitle %></h3>
 
   <% if (show) {%>
   <div id="setlist-wrapper">
     <% for (let i = 1; i <= show.setCount; i++){%>
-    <section class="set-<%- i %>">
-      <h3 id="setlist-title"><%= show.setCount < 2 ? '' : `Set ${i}` %></h3>
+    <section class="setlist">
+      <h3 class="setlist-title"><%= show.setCount < 2 ? '' : `Set ${i}` %></h3>
       <ul>
         <% show.sets[i].forEach((song) => { %>
-        <li><%- song.title %></li>
+        <li><%- song.title %> <%- song.versionNotes %></li>
         <% }) %>
       </ul>
     </section>
-    <% }%>
+    <% } %><%if (show.didEncore){ %>
+    <section class="setlist encore-list">
+      <h3 class="setlist-title encore-title">Encore:</h3>
+      <ul>
+        <%show.sets.Encore.forEach(song => {%>
+        <li><%- song.title %> <%- song.versionNotes %></li>
+        <%})%>
+      </ul>
+    </section>
+    <script>
+      (() => {
+        window.addEventListener("DOMContentLoaded", () => {
+          const encoreList = document.querySelector(".encore-list");
+          if (encoreList.parentElement.children.length == 3) {
+            document.querySelector(".setlist").append(encoreList);
+            encoreList.parentElement.style.display = "flex";
+            encoreList.parentElement.style.flexFlow = "column nowrap";
+            encoreList.parentElement.style.alignItems = "center";
+          }
+        });
+      })();
+    </script>
+    <% } %>
   </div>
   <% } %>
   <section>
     <p id="<%- section.idString %>"><%- section.data %></p>
   </section>
-  <% if (show && !show.confirmed) {%> <%- include('partials/sticky-show-confirm') %> <%
-  } %>
+  <% if (show && !show.confirmed) {%> <%-
+  include('partials/sticky-show-confirm') %>
+  <script>
+    (() => {
+      window.addEventListener("DOMContentLoaded", () => {
+        document
+          .querySelector("#edit-back-button")
+          .addEventListener("click", (event) => {
+            history.back();
+          });
+      });
+    })();
+  </script>
+  <% } %>
 </div>
 
 <script>
   (() => {
     window.addEventListener("DOMContentLoaded", () => {
       document.querySelector("#view-mode-button").classList.toggle("hide");
-      document
-        .querySelector("#edit-back-button")
-        .addEventListener("click", (event) => {
-          history.back();
-        });
     });
   })();
 </script>

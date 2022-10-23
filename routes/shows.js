@@ -32,10 +32,6 @@ router.get(
   "/show/:id",
   catchAsync(async (req, res) => {
     let { rows } = await db.getShowByID(req.params.id);
-    // console.log(rows.some(row => row.setNumber == "Encore"));
-    console.log(data.singleShow(req, rows).show);
-    // console.log(data.singleShow(req, rows).show.sets);
-    // res.send("THANKS");
     res.render("single-model", data.singleShow(req, rows));
   })
 );
@@ -139,6 +135,7 @@ router.post(
 
     await buildSongDetails();
 
+
     res.render("single-model", data.singleShow(req));
   })
 );
@@ -152,7 +149,6 @@ router.get(
       .filter((song) => song.id == null)
       .map((song) => song.title);
 
-    console.log(req.session.newShow);
 
     // write newShow data to db in the following order
 

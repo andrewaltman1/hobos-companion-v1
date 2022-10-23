@@ -39,8 +39,17 @@ module.exports.getShowByDate = (date) => {
 };
 
 module.exports.insertNewShow = async (req) => {
-  await pool.query(`INSERT INTO shows (date, veune_id, show_notes, created_by, created_at) VALUES ($1, $2, $3, $4, $5) RETURNING id`, [new Date(req.session.newShow.date), req.session.newShow.venue.id, req.session.newShow.notes, req.user.id, "CURRENT_DATE"])
-}
+  await pool.query(
+    `INSERT INTO shows (date, veune_id, show_notes, created_by, created_at) VALUES ($1, $2, $3, $4, $5) RETURNING id`,
+    [
+      new Date(req.session.newShow.date),
+      req.session.newShow.venue.id,
+      req.session.newShow.notes,
+      req.user.id,
+      "CURRENT_DATE",
+    ]
+  );
+};
 
 module.exports.getAllSongs = () => {
   return pool.query(
@@ -96,20 +105,31 @@ module.exports.getVenueByID = (id) => {
 
 module.exports.getVenueGeoData = async (venueId) => {
   let { rows } = await pool.query(
-    `SELECT ST_asGeoJSON(geom) from venues WHERE venues.id = $1`,
+    `SELECT ST_asGeoJSON(geom) as geometry from venues WHERE venues.id = $1`,
     [venueId]
   );
-  return JSON.parse(rows[0].st_asgeojson);
+  return rows[0].geometry;
 };
 
 module.exports.insertNewVenue = async (req) => {
-  await pool.query(`INSERT INTO venues (name, city, state, country, created_by, created_at, geom) VALUES ($1, $2, $3, $4, $5, $6, ST_GeomFromGeoJSON('$7')) RETURNING id`, [req.session.newShow.venue.name, req.session.newShow.venue.city, req.session.newShow.venue.state, req.session.newShow.venue.country, req.user.id, "CURRENT_DATE", JSON.stringify(req.session.newShow.venue.geometry)])
-}
+  await pool.query(
+    `INSERT INTO venues (name, city, state, country, created_by, created_at, geom) VALUES ($1, $2, $3, $4, $5, $6, ST_GeomFromGeoJSON('$7')) RETURNING id`,
+    [
+      req.session.newShow.venue.name,
+      req.session.newShow.venue.city,
+      req.session.newShow.venue.state,
+      req.session.newShow.venue.country,
+      req.user.id,
+      "CURRENT_DATE",
+      JSON.stringify(req.session.newShow.venue.geometry),
+    ]
+  );
+};
 
 module.exports.existingSongSearch = async (song) => {
   let { rows } = await pool.query(
     `select title, id from songs where is_song = true and similarity(title, $1) > 0.6 limit 1`,
     [song]
   );
-  return !rows[0] ? {id: null, title: song} : rows[0];
+  return !rows[0] ? { id: null, title: song } : rows[0];
 };

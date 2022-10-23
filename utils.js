@@ -16,8 +16,7 @@ module.exports.getNewGeoData = async (name, city, state, country) => {
       limit: 1,
     })
     .send();
-
-  return geoData.body.features[0].geometry;
+  return JSON.stringify(geoData.body.features[0].geometry);
 };
 
 module.exports.objKeysToCamel = (obj) => {

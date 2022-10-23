@@ -106,17 +106,18 @@ nav > a:hover {
 }
 
 .table-mode-container h3 {
-  display: inline;
+  /* display: inline; */
+  display: block;
   font-size: 1.1rem;
   line-height: 1.8rem;
   margin: 0 3% 0 0;
   font-weight: 500;
 }
 
-#table-mode-container__headers--venue {
+.table-mode-container__headers--single-model {
   display: block;
   text-align: center;
-  padding-top: 1rem;
+  padding-top: 0.5rem;
 }
 
 .table-mode-container > table {
@@ -187,27 +188,51 @@ td > a:hover {
 
 /* **** show-page **** */
 
-#setlist-wrapper ul {
-  list-style-type: none;
-  width: fit-content;
-  margin: auto;
-  padding: 0;
+#setlist-wrapper {
+  width: 100%;
+  height: fit-content;
+  margin: 1rem auto;
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
 }
 
-#setlist-wrapper li {
-  width: fit-content;
-}
-
-#setlist-title {
-  margin: 5% 10%;
-  display: block;
+.setlist-title {
   text-align: center;
-  /* border-bottom: 1px solid black; */
+  margin: 0;
+}
+
+.setlist {
+  width: fit-content;
+}
+
+.setlist ul {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  list-style-type: none;
+  width: 100%;
+  padding: 0;
+  margin: 0.5rem auto;
+}
+
+.setlist li {
+  width: fit-content;
+}
+
+.encore-title {
+  font-weight: 400;
+}
+
+.encore-list ul {
+  margin: 0;
 }
 
 #show-notes {
-  white-space: pre;
-  margin: 3% auto;
+  white-space: pre-line;
+  margin: 0 auto;
+  height: fit-content;
   width: fit-content;
 }
 
@@ -570,17 +595,14 @@ td > a:hover {
     font-size: 1rem;
   }
 
-  #setlist-title {
-    margin: 2% 10%;
-    padding: 1rem;
+  #setlist-wrapper {
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    align-items: flex-start;
   }
 
   #song-notes {
     width: fit-content;
-    margin: 3% auto;
-  }
-
-  #show-notes {
     margin: 3% auto;
   }
 
@@ -590,6 +612,12 @@ td > a:hover {
 
   #show-confirm-bar .map-popup-buttons {
     font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 600px) and (min-height: 600px) {
+  #show-notes {
+    margin: 3rem auto;
   }
 }
 
@@ -631,17 +659,8 @@ td > a:hover {
     font-size: 0.9rem;
   }
 
-  #setlist-title {
-    margin: 2% 10%;
-    padding: 1rem;
-  }
-
   #song-notes {
     width: fit-content;
-    margin: 3% auto;
-  }
-
-  #show-notes {
     margin: 3% auto;
   }
 

@@ -11,7 +11,7 @@ class Venue {
   showFormatter(arr) {
     return arr.map((el) => {
       return {
-        id: el.id,
+        id: el.showId,
         date: el.date.toLocaleDateString(),
       };
     });

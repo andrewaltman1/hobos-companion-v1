@@ -212,7 +212,7 @@ module.exports.venueCheck = (req) => {
       city: req.session.newShow.venue.city,
       state: req.session.newShow.venue.state,
       country: req.session.newShow.venue.country,
-      geometry: req.session.newShow.venue.geometry,
+      geometry: JSON.parse(req.session.newShow.venue.geometry),
     },
     mapToken: process.env.MAPBOX_TOKEN,
   };
