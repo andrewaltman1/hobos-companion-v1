@@ -68,7 +68,6 @@
     const venueListJSON = <%- JSON.stringify(venueList)%>;
 
     venueIdField.style.display = "none";
-    dateField.max = new Date(new Date(Date.now() + 1000 * 60 * 60 * 24 * 10)).toISOString().split("T")[0];
 
     const options = {
     isCaseSensitive: false,

@@ -20,12 +20,14 @@ router.get(
   catchAsync(async (req, res) => {
     res.render("song-editor", {
       user: req.user,
-      songs: req.session.newShow.songs.filter((songs) => songs.id == null),
+      songs: req.session.newShow.newSongs,
     });
   })
 );
 
 router.post("/songs/editor", isLoggedIn, isAdmin, catchAsync(async (req, res) => {
+  // remove items from array after submission and redirect to get editor again if items still in array?
+  console.log(req.body)
 res.send("thanks")
 }))
 

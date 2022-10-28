@@ -1,4 +1,18 @@
 <% layout('layouts/boilerplate') %> <%- include('partials/header') %>
+<% if (show && !show.confirmed) {%> <%-
+  include('partials/sticky-show-confirm') %>
+  <script>
+    (() => {
+      window.addEventListener("DOMContentLoaded", () => {
+        document
+          .querySelector("#edit-back-button")
+          .addEventListener("click", (event) => {
+            history.back();
+          });
+      });
+    })();
+  </script>
+  <% } %>
 <div class="table-mode-container">
   <h1 class="table-mode-container__headers--single-model"><%- title %></h1>
   <h3 class="table-mode-container__headers--single-model"><%- subtitle %></h3>
@@ -42,20 +56,6 @@
   <section>
     <p id="<%- section.idString %>"><%- section.data %></p>
   </section>
-  <% if (show && !show.confirmed) {%> <%-
-  include('partials/sticky-show-confirm') %>
-  <script>
-    (() => {
-      window.addEventListener("DOMContentLoaded", () => {
-        document
-          .querySelector("#edit-back-button")
-          .addEventListener("click", (event) => {
-            history.back();
-          });
-      });
-    })();
-  </script>
-  <% } %>
 </div>
 
 <script>

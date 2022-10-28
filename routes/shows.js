@@ -8,7 +8,7 @@ const geocoder = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
 const data = require("../data.js");
 
 // router.use((req, res, next) => {
-//   console.log(req.session);
+//   console.log(new Date(req.session.newShow.date));
 //   next();
 // });
 
@@ -51,6 +51,7 @@ router.get(
   isLoggedIn,
   isAdmin,
   catchAsync(async (req, res) => {
+    req.session.newShow = {};
     let { rows } = await db.getAllVenues();
     res.render("new-show/venue-input", data.newShowInput(req, rows));
   })
@@ -77,7 +78,7 @@ router.post(
           id: venueId || null,
           name: name,
           city: city,
-          state: state,
+          state: state.length > 2 && country == "USA" ? stateNameToAbrev(state) : state,
           country: country,
           geometry: !venueId
             ? await getNewGeoData(name, city, state, country)
@@ -99,8 +100,8 @@ router.post(
   isAdmin,
   catchAsync(async (req, res) => {
     req.session.newShow.notes = /[^\w]/gi.test(req.body.notes)
-      ? null
-      : req.body.notes;
+      ? req.body.notes
+      : null;
 
     async function buildSongDetails() {
       req.session.newShow.songs = [];
@@ -135,7 +136,6 @@ router.post(
 
     await buildSongDetails();
 
-
     res.render("single-model", data.singleShow(req));
   })
 );
@@ -145,19 +145,34 @@ router.get(
   isLoggedIn,
   isAdmin,
   catchAsync(async (req, res) => {
-    req.session.newShow.newSongs = req.session.newShow.songs
-      .filter((song) => song.id == null)
-      .map((song) => song.title);
+    req.session.newShow.newSongs = req.session.newShow.songs.filter(
+      (song) => song.id == null
+    );
+    req.session.newShow.songs = req.session.newShow.songs.filter(
+      (song) => song.id != null
+    );
+    //https://node-postgres.com/api/pool transaction concerns
+    // what about slug?
 
+    // !req.session.newShow.venue.id
+    //   ? (req.session.newShow.venue.id = await db.insertNewVenue(req))
+    //   : req.session.newShow.venue.id;
+    // req.session.newShow.id = await db.insertNewShow(req);
+    // if (req.session.newShow.newSongs) {
+    //   for (song of req.session.newShow.newSongs) {
+    //     song.id = await db.insertNewSong(req, song);
+    //     await db.insertNewVersion(req);
+    //   }
+    //   for (song of req.session.newShow.songs) {
+    //     await db.insertNewVersion(req, song);
+    //   }
+    // } else {
+    //   for (song of req.session.newShow.songs) {
+    //     await db.insertNewVersion(req, song);
+    //   }
+    // }
 
-    // write newShow data to db in the following order
-
-    // new venue ? insert venue : insert show
-    // new songs ? insert songs : insert versions
-
-    // await db.insertNewVenue(req)
-
-    // render confirmation page with option to edit new song details
+    // console.log(req.session.newShow);
 
     res.render("new-show/confirmation", {
       user: req.user,

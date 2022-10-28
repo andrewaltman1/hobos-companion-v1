@@ -26,29 +26,29 @@ module.exports.getShowsBySongID = (id) => {
 
 module.exports.getShowByID = (id) => {
   return pool.query(
-    `SELECT name, city, state, country, date, ST_AsGeoJSON(geom) AS geometry, show_notes as "showNotes", title, position, set_number as "setNumber", song_notes as "versionNotes", transition FROM shows JOIN venues ON venues.id = shows.venue_id JOIN versions ON shows.id = show_id JOIN songs ON songs.id = song_id WHERE shows.id = $1 ORDER BY position`,
+    `SELECT name, city, state, country, date, ST_AsGeoJSON(geom) AS geometry, show_notes as "showNotes", title, position, set_number as "setNumber", version_notes as "versionNotes", transition FROM shows JOIN venues ON venues.id = shows.venue_id JOIN versions ON shows.id = show_id JOIN songs ON songs.id = song_id WHERE shows.id = $1 ORDER BY position`,
     [id]
   );
 };
 
 module.exports.getShowByDate = (date) => {
   return pool.query(
-    `SELECT name, city, state, country, date, ST_AsGeoJSON(geom) AS geometry, show_notes as "showNotes", title, position, set_number as "setNumber", song_notes as "versionNotes", transition FROM shows JOIN venues ON venues.id = shows.venue_id JOIN versions ON shows.id = show_id JOIN songs ON songs.id = song_id WHERE shows.date = $1 ORDER BY position`,
+    `SELECT name, city, state, country, date, ST_AsGeoJSON(geom) AS geometry, show_notes as "showNotes", title, position, set_number as "setNumber", version_notes as "versionNotes", transition FROM shows JOIN venues ON venues.id = shows.venue_id JOIN versions ON shows.id = show_id JOIN songs ON songs.id = song_id WHERE shows.date = $1 ORDER BY position`,
     [date]
   );
 };
 
 module.exports.insertNewShow = async (req) => {
-  await pool.query(
-    `INSERT INTO shows (date, veune_id, show_notes, created_by, created_at) VALUES ($1, $2, $3, $4, $5) RETURNING id`,
+   let {rows} = await pool.query(
+    `INSERT INTO shows (date, venue_id, show_notes, created_by, created_at) VALUES ($1, $2, $3, $4, CURRENT_DATE) RETURNING id`,
     [
-      new Date(req.session.newShow.date),
+      req.session.newShow.date,
       req.session.newShow.venue.id,
       req.session.newShow.notes,
       req.user.id,
-      "CURRENT_DATE",
     ]
   );
+  return rows[0].id
 };
 
 module.exports.getAllSongs = () => {
@@ -73,6 +73,43 @@ module.exports.getSongByID = (id) => {
           ) 
           FROM songs WHERE songs.id = $1`,
     [id]
+  );
+};
+
+module.exports.insertNewSong = async (req, song) => {
+  let { rows } = await pool.query(
+    `INSERT INTO songs (title, created_by, created_at) VALUES ($1, $2, CURRENT_DATE) RETURNING id`,
+    [song.title, req.user.id]
+  );
+  return rows[0].id;
+};
+
+module.exports.updateSong = async (req, song) => {
+  return await pool.query(
+    `INSERT INTO songs (title, author, is_song, notes, updated_by, updated_at, instrumental) VALUES ($1, $2, $3, $4, $5, CURRENT_DATE, $6)`,
+    [
+      song.title,
+      song.author,
+      song.isSong,
+      song.notes,
+      req.user.id,
+      song.instrumental,
+    ]
+  );
+};
+
+module.exports.insertNewVersion = async (req, song) => {
+  return await pool.query(
+    `INSERT INTO versions (show_id, position, set_number, song_id, transition, version_notes, created_at, created_by) VALUES ($1, $2, $3, $4, $5, $6, CURRENT_DATE, $7)`,
+    [
+      req.session.newShow.id,
+      song.position,
+      song.setNumber,
+      song.id,
+      song.transition,
+      song.versionNotes,
+      req.user.id,
+    ]
   );
 };
 
@@ -112,18 +149,22 @@ module.exports.getVenueGeoData = async (venueId) => {
 };
 
 module.exports.insertNewVenue = async (req) => {
-  await pool.query(
-    `INSERT INTO venues (name, city, state, country, created_by, created_at, geom) VALUES ($1, $2, $3, $4, $5, $6, ST_GeomFromGeoJSON('$7')) RETURNING id`,
+  let { rows } = await pool.query(
+    `INSERT INTO venues (name, city, state, country, created_by, created_at, geom) VALUES ($1, $2, $3, $4, $5, CURRENT_DATE, ST_GeomFromGeoJSON($6)) RETURNING id`,
     [
       req.session.newShow.venue.name,
       req.session.newShow.venue.city,
       req.session.newShow.venue.state,
       req.session.newShow.venue.country,
       req.user.id,
-      "CURRENT_DATE",
-      JSON.stringify(req.session.newShow.venue.geometry),
+      `${req.session.newShow.venue.geometry}`,
     ]
   );
+  return rows[0].id;
+};
+
+module.exports.testQuery = async (req) => {
+  return await pool.query(`SELECT date from shows where id=1736`);
 };
 
 module.exports.existingSongSearch = async (song) => {

@@ -62,5 +62,13 @@ exports.down = (pgm) => {
   pgm.sql(`DROP EXTENSION IF EXISTS pg_trgm`);
 };
 
+exports.up = (pgm) => {
+  pgm.sql(`ALTER TABLE versions RENAME COLUMN song_notes TO version_notes`);
+};
+
+exports.down = (pgm) => {
+  pgm.sql(`ALTER TABLE versions RENAME COLUMN version_notes TO song_notes`);
+};
+
 // to fix "No migrations to run!`
 // Migrations complete!" situation I had to delete recent row from pgmigrations table

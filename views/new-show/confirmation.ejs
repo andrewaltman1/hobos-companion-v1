@@ -1,13 +1,14 @@
 <% layout('layouts/boilerplate') %><%- include('../partials/header') %>
 
-<h3>Show saved. Thanks!</h1>
+<div class="table-mode-container"><h3>Show saved. Thanks!</h1>
 
-<% if (songs.length) {%> 
-<p>
-    It looks like <%- songs.length %> <%- songs.length > 1 ? "songs are" : "song is" %> new to the database.
-    Would you like to edit <%- songs.length > 1 ? "their" : "this song's" %> 
-    details now?
-  </p>
+  <% if (songs.length) {%> 
+  <p>
+      It looks like <%- songs.length %> <%- songs.length > 1 ? "songs are" : "song is" %> new to the database.
+      Would you like to edit <%- songs.length > 1 ? "their" : "this song's" %> 
+      details now?
+    </p>
+  
+    <button type="button"><a href="/songs/editor">Yes</a></button><button type="button"><a href="/">Not Now</a></button>
+    <% } %> </div>
 
-  <button type="button"><a href="/songs/editor">Yes</a></button><button type="button"><a href="/">Not Now</a></button>
-  <% } %> 
