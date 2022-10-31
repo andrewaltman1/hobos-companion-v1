@@ -474,6 +474,11 @@ td > a:hover {
   margin-top: 1rem;
 }
 
+#song-editor-title {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
 #song-editor-form__button-container {
   display: flex;
   flex-flow: row nowrap;
@@ -488,17 +493,10 @@ td > a:hover {
   background-color: #c7cac755;
   border: 1px solid #804a2066;
   border-radius: 0.5rem;
-  height: 2rem;
-}
-
-#song-editor-form a {
-  text-decoration: none;
-  color: #1f1109ff;
-}
-
-#song-editor-form a:visited {
-  text-decoration: none;
-  color: #1f1109ff;
+  font-size: 1.5rem;
+  padding: 0.75rem;
+  height: fit-content;
+  width: fit-content;
 }
 
 .song-edit-fieldset {
@@ -696,7 +694,7 @@ td > a:hover {
   }
 
   #show-confirm-bar {
-    text-align:center;
+    text-align: center;
   }
 }
 

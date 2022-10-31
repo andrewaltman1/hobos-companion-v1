@@ -78,7 +78,10 @@ router.post(
           id: venueId || null,
           name: name,
           city: city,
-          state: state.length > 2 && country == "USA" ? stateNameToAbrev(state) : state,
+          state:
+            state.length > 2 && country == "USA"
+              ? stateNameToAbrev(state)
+              : state,
           country: country,
           geometry: !venueId
             ? await getNewGeoData(name, city, state, country)
@@ -154,30 +157,34 @@ router.get(
     //https://node-postgres.com/api/pool transaction concerns
     // what about slug?
 
-    // !req.session.newShow.venue.id
-    //   ? (req.session.newShow.venue.id = await db.insertNewVenue(req))
-    //   : req.session.newShow.venue.id;
-    // req.session.newShow.id = await db.insertNewShow(req);
-    // if (req.session.newShow.newSongs) {
-    //   for (song of req.session.newShow.newSongs) {
-    //     song.id = await db.insertNewSong(req, song);
-    //     await db.insertNewVersion(req);
-    //   }
-    //   for (song of req.session.newShow.songs) {
-    //     await db.insertNewVersion(req, song);
-    //   }
-    // } else {
-    //   for (song of req.session.newShow.songs) {
-    //     await db.insertNewVersion(req, song);
-    //   }
-    // }
+    !req.session.newShow.venue.id
+      ? (req.session.newShow.venue.id = await db.insertNewVenue(req))
+      : req.session.newShow.venue.id;
+    req.session.newShow.id = await db.insertNewShow(req);
+    if (req.session.newShow.newSongs) {
+      for (song of req.session.newShow.newSongs) {
+        song.id = await db.insertNewSong(req, song);
+        await db.insertNewVersion(req, song);
+      }
+      for (song of req.session.newShow.songs) {
+        await db.insertNewVersion(req, song);
+      }
+    } else {
+      for (song of req.session.newShow.songs) {
+        await db.insertNewVersion(req, song);
+      }
+    }
 
-    // console.log(req.session.newShow);
+    res.session.newShow = {};
 
-    res.render("new-show/confirmation", {
-      user: req.user,
-      songs: req.session.newShow.newSongs,
-    });
+
+    res.render("single-model", data.confirmation(req));
+
+    // res.render("new-show/confirmation", {
+    //   user: req.user,
+    //   songs: req.session.newShow.newSongs,
+    //   title: "Show"
+    // });
   })
 );
 

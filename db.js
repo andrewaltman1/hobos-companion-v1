@@ -86,14 +86,14 @@ module.exports.insertNewSong = async (req, song) => {
 
 module.exports.updateSong = async (req, song) => {
   return await pool.query(
-    `INSERT INTO songs (title, author, is_song, notes, updated_by, updated_at, instrumental) VALUES ($1, $2, $3, $4, $5, CURRENT_DATE, $6)`,
+    `UPDATE songs SET (author, is_song, notes, updated_by, updated_at, instrumental) = ($1, $2, $3, $4, CURRENT_DATE, $5) WHERE songs.id = $6`,
     [
-      song.title,
-      song.author,
-      song.isSong,
-      song.notes,
+      req.body.author,
+      req.body.isSong,
+      req.body.notes,
       req.user.id,
-      song.instrumental,
+      req.body.instrumental,
+      song.id
     ]
   );
 };

@@ -20,16 +20,21 @@ router.get(
   catchAsync(async (req, res) => {
     res.render("song-editor", {
       user: req.user,
-      songs: req.session.newShow.newSongs,
+      song: req.session.newShow.newSongs[0],
     });
   })
 );
 
-router.post("/songs/editor", isLoggedIn, isAdmin, catchAsync(async (req, res) => {
-  // remove items from array after submission and redirect to get editor again if items still in array?
-  console.log(req.body)
-res.send("thanks")
-}))
+router.post(
+  "/songs/editor",
+  isLoggedIn,
+  isAdmin,
+  catchAsync(async (req, res) => {
+    await db.updateSong(req, req.session.newShow.newSongs[0]);
+    req.session.newShow.newSongs = req.session.newShow.newSongs.slice(1);
+    req.session.newShow.newSongs.length > 0 ? res.render("song-editor", {user: req.user, song: req.session.newShow.newSongs[0]}) : res.render("new-show/confirmation", {user: req.user, songs: req.session.newShow.newSongs, title: "Song"})
+  })
+);
 
 router.get(
   "/songs/author/:author",

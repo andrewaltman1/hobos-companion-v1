@@ -241,3 +241,18 @@ module.exports.login = (req, res) => {
     msg: res.locals.messages,
   };
 };
+
+module.exports.confirmation = (req) => {
+  return {
+    user: req.user,
+    title: req.url == "/new-show/confirmation" ? "Show Saved. Thanks!" : "Song Saved. Thanks!",
+    subtitle: "",
+    show: false,
+    section: {
+      idString: "confirmation-notes",
+      data: `<p>It looks like ${req.session.newShow.newSongs.length}`+ `${req.session.newShow.newSongs.length > 1 ? " songs are" : " song is"}`+` new to the database.
+      Would you like to edit ${ req.session.newShow.newSongs.length > 1 ? "their" : "this song's"}
+      details now?</p><button type="button" class="map-popup-buttons"><a href="/songs/editor">Yes</a></button><button type="button" class="map-popup-buttons"><a href="/">Not Now</a></button>`
+    }
+  }
+}
