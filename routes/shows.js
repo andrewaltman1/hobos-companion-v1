@@ -154,8 +154,6 @@ router.get(
     req.session.newShow.songs = req.session.newShow.songs.filter(
       (song) => song.id != null
     );
-    //https://node-postgres.com/api/pool transaction concerns
-    // what about slug?
 
     !req.session.newShow.venue.id
       ? (req.session.newShow.venue.id = await db.insertNewVenue(req))
@@ -175,16 +173,9 @@ router.get(
       }
     }
 
-    res.session.newShow = {};
-
-
-    res.render("single-model", data.confirmation(req));
-
-    // res.render("new-show/confirmation", {
-    //   user: req.user,
-    //   songs: req.session.newShow.newSongs,
-    //   title: "Show"
-    // });
+    await res.render("single-model", data.confirmation(req));
+    req.session.newSongs = req.session.newShow.newSongs;
+    req.session.newShow = {};
   })
 );
 

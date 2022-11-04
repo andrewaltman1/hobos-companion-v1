@@ -1,6 +1,5 @@
 <% layout('layouts/boilerplate') %> <%- include('../partials/header') %>
 
-<div>
   <form class="show-inputs" action="/new-show/venue-check" method="POST">
     <fieldset>
       <legend>Date/Venue Details</legend>
@@ -53,7 +52,6 @@
       <button type="submit">Submit</button>
     </fieldset>
   </form>
-</div>
 
 <script>
     const showInputs = document.querySelector('.show-inputs');

@@ -106,7 +106,6 @@ nav > a:hover {
 }
 
 .table-mode-container h3 {
-  /* display: inline; */
   display: block;
   font-size: 1.1rem;
   line-height: 1.8rem;
@@ -233,7 +232,7 @@ td > a:hover {
   white-space: pre-line;
   margin: 0 auto;
   height: fit-content;
-  width: fit-content;
+  width: 90%;
 }
 
 #song-notes {
@@ -438,6 +437,18 @@ td > a:hover {
   gap: 0.3rem;
 }
 
+#confirmation-notes {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 2rem;
+  width: 90%;
+  margin: auto;
+  font-size: 1.5rem;
+}
+
 /* **** song-editor **** */
 
 .table-mode-container__editor {
@@ -489,7 +500,6 @@ td > a:hover {
 
 #song-editor-form button {
   color: #1f1109ff;
-  padding: 0.2rem 1rem;
   background-color: #c7cac755;
   border: 1px solid #804a2066;
   border-radius: 0.5rem;
@@ -552,6 +562,13 @@ td > a:hover {
 
 .hide {
   display: none;
+}
+
+.center-children {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
 }
 
 /* **** media queries **** */

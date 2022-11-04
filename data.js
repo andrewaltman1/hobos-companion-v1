@@ -148,6 +148,7 @@ module.exports.singleSong = (req, rows) => {
       idString: "song-notes",
       data: song.notes,
     },
+    scripts: []
   };
 };
 
@@ -172,6 +173,7 @@ module.exports.singleVenue = (req, rows) => {
       idString: "performance-list",
       data: html,
     },
+    scripts: []
   };
 };
 
@@ -197,6 +199,7 @@ module.exports.singleShow = (req, rows) => {
       idString: "show-notes",
       data: show.notes,
     },
+    scripts: []
   };
 };
 
@@ -243,6 +246,9 @@ module.exports.login = (req, res) => {
 };
 
 module.exports.confirmation = (req) => {
+  let sectionHTML = `It looks like ${req.session.newShow.newSongs.length}`+ `${req.session.newShow.newSongs.length > 1 ? " songs are" : " song is"}`+` new to the database.
+  Would you like to edit ${ req.session.newShow.newSongs.length > 1 ? "their" : "this song's"}
+  details now?<button type="button" class="map-popup-buttons"><a href="/songs/editor">Yes</a></button><button type="button" class="map-popup-buttons"><a href="/">Not Now</a></button>`;
   return {
     user: req.user,
     title: req.url == "/new-show/confirmation" ? "Show Saved. Thanks!" : "Song Saved. Thanks!",
@@ -250,9 +256,8 @@ module.exports.confirmation = (req) => {
     show: false,
     section: {
       idString: "confirmation-notes",
-      data: `<p>It looks like ${req.session.newShow.newSongs.length}`+ `${req.session.newShow.newSongs.length > 1 ? " songs are" : " song is"}`+` new to the database.
-      Would you like to edit ${ req.session.newShow.newSongs.length > 1 ? "their" : "this song's"}
-      details now?</p><button type="button" class="map-popup-buttons"><a href="/songs/editor">Yes</a></button><button type="button" class="map-popup-buttons"><a href="/">Not Now</a></button>`
-    }
+      data: req.session.newShow.newSongs.length > 0 ? sectionHTML : ""
+    },
+    scripts: ["/public/scripts/confirmation.js"]
   }
 }

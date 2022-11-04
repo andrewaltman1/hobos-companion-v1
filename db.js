@@ -39,7 +39,7 @@ module.exports.getShowByDate = (date) => {
 };
 
 module.exports.insertNewShow = async (req) => {
-   let {rows} = await pool.query(
+  let { rows } = await pool.query(
     `INSERT INTO shows (date, venue_id, show_notes, created_by, created_at) VALUES ($1, $2, $3, $4, CURRENT_DATE) RETURNING id`,
     [
       req.session.newShow.date,
@@ -48,7 +48,7 @@ module.exports.insertNewShow = async (req) => {
       req.user.id,
     ]
   );
-  return rows[0].id
+  return rows[0].id;
 };
 
 module.exports.getAllSongs = () => {
@@ -93,7 +93,7 @@ module.exports.updateSong = async (req, song) => {
       req.body.notes,
       req.user.id,
       req.body.instrumental,
-      song.id
+      song.id,
     ]
   );
 };
@@ -169,7 +169,7 @@ module.exports.testQuery = async (req) => {
 
 module.exports.existingSongSearch = async (song) => {
   let { rows } = await pool.query(
-    `select title, id from songs where is_song = true and similarity(title, $1) > 0.6 limit 1`,
+    `select title, id from songs where is_song = true and similarity(title, $1) > 0.67 limit 1`,
     [song]
   );
   return !rows[0] ? { id: null, title: song } : rows[0];
