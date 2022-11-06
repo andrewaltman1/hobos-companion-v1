@@ -5,7 +5,7 @@ const { catchAsync, getNewGeoData, stateNameToAbrev } = require("../utils");
 const { isAdmin, isLoggedIn } = require("../middleware");
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const geocoder = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
-const data = require("../data.js");
+const view = require("../view.js");
 
 // router.use((req, res, next) => {
 //   console.log(new Date(req.session.newShow.date));
@@ -16,7 +16,7 @@ router.get(
   "/",
   catchAsync(async (req, res) => {
     let { rows } = await db.getAllShows();
-    res.render("table-map", data.allShows(req, rows));
+    res.render("table-map", view.allShows(req, rows));
   })
 );
 
@@ -24,7 +24,7 @@ router.get(
   "/shows/:songid",
   catchAsync(async (req, res) => {
     let { rows } = await db.getShowsBySongID(req.params.songid);
-    res.render("table-map", data.allShows(req, rows));
+    res.render("table-map", view.allShows(req, rows));
   })
 );
 
@@ -32,7 +32,7 @@ router.get(
   "/show/:id",
   catchAsync(async (req, res) => {
     let { rows } = await db.getShowByID(req.params.id);
-    res.render("single-model", data.singleShow(req, rows));
+    res.render("single-model", view.singleShow(req, rows));
   })
 );
 
@@ -40,7 +40,7 @@ router.get(
   "/show/date/:date",
   catchAsync(async (req, res) => {
     let { rows } = await db.getShowByDate(req.params.date);
-    res.render("single-model", data.singleShow(req, rows));
+    res.render("single-model", view.singleShow(req, rows));
   })
 );
 
@@ -53,7 +53,7 @@ router.get(
   catchAsync(async (req, res) => {
     req.session.newShow = {};
     let { rows } = await db.getAllVenues();
-    res.render("new-show/venue-input", data.newShowInput(req, rows));
+    res.render("new-show/venue-input", view.newShowInput(req, rows));
   })
 );
 
@@ -89,7 +89,7 @@ router.post(
         },
       };
     }
-    res.render("new-show/venue-check", data.venueCheck(req));
+    res.render("new-show/venue-check", view.venueCheck(req));
   })
 );
 
@@ -139,7 +139,7 @@ router.post(
 
     await buildSongDetails();
 
-    res.render("single-model", data.singleShow(req));
+    res.render("single-model", view.singleShow(req));
   })
 );
 
@@ -173,8 +173,7 @@ router.get(
       }
     }
 
-    await res.render("single-model", data.confirmation(req));
-    req.session.newSongs = req.session.newShow.newSongs;
+    await res.render("single-model", view.confirmation(req));
     req.session.newShow = {};
   })
 );
