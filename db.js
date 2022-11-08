@@ -53,25 +53,25 @@ module.exports.insertNewShow = async (req) => {
 
 module.exports.getAllSongs = () => {
   return pool.query(
-    `SELECT id, title, author, versions_count as "timesPlayed" FROM songs WHERE songs.is_song = true ORDER BY "timesPlayed" DESC`
+    `SELECT songs.id, title, author, COUNT(*) as "timesPlayed" FROM songs JOIN versions ON songs.id = versions.song_id WHERE songs.is_song = true GROUP BY songs.id ORDER BY "timesPlayed" DESC`
   );
 };
 
 module.exports.getAllSongsByAuthor = (author) => {
   return pool.query(
-    `SELECT id, title, author, versions_count as "timesPlayed" FROM songs WHERE songs.author LIKE $1 ORDER BY "timesPlayed" DESC`,
+    `SELECT songs.id, title, author, COUNT(*) as "timesPlayed" FROM songs JOIN versions ON songs.id = versions.song_id WHERE SIMILARITY(author, $1) > 0.59 GROUP BY songs.id ORDER BY "timesPlayed" DESC`,
     [`%${author}%`]
   );
 };
 
 module.exports.getSongByID = (id) => {
   return pool.query(
-    `SELECT id, title, author, notes, versions_count as "timesPlayed", (
+    `SELECT songs.id, title, author, notes, COUNT(*) as "timesPlayed", (
           SELECT to_char(MIN(date), 'MM-DD-YYYY') as "firstTimePlayed" from shows JOIN versions on shows.id = show_id JOIN songs on songs.id = song_id WHERE songs.id = $1
           ), (
           SELECT to_char(MAX(date), 'MM-DD-YYYY') as "mostRecent" from shows JOIN versions on shows.id = show_id JOIN songs on songs.id = song_id WHERE songs.id = $1
           ) 
-          FROM songs WHERE songs.id = $1`,
+          FROM songs JOIN versions ON songs.id = versions.song_id WHERE songs.id = $1 GROUP BY songs.id`,
     [id]
   );
 };

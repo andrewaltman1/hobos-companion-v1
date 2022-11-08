@@ -174,7 +174,11 @@ router.get(
     }
 
     await res.render("single-model", view.confirmation(req));
-    req.session.newShow = {};
+    req.session.newShow.date = null;
+    req.session.newShow.venue = null;
+    req.session.newShow.notes = null;
+    req.session.newShow.songs = null;
+    req.session.newShow.id = null;
   })
 );
 

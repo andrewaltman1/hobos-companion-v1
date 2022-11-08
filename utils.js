@@ -39,10 +39,10 @@ module.exports.catchAsync = (func) => {
   };
 };
 
-module.exports.sumSinglePropOfArrEl = (arr) => {
+module.exports.calcTotalTimesPlayed = (arr) => {
   let result = 0;
   arr.forEach((el) => {
-    result += el.timesPlayed;
+    result += +el.timesPlayed;
   });
   return result;
 };
