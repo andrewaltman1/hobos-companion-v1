@@ -6,6 +6,7 @@
 
 body {
   margin: 0;
+  background-color: #ffffff;
 }
 
 header {
@@ -29,7 +30,7 @@ nav > a {
   text-decoration: none;
   text-align: center;
   font: 0.8rem "Rubik Mono One", sans-serif;
-  color: #1f1109ee;
+  color: #48597b;
 }
 
 nav > a:hover {
@@ -40,15 +41,39 @@ nav > a:hover {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-evenly;
-  width: 30%;
+  width: 20%;
+  margin-left: 70px;
 }
 
 #header-buttons .button {
-  height: 90%;
-  border: 1px solid #1f1109ee;
-  background-color: transparent;
-  font: 500 0.8rem "Rubik", sans-serif;
+  border: none;
+  margin-top: 16px;
+  padding: 8px 22px;
+  border-radius: 3px;
+  color: #375391;
+  background-color: #bdcdcd;
+  font: 400 1rem "Rubik", sans-serif;
   cursor: pointer;
+}
+
+button#view-mode-button {
+  height: 40px;
+  width: 170px;
+  margin-left: 8px;
+}
+
+.sign-in-button {
+  background-color: #cb6d1c !important;
+  color: white !important;
+  margin-left: 8px;
+  margin-right: 8px;
+  height: 40px;
+  width: 100px;
+}
+
+.years,
+.total-price {
+  line-height: 16px;
 }
 
 #user-display {
@@ -57,7 +82,7 @@ nav > a:hover {
 }
 
 #cluster-map {
-  margin: auto;
+  margin: auto auto 30px auto;
   width: 95vw;
   height: 90vh;
   min-width: 250px;
@@ -86,31 +111,32 @@ nav > a:hover {
 
 .table-mode-container {
   position: relative;
-  background-color: #c7cac755;
+  background-color: #d1dddd;
   margin: auto;
-  width: 95vw;
+  /* width: 95vw; */
+  width: 100vw;
   height: 90vh;
   overflow: scroll;
   min-width: 250px;
-  max-width: 1400px;
-  border: 1.5px solid #1f1109ff;
-  border-radius: 0.3rem;
   font: 100 1rem "Rubik", sans-serif;
   padding: 5px 5px;
 }
 
 .table-mode-container h1 {
-  margin: 0;
+  font-size: 36px;
+  color: #cb6d1c;
+  /* margin-top: 10px; */
   display: block;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .table-mode-container h3 {
+  font-size: 16px !important;
+  color: #375391;
   display: block;
-  font-size: 1.1rem;
-  line-height: 1.8rem;
+  line-height: 1.4rem;
   margin: 0 3% 0 0;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .table-mode-container__headers--single-model {
@@ -127,7 +153,10 @@ nav > a:hover {
 th {
   height: 2.3rem;
   min-width: 4.2rem;
-  border: 1.5px solid black;
+  /* border: 1.5px solid black; */
+  font-weight: 300;
+  background-color: #bdcdcd;
+  color: #6e4513;
 }
 
 .table-mode-container__thead {
@@ -147,7 +176,7 @@ tr td {
 
 td a {
   text-decoration: none;
-  color: #0000ee;
+  color: #375391;
 }
 
 td > a:hover {
@@ -558,7 +587,7 @@ td > a:hover {
   margin: 5% auto;
 }
 
-/* **** utils **** */ 
+/* **** utils **** */
 
 .hide {
   display: none;
@@ -571,16 +600,67 @@ td > a:hover {
   align-items: center;
 }
 
+/* **** footer **** */
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #bdcdcd;
+  min-height: 60px;
+}
+
+.note-circle {
+  background-color: #fff;
+  height: 26px;
+  width: 26px;
+  border-radius: 50px;
+}
+
+.eighth-note {
+  font-size: 18px;
+  text-align: center;
+  color: #bdcdcd;
+  /* color: #cb6d1c; */
+  line-height: 30px;
+  margin-left: 5px;
+}
+
 /* **** media queries **** */
+
+@media (max-width: 1216px) {
+  #header-buttons {
+    width: 30%;
+  }
+}
+
+@media (max-width: 1136px) {
+  #header-buttons .button {
+    font-size: 14px !important;
+  }
+}
+
+@media (max-width: 780px) {
+  #header-buttons .button {
+    margin-top: 14px;
+  }
+
+  button#view-mode-button,
+  button.sign-in-button {
+    height: 50px;
+    width: 80px;
+  }
+}
 
 @media (min-width: 750px) {
   .table-mode-container {
-    font-size: 1.3rem;
+    font-size: 1rem;
   }
 
   .table-mode-container h1 {
     text-align: center;
-    margin: 0.5rem auto;
+    font-size: 30px;
+    /* margin: 0.5rem auto; */
   }
 
   .table-mode-container h3 {
@@ -611,8 +691,8 @@ td > a:hover {
     margin-top: 1vh;
   }
 
-  #header-buttons .button {
-    font-size: 1rem;
+  button #header-buttons .button {
+    display: none;
   }
 
   #setlist-wrapper {
@@ -641,6 +721,17 @@ td > a:hover {
   }
 }
 
+@media (max-width: 586px) {
+  .sign-in-button {
+    margin-right: 18px;
+  }
+
+  #header-buttons {
+    width: 40%;
+    margin-left: 0px !important;
+  }
+}
+
 @media (min-width: 600px) and (min-height: 600px) {
   #show-notes {
     margin: 3rem auto;
@@ -655,6 +746,7 @@ td > a:hover {
   .table-mode-container h1 {
     text-align: center;
     margin: 0.5rem auto;
+
   }
 
   .table-mode-container h3 {

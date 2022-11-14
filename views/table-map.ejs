@@ -7,8 +7,8 @@
 
 <div class="table-mode-container">
   <h1><%- table.title %></h1>
-  <h3><%- table.subtitleOne %></h3>
-  <h3><%- table.subtitleTwo %></h3>
+  <h3 class="years"><%- table.subtitleOne %></h3>
+  <h3 class="total-plays"><%- table.subtitleTwo %></h3>
 
   <table>
     <thead class="table-mode-container__thead">
@@ -54,3 +54,5 @@
   <script src="<%- script %>"></script>
 <%})%>
 
+
+<%- include('./partials/footer') %>
