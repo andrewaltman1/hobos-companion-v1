@@ -7,8 +7,9 @@
 body {
   /* margin: -8px; */
   /* background-color: #a7dbd8; */
-  background: url(../assets/show_smoke2.jpeg) no-repeat center center fixed;
   /* background: url(../assets/show_smoke_portrait.jpeg) no-repeat center center fixed; */
+  /* background: url(../assets/show_smoke2.jpeg) no-repeat center center fixed; */
+  background: url(../assets/crowd_star3.jpeg) no-repeat center center fixed;
 }
 
 header {
@@ -65,7 +66,7 @@ nav > a:hover {
 }
 
 button#view-mode-button {
-  background-color: #e0e4ccc6;
+  background-color: #e0e4ccd5;
   height: 30px;
   width: 100px;
   /* height: 40px; */
@@ -680,14 +681,6 @@ footer {
   }
 }
 
-@media (min-width: 818px) {
-  #header-buttons {
-    flex-flow: row nowrap;
-    margin-left: 40px;
-    margin-top: 44px;
-  }
-}
-
 @media (min-width: 768px) {
   button#view-mode-button {
     width: 120px;
@@ -697,6 +690,14 @@ footer {
   .sign-in-button {
     width: 120px;
     height: 34px;
+  }
+}
+
+@media (min-width: 818px) {
+  #header-buttons {
+    flex-flow: row nowrap;
+    margin-left: 40px;
+    margin-top: 44px;
   }
 }
 
@@ -719,6 +720,7 @@ footer {
 @media (min-width: 1450px) {
   header {
     max-width: 1086px; 
-    margin: auto 18%;
+    /* margin: auto 18%; */
+    margin: auto 10% auto 20%;
   }
 }
