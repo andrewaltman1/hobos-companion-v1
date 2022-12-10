@@ -77,7 +77,7 @@ button#view-mode-button {
   font: 500 1rem "Rubik", sans-serif;
   /* text-align: center; */
   text-align: left;
-  margin-left: 30px;
+  margin: 0 0 6px 30px;
   color: #907eab;
 }
 
@@ -654,31 +654,32 @@ input {
 /* **** footer **** */
 
 footer {
+  display: flex;
+  align-items: center;
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
-  display: flex;
-  align-items: center;
   justify-content: center;
   background-color: #023047ea;
   min-height: 40px;
 }
 .footer-text {
+  display: flex;
+  align-items: center;
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
   font: 100 14px "Rubik", sans-serif;
   color: #bdcdcd7e;
   text-transform: uppercase;
-}
-
-.copyright, .thc {
-  margin-left: 16px;
 }
 
 .question-mark-icon {
   background-color: #bdcdcd7e;
   color: #023047ea;
   border-radius: 20px;
-  margin-left: 16px;
+  /* margin-left: 16px; */
   padding: 0 5px;
   font-weight: 300;
 }
