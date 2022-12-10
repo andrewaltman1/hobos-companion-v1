@@ -36,4 +36,8 @@ router.post("/logout", function (req, res, next) {
   res.redirect("/");
 });
 
+router.get("/about", (req, res) => {
+  res.render("single-model", view.about(req))
+})
+
 module.exports = router;

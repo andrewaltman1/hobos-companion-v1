@@ -30,7 +30,7 @@ module.exports.allShows = (req, rows) => {
   return {
     user: req.user,
     table: {
-      title: rows[0].title ? `${rows[0].title}` : "All Shows",
+      title: rows[0].title ? `${rows[0].title}` : "All Shows&nbsp;&nbsp;<span class='pipe'>|</span>",
       subtitleOne: `Years: ${
         rows[0].date.getYear() - rows[rows.length - 1].date.getYear()
       }`,
@@ -60,7 +60,7 @@ module.exports.allSongs = (req, rows, author) => {
     user: req.user,
     clusterMap: false,
     table: {
-      title: author ? author : "All Songs",
+      title: author ? author : "All Songs&nbsp;&nbsp;<span class='pipe'>|</span>",
       subtitleOne: `Unique Songs:  ${rows.length}`,
       subtitleTwo: `Total Plays:  ${calcTotalTimesPlayed(rows)}`,
       columnTypes: "nss",
@@ -78,7 +78,7 @@ module.exports.venues = (req, rows) => {
   return {
     user: req.user,
     table: {
-      title: rows[0].centerLng ? venueTitle(rows) : "All Venues",
+      title: rows[0].centerLng ? venueTitle(rows) : "All Venues&nbsp;&nbsp;<span class='pipe'>|</span>",
       subtitleOne: `Unique Venues:  ${rows.length}`,
       subtitleTwo: `Total Plays: ${rows.reduce((p, c) => +p + +c.total, 0)}`,
       columnTypes: "nss",
@@ -108,7 +108,7 @@ module.exports.venuesByCity = (req, rows) => {
   return {
     user: req.user,
     table: {
-      title: rows[0].centerLng ? venueTitle(rows) : "All Venues",
+      title: rows[0].centerLng ? venueTitle(rows) : "All Venues&nbsp;&nbsp;<span class='pipe'>|</span>",
       subtitleOne: `Unique Venues: ${rows.length}`,
       subtitleTwo: `Total Plays: ${rows.reduce((p, c) => +p + +c.total, 0)}`,
       columnTypes: "nsd",
@@ -269,3 +269,17 @@ module.exports.confirmation = (req) => {
     scripts: ["/public/scripts/confirmation.js"],
   };
 };
+
+module.exports.about = (req) => {
+  return {
+    user: req.user, 
+    title: "Welcome to v2 of The Hobo’s Companion", 
+    subtitle: "", 
+    show: false,
+    section: {
+      idString: "about",
+      data: "Relaunched in December of 2022 by Andrew Altman, Bassplayer in Railroad Earth from date-date, THC was originally conceived by Johnny Grubb - who played bass guitar for Railroad Earth from date-date.  Johnny built a website where fans of the band, effectionately know as “hobos”, could keep record on the location, set lists, special guest, etc of the 100+ shows a year they performed. Fans tended the site like a garden as it grew into a worthy compendium of RRE knowledge and stats.<br><br> Johnny kept the site alive for years after moving on to a career in tech. But the site eventually came down and the database full of RRE stats and history lay dormant waiting for another author to come along and revive it. In March of 2020 a worldwide pandemic came along and ground the world to a hault, including the lives and efforts of touring musicians everywhere. After years of being asked when the hobos companion web site would be back up and running again Andrew took up the task of bringing the site back. <br><br><a href='mailto:andrewaltman@outlook.com'>Email the currators of this site</a>"
+    },
+    scripts: []
+  }
+}
