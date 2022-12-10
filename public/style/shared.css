@@ -5,9 +5,6 @@
 }
 
 body {
-  /* background-color: #a7dbd8; */
-  /* background: url(../assets/show_smoke_portrait.jpeg) no-repeat center center fixed; */
-  /* background: url(../assets/show_smoke2.jpeg) no-repeat center center fixed; */
   background: url(../assets/crowd_star3.jpeg) no-repeat center center fixed;
 }
 
@@ -78,7 +75,10 @@ button#view-mode-button {
 
 #user-display {
   font: 500 1rem "Rubik", sans-serif;
-  text-align: center;
+  /* text-align: center; */
+  text-align: left;
+  margin-left: 30px;
+  color: #907eab;
 }
 
 #cluster-map {
@@ -313,10 +313,11 @@ td > a:hover {
 /* **** login **** */
 
 #auth-forms {
+  background-color: rgba(255, 255, 255, 0.9);
   margin: 2rem auto;
   width: fit-content;
   height: fit-content;
-  min-width: 250px;
+  min-width: 350px;
   max-width: 1400px;
   border: 1.5px solid #1f1109ff;
   border-radius: 0.3rem;
@@ -326,6 +327,8 @@ td > a:hover {
 
 #auth-forms h1 {
   text-align: center;
+  color:#5c516d;
+  font-weight: 400;
 }
 
 #user-messages {
@@ -334,18 +337,39 @@ td > a:hover {
 }
 
 #auth-forms section {
-  margin: 1rem 2.5%;
+  margin: 1rem 13%;
   position: relative;
 }
 
 #auth-forms #email {
-  margin-left: 2rem;
+  margin-left: 4.3rem;
 }
 
 #auth-forms button {
+  background-color: rgb(139, 139, 139);
+  color: rgb(219, 216, 216);
+  height: 30px;
+  border: none;
+  width: 100px;
+  border-radius: 2px;
   margin: 1rem 35%;
-  position: relative;
-  width: 30%;
+  padding: 4px 1px;
+  font: 400 1rem "Rubik", sans-serif;
+  cursor: pointer;
+}
+
+#email label, #password label {
+  color: #5c516d;
+}
+
+
+input {
+  padding: 4px 8px;
+}
+
+#auth-forms h3 {
+  color:rgb(215, 99, 122);
+  font-weight: 500;
 }
 
 /* **** new-show **** */
@@ -605,11 +629,11 @@ td > a:hover {
 .table-mode-container__coming-soon h1 {
   text-align: center;
   padding: 5px 5px;
+  font-weight: 500;
 }
 
 .table-mode-container__coming-soon p {
   font-size: 1.1rem;
-  font-weight: 400;
   width: 90%;
   margin: 5% auto;
 }
@@ -652,13 +676,22 @@ footer {
 
 .question-mark-icon {
   background-color: #bdcdcd7e;
-  color: #162222;
+  color: #023047ea;
   border-radius: 20px;
-  /* font-size: 16px; */
-  /* text-align: center; */
-  /* line-height: 30px; */
   margin-left: 16px;
+  padding: 0 5px;
+  font-weight: 300;
 }
+
+a:hover .question-mark-icon {
+  background-color: #907eab;
+}
+
+.footer-text a, .footer-text a:hover, .footer-text a:visited, .footer-text a:link, .footer-text a:active {
+  text-decoration: none;
+}
+
+
 
 /* ************************* */
 /* ***** media queries ***** */
