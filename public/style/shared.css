@@ -12,6 +12,7 @@ header {
   height: 100px;
   display: flex;
   flex-flow: row nowrap;
+  margin: 0 auto;
   margin-bottom: 10px;
 }
 
@@ -75,9 +76,9 @@ button#view-mode-button {
 
 #user-display {
   font: 500 1rem "Rubik", sans-serif;
-  /* text-align: center; */
-  text-align: left;
-  margin: 0 0 6px 30px;
+  text-align: center;
+  /* text-align: left;
+  margin: 0 0 6px 10%; */
   color: #907eab;
 }
 
@@ -656,14 +657,18 @@ input {
 footer {
   display: flex;
   align-items: center;
+  justify-content: center;
   position: fixed;
   left: 0;
+  right: 0;
   bottom: 0;
+  margin: 0 auto;
   width: 100%;
-  justify-content: center;
   background-color: #023047ea;
   min-height: 40px;
+  max-width: 1439px;
 }
+
 .footer-text {
   display: flex;
   align-items: center;
@@ -751,6 +756,6 @@ a:hover .question-mark-icon {
 @media (min-width: 1450px) {
   header {
     max-width: 1086px;
-    margin: auto 10% auto 20%;
+    /* margin: auto 10% auto 20%; */
   }
 }
