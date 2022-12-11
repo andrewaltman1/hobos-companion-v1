@@ -18,21 +18,24 @@ header {
 
 nav {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-around;
-  gap: 0.7%;
+  /* gap: 0.7%; */
   width: 70%;
-  margin-top: 46px;
+  /* margin-top: 46px; */
+  margin-top: 15px;
+  /* margin-left: 30px; */
 }
 
 nav > a {
   /* flex: 1; */
   text-decoration: none;
-  text-align: center;
+  text-align: left;
   font-family: "DM Serif Display", serif;
   text-transform: uppercase;
   color: #e0e4ccc6;
-  font-size: 1rem;
+  font-size: 1.3rem;
+  margin-left: 12px;
 }
 
 nav > a:hover {
@@ -77,9 +80,8 @@ button#view-mode-button {
 #user-display {
   font: 500 1rem "Rubik", sans-serif;
   text-align: center;
-  /* text-align: left;
-  margin: 0 0 6px 10%; */
   color: #907eab;
+  margin: 0px 0px 6px;
 }
 
 #cluster-map {
@@ -116,7 +118,7 @@ button#view-mode-button {
   height: 76vh;
   overflow: scroll;
   min-width: 250px;
-  font: 100 1rem "Rubik", sans-serif;
+  font: 100 15px "Rubik", sans-serif;
   /* padding: 5px 10px; */
   margin: 0px auto;
 }
@@ -127,22 +129,22 @@ button#view-mode-button {
   justify-content: center;
   align-items: flex-end;
   column-gap: 20px;
-  margin: 10px 0px;
+  margin: 2px 0px;
 }
 
 .table-mode-container h1 {
   margin-bottom: 4px !important;
-  font-size: 29px;
+  font-size: 26px;
   color: #5c516d;
   font-weight: 400;
 }
 
 .table-mode-container h3 {
   margin-bottom: 0px !important;
-  font-size: 16px !important;
-  color: #444;
+  color: #666;
   line-height: 1.4rem;
   font-weight: 400;
+  font-size: 16px;
 }
 
 .table-mode-container__headers--single-model {
@@ -328,7 +330,7 @@ td > a:hover {
 
 #auth-forms h1 {
   text-align: center;
-  color:#5c516d;
+  color: #5c516d;
   font-weight: 400;
 }
 
@@ -359,17 +361,17 @@ td > a:hover {
   cursor: pointer;
 }
 
-#email label, #password label {
+#email label,
+#password label {
   color: #5c516d;
 }
-
 
 input {
   padding: 4px 8px;
 }
 
 #auth-forms h3 {
-  color:rgb(215, 99, 122);
+  color: rgb(215, 99, 122);
   font-weight: 500;
 }
 
@@ -693,11 +695,13 @@ a:hover .question-mark-icon {
   background-color: #907eab;
 }
 
-.footer-text a, .footer-text a:hover, .footer-text a:visited, .footer-text a:link, .footer-text a:active {
+.footer-text a,
+.footer-text a:hover,
+.footer-text a:visited,
+.footer-text a:link,
+.footer-text a:active {
   text-decoration: none;
 }
-
-
 
 /* ************************* */
 /* ***** media queries ***** */
@@ -727,6 +731,18 @@ a:hover .question-mark-icon {
     width: 120px;
     height: 34px;
   }
+
+  .table-header {
+    margin: 10px 0px;
+  }
+
+  .table-mode-container h1 {
+    font-size: 29px;
+  }
+
+  .table-mode-container h3 {
+    font-size: 17px;
+  }
 }
 
 @media (min-width: 818px) {
@@ -753,9 +769,10 @@ a:hover .question-mark-icon {
   }
 }
 
-@media (min-width: 1450px) {
+/* 1450 and bigger */
+@media (min-width: 1330px) {
   header {
-    max-width: 1086px;
+    max-width: 1286px;
     /* margin: auto 10% auto 20%; */
   }
 }
