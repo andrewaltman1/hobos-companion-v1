@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate') %><%- include('partials/header') %>
 
 <div class="table-mode-container__editor">
-  <form action="/songs/editor" method="POST" id="song-editor-form">
+  <form action="/songs/editor/confirm" method="POST" id="song-editor-form">
     <fieldset class="song-edit-fieldset">
       <legend id="song-editor-title"><%- song.title %></legend>
       <label for="author">Author(s)</label>

@@ -253,7 +253,7 @@ module.exports.confirmation = (req) => {
   Would you like to edit ${
     req.session.newShow.newSongs.length > 1 ? "their" : "this song's"
   }
-  details now?<button type="button" class="map-popup-buttons"><a href="/songs/editor">Yes</a></button><button type="button" class="map-popup-buttons"><a href="/">Not Now</a></button>`;
+  details now?<button type="button" class="map-popup-buttons"><a href="/songs/editor/form">Yes</a></button><button type="button" class="map-popup-buttons"><a href="/">Not Now</a></button>`;
   return {
     user: req.user,
     title:

@@ -33,7 +33,7 @@ router.get(
 
 
 router.get(
-  "/songs/editor",
+  "/songs/editor/form",
   isLoggedIn,
   isAdmin,
   catchAsync(async (req, res) => {
@@ -45,7 +45,7 @@ router.get(
 );
 
 router.post(
-  "/songs/editor",
+  "/songs/editor/confirm",
   isLoggedIn,
   isAdmin,
   catchAsync(async (req, res) => {

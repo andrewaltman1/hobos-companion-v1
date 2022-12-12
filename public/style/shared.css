@@ -432,7 +432,9 @@ input {
   list-style-type: none;
   width: fit-content;
   margin: 0.5rem auto;
-  padding: 0;
+  background-color: #fffffff5;
+  color: #333;
+  padding-top: 10px 0 0 10px;
 }
 
 #results li {
@@ -484,34 +486,46 @@ input {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  gap: 1rem;
+  /* gap: 1rem; */
 }
 
 #set-input label {
   font: 400 1.2rem "Rubik", sans-serif;
   text-align: center;
+  color: #9c91ae;
+;
 }
 
 #set-input #songs {
   height: 45vh;
   width: 100%;
+  font-family: "Rubik", sans-serif;
+}
+
+.notes-heading {
+  margin-top:10px;
 }
 
 #set-input #notes {
   height: 15vh;
   width: 100%;
+  font-family: "Rubik", sans-serif;
 }
 
 #set-input button {
-  height: 6vh;
-  width: 50%;
-  margin-top: 0.4rem;
+  height: 40px;
+  width: 160px;
+  /* margin-top: 0.4rem; */
   text-align: center;
   font: 400 1.2rem "Rubik", sans-serif;
-  color: #1f1109ff;
-  background-color: #c7cac755;
-  border: 1px solid #767676;
-  border-radius: 0.5rem;
+  background-color: #928f97;
+  background-color: #aaa8ae;
+  color: #444 !important;
+  height: 30px;
+  width: 100px;
+  margin-top: 13px;
+  border: none;
+  border-radius: 2px;
 }
 
 #show-confirm-bar {

@@ -1,7 +1,7 @@
 const { Pool } = require("pg");
 
 const pool = new Pool({
-  user: "andrewaltman", // process.env.DATABASE_USER
+  user: "francinekline", // process.env.DATABASE_USER
   host: "localhost", // process.env.DATABASE_HOST
   database: "rre-shows", // process.env.DATABASE_NAME
   password: process.env.DATABASE_PASSWORD,
@@ -22,6 +22,13 @@ module.exports.getShowsBySongID = (id) => {
     'SELECT venues.id as "venueId", shows.id as "showId", songs.title, name as "venueName", city, state, country, date, ST_AsGeoJSON(geom) AS geometry FROM venues JOIN shows ON shows.venue_id = venues.id JOIN versions ON shows.id = show_id JOIN songs ON songs.id = song_id WHERE songs.id = $1 ORDER BY date DESC',
     [id]
   );
+};
+
+module.exports.findUser = async () => {
+  const { rows } = await pool.query(
+    'SELECT current_user',
+  );
+  return rows[0]
 };
 
 module.exports.getShowByID = (id) => {

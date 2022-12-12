@@ -32,6 +32,7 @@ router.get(
   "/show/:id",
   catchAsync(async (req, res) => {
     let { rows } = await db.getShowByID(req.params.id);
+    console.log(rows);
     res.render("single-model", view.singleShow(req, rows));
   })
 );
@@ -154,6 +155,8 @@ router.get(
     req.session.newShow.songs = req.session.newShow.songs.filter(
       (song) => song.id != null
     );
+
+    // let findDBInfo = await db.findUser();
 
     !req.session.newShow.venue.id
       ? (req.session.newShow.venue.id = await db.insertNewVenue(req))
