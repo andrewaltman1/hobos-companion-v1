@@ -11,6 +11,7 @@ body {
 header {
   height: 100px;
   display: flex;
+  justify-content: space-around;
   flex-flow: row nowrap;
   margin: 0 auto;
   margin-bottom: 10px;
@@ -19,12 +20,9 @@ header {
 nav {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  /* gap: 0.7%; */
-  width: 70%;
-  /* margin-top: 46px; */
+  /* justify-content: space-around; */
+  /* width: 70%; */
   margin-top: 15px;
-  /* margin-left: 30px; */
 }
 
 nav > a {
@@ -42,12 +40,18 @@ nav > a:hover {
   font-size: 2rem;
 }
 
+.thc-icon {
+  width: 80px;
+  height: 80px;
+  margin-top: 16px;
+}
+
 #header-buttons {
   display: flex;
   flex-flow: column-reverse nowrap;
   justify-content: space-evenly;
-  width: 20%;
-  margin-left: 4px;
+  /* width: 20%; */
+  /* margin-left: 4px; */
 }
 
 #header-buttons .button {
@@ -70,6 +74,7 @@ button#view-mode-button {
   color: #444 !important;
   height: 30px;
   width: 100px;
+  margin-top: 13px;
 }
 
 .years,
@@ -378,6 +383,7 @@ input {
 /* **** new-show **** */
 
 .show-inputs {
+  color: #928f97;
   margin: 2rem auto;
   width: fit-content;
   height: fit-content;
@@ -394,6 +400,8 @@ input {
 
 #date-input input {
   margin-left: 5%;
+  font-family: Rubik, sans-serif;
+  color: #928f97;
 }
 
 #venue-input input {
@@ -403,15 +411,20 @@ input {
 #venue-input #city,
 #venue-input #state,
 #venue-input #country {
-  margin-left: 27%;
+  margin-left: 25%;
   margin-right: 0;
 }
 
 .show-inputs button {
   display: block;
   margin: auto;
-  height: 2rem;
-  width: 4rem;
+  border-radius: 2px;
+  border:none;
+  background-color: #928f97;
+  color: #444 !important;
+  height: 30px;
+  width: 100px;
+  margin-top: 13px;
 }
 
 #results {
@@ -746,26 +759,46 @@ a:hover .question-mark-icon {
 }
 
 @media (min-width: 818px) {
+  header {
+    justify-content: space-between;
+  }
+
+  .thc-icon {
+    position: absolute;
+    margin-left: 37px;
+    margin-top: 20px;
+  }
+
+  nav {
+    margin-left: 126px;
+  }
+
   #header-buttons {
     flex-flow: row nowrap;
     margin-left: 40px;
     margin-top: 44px;
   }
+
+  .sign-in-button {
+    margin-top: 0px;
+    margin-left: 0px;
+    margin: 0px 10px;
+  }
 }
 
 @media (min-width: 996px) {
   #header-buttons {
-    width: 30%;
+    width: 26%;
   }
 
   button#view-mode-button {
-    width: 140px;
-    height: 40px;
+    width: 130px;
+    height: 36px;
   }
 
   .sign-in-button {
-    width: 140px;
-    height: 40px;
+    width: 130px;
+    height: 36px;
   }
 }
 
