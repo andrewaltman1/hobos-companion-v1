@@ -145,7 +145,8 @@ button#view-mode-button {
 }
 
 .table-mode-container h3 {
-  margin-bottom: 0px !important;
+  /* margin-bottom: 0px !important; */
+  margin: 0px !important;
   color: #666;
   line-height: 1.4rem;
   font-weight: 400;
@@ -155,7 +156,6 @@ button#view-mode-button {
 .table-mode-container__headers--single-model {
   display: block;
   text-align: center;
-  padding-top: 0.5rem;
 }
 
 .table-mode-container > table {
@@ -283,6 +283,7 @@ td > a:hover {
 
 .setlist li {
   width: fit-content;
+  font-size: 16px;
 }
 
 .encore-title {
@@ -295,6 +296,7 @@ td > a:hover {
 
 #show-notes {
   white-space: pre-line;
+  font-size: 16px;
   margin: 0 auto;
   height: fit-content;
   width: 90%;
@@ -458,7 +460,7 @@ input {
   padding: 0.2rem 1rem;
   background-color: #c7cac755;
   border: 1px solid #804a2066;
-  border-radius: 0.5rem;
+  border-radius: 2px;
 }
 
 .map-popup-buttons:hover {
@@ -529,9 +531,12 @@ input {
 }
 
 #show-confirm-bar {
+  color:#928f97;
+  font-family: "Rubik", sans-serif;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-around;
+  justify-content: center;
+  column-gap:.5em;
   align-items: center;
   margin: 0.5rem;
   font-size: 1.5rem;
@@ -541,7 +546,8 @@ input {
 
 #show-confirm-bar .map-popup-buttons {
   background-color: #ffffffaa;
-  height: 3rem;
+  height: 30px;
+  width: 80px;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -612,7 +618,7 @@ input {
 #song-editor-form button {
   color: #1f1109ff;
   background-color: #c7cac755;
-  border: 1px solid #804a2066;
+  /* border: 1px solid #804a2066; */
   border-radius: 0.5rem;
   font-size: 1.5rem;
   padding: 0.75rem;
@@ -813,6 +819,18 @@ a:hover .question-mark-icon {
   .sign-in-button {
     width: 130px;
     height: 36px;
+  }
+
+  #show-notes {
+    font-size: 20px;
+  }
+
+  #show-confirm-bar {
+    column-gap: 3em;
+  }
+
+  .setlist li {
+    font-size: 18px;
   }
 }
 
