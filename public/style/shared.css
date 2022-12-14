@@ -578,6 +578,7 @@ input {
   border-radius: 0.3rem;
   font: 100 1rem "Rubik", sans-serif;
   padding: 5px 5px;
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .table-mode-container__editor h3 {
@@ -598,11 +599,12 @@ input {
   flex-flow: column nowrap;
   justify-content: space-evenly;
   align-items: center;
-  gap: 1rem;
+  /* gap: 1rem; */
   margin-top: 1rem;
 }
 
 #song-editor-title {
+  color: #5c516d;
   font-size: 1.6rem;
   font-weight: 500;
 }
@@ -616,14 +618,19 @@ input {
 }
 
 #song-editor-form button {
-  color: #1f1109ff;
-  background-color: #c7cac755;
-  /* border: 1px solid #804a2066; */
-  border-radius: 0.5rem;
-  font-size: 1.5rem;
-  padding: 0.75rem;
-  height: fit-content;
-  width: fit-content;
+  height: 40px;
+  width: 160px;
+  margin-top: 0.4rem;
+  text-align: center;
+  font: 400 1.2rem "Rubik", sans-serif;
+  background-color: #928f97;
+  background-color: #aaa8ae;
+  color: #444 !important;
+  height: 30px;
+  width: 100px;
+  margin-top: 13px;
+  border: none;
+  border-radius: 2px;
 }
 
 .song-edit-fieldset {
