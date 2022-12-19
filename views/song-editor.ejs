@@ -12,7 +12,7 @@
         </legend>
         <label for="isSong">Yes, it's a song.</label>
         <input type="radio" name="isSong" value="true" required />
-        <label for="isSong">No, not a song.</label>
+        <label class="radio-sp-left1" for="isSong">No, not a song.</label>
         <input type="radio" name="isSong" value="false" />
       </fieldset>
       <label for="notes">Notes</label>
@@ -26,7 +26,7 @@
       <fieldset>
         <legend>Is this song instrumental?</legend>
         <label for="instrumental">No</label>
-        <input type="radio" name="instrumental" value="false" /><label
+        <input type="radio" name="instrumental" value="false" /><label class="radio-sp-left2" 
           for="instrumental"
           >Yes</label
         >
@@ -37,3 +37,5 @@
       <button type="submit">Submit</button>
   </form>
 </div>
+
+<%- include('./partials/footer') %>

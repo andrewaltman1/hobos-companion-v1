@@ -138,17 +138,17 @@ button#view-mode-button {
 }
 
 .table-mode-container h1 {
-  margin-bottom: 4px !important;
-  font-size: 26px;
+  /* margin-bottom: 4px !important; */
+  font-size: 20px;
   color: #5c516d;
   font-weight: 400;
 }
 
 .table-mode-container h3 {
   /* margin-bottom: 0px !important; */
-  margin: 0px !important;
+  margin: 0px 0px 6px 0px !important;
   color: #666;
-  line-height: 1.4rem;
+  line-height: 1.2rem;
   font-weight: 400;
   font-size: 16px;
 }
@@ -156,6 +156,10 @@ button#view-mode-button {
 .table-mode-container__headers--single-model {
   display: block;
   text-align: center;
+}
+
+.table-mode-container__headers--single-model a {
+  color: #408a8c;
 }
 
 .table-mode-container > table {
@@ -205,7 +209,7 @@ tr td {
 
 /* make the first column of the ALL VENUES table more narrow */
 #table-column-0 {
-  max-width: 50px;
+  /* max-width: 50px; */
   text-align: center;
 }
 
@@ -239,15 +243,16 @@ td > a:hover {
 
 #performance-list > a {
   text-decoration: none;
-  color: #0000ee;
+  color: #408a8c;
 }
 
 #performance-list > a:hover,
 #performance-list > a:active,
 #performance-list > a:focus {
   text-decoration: none;
-  border-bottom: 1px solid black;
+  /* border-bottom: 1px solid black; */
   font-size: 1.6rem;
+  color: #49999e;
 }
 
 /* **** show-page **** */
@@ -456,10 +461,17 @@ input {
 }
 
 .map-popup-buttons {
-  color: #1f1109ff;
-  padding: 0.2rem 1rem;
-  background-color: #c7cac755;
-  border: 1px solid #804a2066;
+  height: 40px;
+  width: 160px;
+  text-align: center;
+  justify-content: center;
+  font: 400 1.2rem "Rubik", sans-serif;
+  background-color: #aaa8ae;
+  color: #444 !important;
+  height: 30px;
+  width: 100px;
+  margin-top: 13px;
+  border: none;
   border-radius: 2px;
 }
 
@@ -517,10 +529,8 @@ input {
 #set-input button {
   height: 40px;
   width: 160px;
-  /* margin-top: 0.4rem; */
   text-align: center;
   font: 400 1.2rem "Rubik", sans-serif;
-  background-color: #928f97;
   background-color: #aaa8ae;
   color: #444 !important;
   height: 30px;
@@ -572,7 +582,7 @@ input {
   position: relative;
   margin: auto;
   width: 95vw;
-  height: 95vh;
+  height: 100vh;
   min-width: 250px;
   max-width: 1400px;
   border-radius: 0.3rem;
@@ -641,7 +651,7 @@ input {
   max-width: 600px;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: space-evenly;
+  /* justify-content: space-evenly; */
   align-items: stretch;
   gap: 0.6rem;
   background-color: #c7cac722;
@@ -650,7 +660,15 @@ input {
 .song-edit-fieldset fieldset {
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-evenly;
+  /* justify-content: space-evenly; */
+}
+
+.radio-sp-left1 {
+  margin-left: 5%;
+}
+
+.radio-sp-left2 {
+  margin-left: 25%;
 }
 
 /* **** coming-soon **** */
@@ -777,11 +795,14 @@ a:hover .question-mark-icon {
   }
 
   .table-mode-container h1 {
-    font-size: 29px;
+    font-size: 24px;
+    margin-bottom: 4px !important;
   }
 
   .table-mode-container h3 {
+    margin: 0px !important;
     font-size: 17px;
+    line-height: 1.4rem;
   }
 }
 
