@@ -258,8 +258,8 @@ module.exports.confirmation = (req) => {
     user: req.user,
     title:
       req.url == "/new-show/confirmation"
-        ? "Show Saved. Thanks!"
-        : "Song Saved. Thanks!",
+        ? "Show saved. Thanks!"
+        : "Song saved. Thanks!",
     subtitle: "",
     show: false,
     section: {
@@ -278,7 +278,7 @@ module.exports.about = (req) => {
     show: false,
     section: {
       idString: "about",
-      data: "Originally launched by Johnny Grubb as an archive of Railroad Earth show information, this site went down in 2019 and was relaunched by myself (Andrew Altman) in 2023 after picking up the original database and rebuilding the front and back end. The original site allowed users to log in and interact with the data and, while the ability to log in exists for admins to enter new shows, the process of implementing password reset is what currently stands in the way of all users logging in. I made it this far by building and learning as I went but I need to take some time away from the project for now but plan to revisit it within the next year or bring in others to help bring back old functionality or extend the new features. Let me know if you find any bugs. <br><br><a href='mailto:andrewaltman@outlook.com'>Email the currators of this site</a>"
+      data: "Originally launched by Johnny Grubb as an archive of Railroad Earth show information, this site went down in 2019 and was relaunched by myself (Andrew Altman) in 2023 after picking up the original database and rebuilding the front and back end. The original site allowed users to log in and interact with the data and, while the ability to log in exists for admins to enter new shows, the process of implementing password reset is what currently stands in the way of all users logging in. I made it this far by building and learning as I went but I need to take some time away from the project for now but plan to revisit it within the next year or bring in others to help bring back old functionality or extend the new features. Let me know if you find any bugs. <br><br>Questions or comments? Email us at hoboscompanion@gmail.com"
     },
     scripts: []
   }

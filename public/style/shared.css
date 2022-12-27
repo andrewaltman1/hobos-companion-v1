@@ -1,5 +1,11 @@
 /* **** shared **** */
 
+
+/* makes errors readable */
+pre {
+  background-color: white;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -92,7 +98,8 @@ button#view-mode-button {
 #cluster-map {
   margin: auto auto 30px auto;
   width: 95vw;
-  height: 90vh;
+  /* height: 90vh; */
+  height: 70vh;
   min-width: 250px;
   max-width: 1400px;
   padding: 0.5rem;
@@ -120,7 +127,8 @@ button#view-mode-button {
   /* position: absolute; */
   background-color: rgba(255, 255, 255, 0.9);
   width: 96vw;
-  height: 76vh;
+  /* height: 79vh; */
+  height: 70vh;
   overflow: scroll;
   min-width: 250px;
   font: 100 15px "Rubik", sans-serif;
@@ -260,11 +268,12 @@ td > a:hover {
 #setlist-wrapper {
   width: 100%;
   height: fit-content;
-  margin: 1rem auto;
+  margin: 1rem auto 0 1rem;
   position: relative;
   display: flex;
   flex-flow: column nowrap;
-  align-items: center;
+  /* align-items: center; */
+  align-items: left;
 }
 
 .setlist-title {
@@ -317,11 +326,12 @@ td > a:hover {
 #map {
   margin: auto;
   width: 95vw;
-  height: 90vh;
+  height: 79vh;
   min-width: 250px;
   max-width: 1400px;
   padding: 0.5rem;
-  border-radius: 1rem;
+  /* border-radius: 1rem; */
+  border-radius: 3px;
   border: 1.5px solid #1f1109ff;
 }
 
@@ -395,7 +405,7 @@ input {
   width: fit-content;
   height: fit-content;
   overflow: scroll;
-  min-width: 250px;
+  min-width: 320px;
   max-width: 1400px;
   font: 100 1rem "Rubik", sans-serif;
   position: relative;
@@ -408,7 +418,7 @@ input {
 #date-input input {
   margin-left: 5%;
   font-family: Rubik, sans-serif;
-  color: #928f97;
+  color: #83759d;
 }
 
 #venue-input input {
@@ -452,7 +462,8 @@ input {
 
 #map {
   width: 95vw;
-  height: 90vh;
+  /* height: 79vh; */
+  height: 76vh;
   margin: auto;
 }
 
@@ -490,9 +501,11 @@ input {
 }
 
 #set-input {
-  width: 95vw;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  width: 90%;
+  height: auto;
   max-width: 700px;
-  height: 95vh;
   margin: auto;
 }
 
@@ -500,18 +513,16 @@ input {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  /* gap: 1rem; */
 }
 
 #set-input label {
   font: 400 1.2rem "Rubik", sans-serif;
   text-align: center;
-  color: #9c91ae;
-;
+  color: #777;;
 }
 
 #set-input #songs {
-  height: 45vh;
+  height: 36vh;
   width: 100%;
   font-family: "Rubik", sans-serif;
 }
@@ -582,7 +593,8 @@ input {
   position: relative;
   margin: auto;
   width: 95vw;
-  height: 100vh;
+  /* height: 100vh; */
+  height: 75vh;
   min-width: 250px;
   max-width: 1400px;
   border-radius: 0.3rem;
@@ -663,12 +675,26 @@ input {
   /* justify-content: space-evenly; */
 }
 
+.show-inputs {
+  background-color: rgba(255, 255, 255, 0.9);
+  width: 40%;
+  padding: 20px;
+}
+
+.show-inputs legend {
+  color: #777;
+}
+
 .radio-sp-left1 {
   margin-left: 5%;
 }
 
 .radio-sp-left2 {
   margin-left: 25%;
+}
+
+.notes {
+  height: 130px
 }
 
 /* **** coming-soon **** */
@@ -761,6 +787,21 @@ a:hover .question-mark-icon {
   text-decoration: none;
 }
 
+.map-popup-buttons {
+  background-color: rgb(112, 111, 111) !important;
+  color: #e0e4cc !important;
+  font-weight: 200 !important;
+}
+
+.map-popup-buttons a {
+  color: #e0e4cc !important;
+}
+
+
+.map-popup-buttons img {
+  color: #e0e4cc !important;
+}
+
 /* ************************* */
 /* ***** media queries ***** */
 /* ************************* */
@@ -769,6 +810,7 @@ a:hover .question-mark-icon {
   .table-mode-container {
     width: 97vw;
     max-width: 1300px;
+    height: 79vh;
   }
 }
 
@@ -803,6 +845,19 @@ a:hover .question-mark-icon {
     margin: 0px !important;
     font-size: 17px;
     line-height: 1.4rem;
+  }
+
+  #set-input {
+    padding: 20px;
+    width: 90%;
+  }
+
+#cluster-map {
+  height: 80vh;
+}
+
+.table-mode-container__editor {
+    height: auto;
   }
 }
 
@@ -860,6 +915,7 @@ a:hover .question-mark-icon {
   .setlist li {
     font-size: 18px;
   }
+
 }
 
 /* 1450 and bigger */
