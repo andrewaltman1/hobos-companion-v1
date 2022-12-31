@@ -1,11 +1,11 @@
 const { Pool } = require("pg");
 
 const pool = new Pool({
-  user: "francinekline", // process.env.DATABASE_USER
-  host: "localhost", // process.env.DATABASE_HOST
-  database: "rre-shows", // process.env.DATABASE_NAME
+  user: process.env.DATABASE_USER,
+  host: process.env.DATABASE_HOST,
+  database: process.env.DATABASE_NAME,
   password: process.env.DATABASE_PASSWORD,
-  port: 5432, // process.env.DATABASE_PORT
+  port: process.env.DATABASE_PORT,
 });
 pool.connect();
 
@@ -25,10 +25,8 @@ module.exports.getShowsBySongID = (id) => {
 };
 
 module.exports.findUser = async () => {
-  const { rows } = await pool.query(
-    'SELECT current_user',
-  );
-  return rows[0]
+  const { rows } = await pool.query("SELECT current_user");
+  return rows[0];
 };
 
 module.exports.getShowByID = (id) => {
