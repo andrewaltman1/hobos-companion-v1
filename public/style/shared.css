@@ -1,6 +1,5 @@
 /* **** shared **** */
 
-
 /* makes errors readable */
 pre {
   background-color: white;
@@ -73,6 +72,7 @@ button#view-mode-button {
   background-color: #e0e4ccd5;
   height: 30px;
   width: 100px;
+  margin-top: -5px;
 }
 
 .sign-in-button {
@@ -435,7 +435,7 @@ input {
   display: block;
   margin: auto;
   border-radius: 2px;
-  border:none;
+  border: none;
   background-color: #928f97;
   color: #444 !important;
   height: 30px;
@@ -517,7 +517,7 @@ input {
 #set-input label {
   font: 400 1.2rem "Rubik", sans-serif;
   text-align: center;
-  color: #777;;
+  color: #777;
 }
 
 #set-input #songs {
@@ -527,7 +527,7 @@ input {
 }
 
 .notes-heading {
-  margin-top:10px;
+  margin-top: 10px;
 }
 
 #set-input #notes {
@@ -551,12 +551,12 @@ input {
 }
 
 #show-confirm-bar {
-  color:#928f97;
+  color: #928f97;
   font-family: "Rubik", sans-serif;
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
-  column-gap:.5em;
+  column-gap: 0.5em;
   align-items: center;
   margin: 0.5rem;
   font-size: 1.5rem;
@@ -693,7 +693,7 @@ input {
 }
 
 .notes {
-  height: 130px
+  height: 130px;
 }
 
 /* **** coming-soon **** */
@@ -796,9 +796,28 @@ a:hover .question-mark-icon {
   color: #e0e4cc !important;
 }
 
-
 .map-popup-buttons img {
   color: #e0e4cc !important;
+}
+
+/* coming soon button jacket */
+/* remove when coming soon button jacket is removed  */
+.button-jacket {
+  font-family: "Rubik";
+  background-color: #de53a4d4;
+  color: #fff;
+  font-size: 14px;
+  width: 108px;
+  text-align: center;
+  padding-top: 4px;
+  margin-top: -23px;
+  margin-left: -3px;
+  padding-bottom: 37px;
+}
+
+.sign-in-button {
+  position: relative;
+  top: 29px;
 }
 
 /* ************************* */
@@ -831,6 +850,11 @@ a:hover .question-mark-icon {
     height: 34px;
   }
 
+  .button-jacket {
+    width: 127px;
+    margin-top: -25px;
+  }
+
   .table-header {
     margin: 10px 0px;
   }
@@ -851,11 +875,11 @@ a:hover .question-mark-icon {
     width: 90%;
   }
 
-#cluster-map {
-  height: 80vh;
-}
+  #cluster-map {
+    height: 80vh;
+  }
 
-.table-mode-container__editor {
+  .table-mode-container__editor {
     height: auto;
   }
 }
@@ -885,7 +909,21 @@ a:hover .question-mark-icon {
     margin-top: 0px;
     margin-left: 0px;
     margin: 0px 10px;
+    height: 33px;
+    top: -5px;
+    left: 2px;
   }
+
+  button#view-mode-button {
+    width: 120px;
+    height: 33px;
+  }
+
+  .button-jacket {
+    /* width: 127px; */
+    margin-top: -59px;
+    margin-left: 9px;
+ }
 }
 
 @media (min-width: 996px) {
@@ -898,9 +936,16 @@ a:hover .question-mark-icon {
     height: 36px;
   }
 
+  .button-jacket {
+    width: 144px;
+    margin-top: -61px;
+    padding-bottom: 41px;
+}
+
   .sign-in-button {
     width: 130px;
     height: 36px;
+    left: 6px;
   }
 
   #show-notes {
@@ -922,7 +967,6 @@ a:hover .question-mark-icon {
   .table-mode-container {
     height: 76vh !important;
   }
-
 }
 
 /* 1450 and bigger */
