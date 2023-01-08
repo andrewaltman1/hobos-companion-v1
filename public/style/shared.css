@@ -42,7 +42,8 @@ nav > a {
 }
 
 nav > a:hover {
-  font-size: 2rem;
+  /* font-size: 2rem; */
+  font-size: 1.5rem;
 }
 
 .thc-icon {
@@ -72,10 +73,10 @@ button#view-mode-button {
   background-color: #e0e4ccd5;
   height: 30px;
   width: 100px;
-  margin-top: -5px;
+  margin-top: -9px;
 }
 
-.sign-in-button {
+.sign-in-button, .sign-out-button {
   background-color: #e0e4ccc6 !important;
   color: #444 !important;
   height: 30px;
@@ -126,13 +127,17 @@ button#view-mode-button {
 .table-mode-container {
   background-color: rgba(255, 255, 255, 0.9);
   width: 96vw;
-  /* height: 79vh; */
   height: 70vh;
   overflow: scroll;
   min-width: 250px;
   font: 100 15px "Rubik", sans-serif;
-  /* padding: 5px 10px; */
   margin: 0px auto;
+}
+
+.table-mode-container #about {
+  margin: 6vh auto;
+  max-width: 760px;
+  font: 100 1rem "Rubik", sans-serif;
 }
 
 .table-header {
@@ -146,7 +151,7 @@ button#view-mode-button {
 
 .table-mode-container h1 {
   /* margin-bottom: 4px !important; */
-  font-size: 20px;
+  font-size: 26px;
   color: #5c516d;
   font-weight: 400;
 }
@@ -271,8 +276,8 @@ td > a:hover {
   position: relative;
   display: flex;
   flex-flow: column nowrap;
-  /* align-items: center; */
-  align-items: left;
+  align-items: center;
+  /* align-items: left; */
 }
 
 .setlist-title {
@@ -308,6 +313,7 @@ td > a:hover {
 }
 
 #show-notes {
+  text-align: center;
   white-space: pre-line;
   font-size: 16px;
   margin: 0 auto;
@@ -716,10 +722,13 @@ input {
   text-align: center;
   padding: 5px 5px;
   font-weight: 500;
+  font-size: 26px;
+  color: #5c516d;
+  font-weight: 400;
 }
 
 .table-mode-container__coming-soon p {
-  font-size: 1.1rem;
+  font-size: 1rem;
   width: 90%;
   margin: 5% auto;
 }
@@ -829,7 +838,15 @@ a:hover .question-mark-icon {
     width: 97vw;
     max-width: 1300px;
     height: 79vh;
+    /* height: 360px; */
   }
+
+/* this doesnt work need to target the whole table, not just the id about */
+  /* .table-mode-container:has(#about) {
+    color: red !important;
+    width: 97vw;
+    height: 360px;
+  } */
 }
 
 @media (min-width: 450px) {
@@ -843,9 +860,10 @@ a:hover .question-mark-icon {
   button#view-mode-button {
     width: 120px;
     height: 34px;
+    margin-top: 0px;
   }
 
-  .sign-in-button {
+  .sign-in-button, .sign-out-button {
     width: 120px;
     height: 34px;
   }
@@ -905,7 +923,7 @@ a:hover .question-mark-icon {
     margin-top: 44px;
   }
 
-  .sign-in-button {
+  .sign-in-button, .sign-out-button {
     margin-top: 0px;
     margin-left: 0px;
     margin: 0px 10px;
@@ -913,17 +931,24 @@ a:hover .question-mark-icon {
     top: -5px;
     left: 2px;
   }
-
+  
+  .sign-in-button {
+    /* margin-top: -55px; */
+    top: 0px;
+  }
+  
   button#view-mode-button {
     width: 120px;
     height: 33px;
+    margin-top: 0px;
   }
-
+  
   .button-jacket {
     /* width: 127px; */
-    margin-top: -59px;
+    /* margin-top: -59px; */
     margin-left: 9px;
- }
+    margin-top: -55px;
+  }
 }
 
 @media (min-width: 996px) {
@@ -938,11 +963,11 @@ a:hover .question-mark-icon {
 
   .button-jacket {
     width: 144px;
-    margin-top: -61px;
+    margin-top: -57px;
     padding-bottom: 41px;
-}
+  }
 
-  .sign-in-button {
+  .sign-in-button, .sign-out-button {
     width: 130px;
     height: 36px;
     left: 6px;
