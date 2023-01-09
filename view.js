@@ -30,7 +30,9 @@ module.exports.allShows = (req, rows) => {
   return {
     user: req.user,
     table: {
-      title: rows[0].title ? `${rows[0].title}` : "All Shows&nbsp;&nbsp;<span class='pipe'>|</span>",
+      title: rows[0].title
+        ? `${rows[0].title}`
+        : "All Shows&nbsp;&nbsp;<span class='pipe'>|</span>",
       subtitleOne: `Years: ${
         rows[0].date.getYear() - rows[rows.length - 1].date.getYear()
       }`,
@@ -60,7 +62,9 @@ module.exports.allSongs = (req, rows, author) => {
     user: req.user,
     clusterMap: false,
     table: {
-      title: author ? author : "All Songs&nbsp;&nbsp;<span class='pipe'>|</span>",
+      title: author
+        ? author
+        : "All Songs&nbsp;&nbsp;<span class='pipe'>|</span>",
       subtitleOne: `Unique Songs:  ${rows.length}`,
       subtitleTwo: `Total Plays:  ${calcTotalTimesPlayed(rows)}`,
       columnTypes: "nss",
@@ -78,7 +82,9 @@ module.exports.venues = (req, rows) => {
   return {
     user: req.user,
     table: {
-      title: rows[0].centerLng ? venueTitle(rows) : "All Venues&nbsp;&nbsp;<span class='pipe'>|</span>",
+      title: rows[0].centerLng
+        ? venueTitle(rows)
+        : "All Venues&nbsp;&nbsp;<span class='pipe'>|</span>",
       subtitleOne: `Unique Venues:  ${rows.length}`,
       subtitleTwo: `Total Plays: ${rows.reduce((p, c) => +p + +c.total, 0)}`,
       columnTypes: "nss",
@@ -108,7 +114,9 @@ module.exports.venuesByCity = (req, rows) => {
   return {
     user: req.user,
     table: {
-      title: rows[0].centerLng ? venueTitle(rows) : "All Venues&nbsp;&nbsp;<span class='pipe'>|</span>",
+      title: rows[0].centerLng
+        ? venueTitle(rows)
+        : "All Venues&nbsp;&nbsp;<span class='pipe'>|</span>",
       subtitleOne: `Unique Venues: ${rows.length}`,
       subtitleTwo: `Total Plays: ${rows.reduce((p, c) => +p + +c.total, 0)}`,
       columnTypes: "nsd",
@@ -272,14 +280,24 @@ module.exports.confirmation = (req) => {
 
 module.exports.about = (req) => {
   return {
-    user: req.user, 
-    title: "Welcome to v2 of The Hobo’s Companion", 
-    subtitle: "", 
-    show: false,
-    section: {
-      idString: "about",
-      data: "Originally launched by Johnny Grubb as an archive of Railroad Earth show information, this site went down in 2019 and was relaunched by myself (Andrew Altman) in 2023 after picking up the original database and rebuilding the front and back end. The original site allowed users to log in and interact with the data and, while the ability to log in exists for admins to enter new shows, the process of implementing password reset is what currently stands in the way of all users logging in. I made it this far by building and learning as I went but I need to take some time away from the project for now but plan to revisit it within the next year or bring in others to help bring back old functionality or extend the new features. Let me know if you find any bugs. <br><br>Questions or comments? Email us at hoboscompanion@gmail.com"
-    },
-    scripts: []
-  }
-}
+    user: req.user,
+    title: "Welcome to v2 of The Hobo’s Companion",
+    body: "Originally launched by Johnny Grubb as an archive of Railroad Earth show information, this site went down in 2019 and was relaunched by myself (Andrew Altman) in 2023 after picking up the original database and rebuilding the front and back end. The original site allowed users to log in and interact with the data and, while the ability to log in exists for admins to enter new shows, the process of implementing password reset is what currently stands in the way of all users logging in. I made it this far by building and learning as I went but I need to take some time away from the project for now but plan to revisit it within the next year or bring in others to help bring back old functionality or extend the new features. Let me know if you find any bugs. <br><br>Questions or comments? Email us at hoboscompanion@gmail.com",
+  };
+};
+
+module.exports.comingSoon = (req) => {
+  return {
+    user: req.user,
+    title: "Coming Soon!",
+    body: "You are currently viewing the re-launched hoboscompanion.org. The original site allowed all users to log in but for now this functionality is limited to admins so they can add new shows. Password reset functionality needs to be re-implemented for all users before they can log in.",
+  };
+};
+
+module.exports.errorMessage = (req, err) => {
+  return {
+    user: req.user,
+    title: err.message,
+    body: `${err.statusCode}<br>${err.stack}`,
+  };
+};

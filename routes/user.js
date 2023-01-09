@@ -5,7 +5,7 @@ const { login } = require("../middleware");
 const view = require("../view.js");
 
 router.get("/coming-soon", (req, res) => {
-  res.render("coming-soon", { user: req.user });
+  res.render("simple-message", view.comingSoon(req));
 });
 
 // auth for new users is working but password reset funtionality needs to be implemented
@@ -37,7 +37,7 @@ router.post("/logout", function (req, res, next) {
 });
 
 router.get("/about", (req, res) => {
-  res.render("single-model", view.about(req))
+  res.render("simple-message", view.about(req))
 })
 
 module.exports = router;
