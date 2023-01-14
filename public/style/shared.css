@@ -706,13 +706,13 @@ input {
 
 .table-mode-container__coming-soon {
   background-color: rgba(255, 255, 255, 0.9);
-  position: relative;
-  margin: 12vh auto;
-  width: fit-content;
-  height: fit-content;
+  /* position: relative; */
+  margin: 4vh auto;
+  /* width: fit-content; */
+  /* height: fit-content; */
   overflow: scroll;
-  min-width: 250px;
-  max-width: 500px;
+  /* min-width: 250px; */
+  max-width: 800px;
   border-radius: 3px;
   font: 100 1rem "Rubik", sans-serif;
   padding: 5px 5px;
@@ -728,7 +728,6 @@ input {
 }
 
 .table-mode-container__coming-soon p {
-  font-size: 1rem;
   width: 90%;
   margin: 5% auto;
 }
@@ -840,19 +839,16 @@ a:hover .question-mark-icon {
     height: 79vh;
     /* height: 360px; */
   }
-
-/* this doesnt work need to target the whole table, not just the id about */
-  /* .table-mode-container:has(#about) {
-    color: red !important;
-    width: 97vw;
-    height: 360px;
-  } */
 }
 
 @media (min-width: 450px) {
   nav > a {
     /* flex: 1; */
     font-size: 1.4rem;
+  }
+
+  .table-mode-container__coming-soon {
+    max-width: 80vw;
   }
 }
 
@@ -871,6 +867,10 @@ a:hover .question-mark-icon {
   .button-jacket {
     width: 127px;
     margin-top: -25px;
+  }
+
+  .table-mode-container__coming-soon {
+
   }
 
   .table-header {
