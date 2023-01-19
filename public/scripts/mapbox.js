@@ -1,6 +1,5 @@
 (() => {
   window.addEventListener("DOMContentLoaded", (event) => {
-    console.log("map script");
     mapboxgl.accessToken = window.clusterMap.mapToken;
     const map = new mapboxgl.Map({
       container: "cluster-map",

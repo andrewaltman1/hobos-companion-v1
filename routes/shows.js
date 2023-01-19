@@ -32,7 +32,6 @@ router.get(
   "/show/:id",
   catchAsync(async (req, res) => {
     let { rows } = await db.getShowByID(req.params.id);
-    console.log(rows);
     res.render("single-model", view.singleShow(req, rows));
   })
 );

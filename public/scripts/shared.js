@@ -1,7 +1,6 @@
 (() => {
   window.addEventListener("DOMContentLoaded",
     (event) => {
-        console.log("shared script");
         const table = document.querySelector(".table-mode-container");
         const mapContainer = document.querySelector("#cluster-map");
         const modeButton = document.getElementById("view-mode-button");

@@ -1,6 +1,5 @@
 (() => {
   window.addEventListener("DOMContentLoaded", (event) => {
-    console.log("table script");
     let isSorted = "table-column-0";
     const thead = document.querySelector("thead");
     const tableBody = document.querySelector("tbody");

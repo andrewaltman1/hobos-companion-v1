@@ -16,9 +16,7 @@ router.get(
 router.get(
   "/songs/author/:author",
   catchAsync(async (req, res) => {
-    console.log(req.params)
     let { rows } = await db.getAllSongsByAuthor(req.params.author);
-    console.log(rows)
     res.render("table-map", view.allSongs(req, rows, req.params.author));
   })
 );
