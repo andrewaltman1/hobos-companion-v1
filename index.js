@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== "production") {
 
 const express = require("express");
 const app = express();
-const port = 300;
+const port = process.env.PORT;
 const path = require("path");
 const ejsMate = require("ejs-mate");
 const userRoutes = require("./routes/user");
