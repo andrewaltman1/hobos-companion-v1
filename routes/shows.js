@@ -15,7 +15,7 @@ const view = require("../view.js");
 router.get(
   "/",
   catchAsync(async (req, res) => {
-    let { rows } = await db.getAllShows();
+    let { rows } = await db.getAllShows(req);
     res.render("table-map", view.allShows(req, rows));
   })
 );
@@ -44,15 +44,13 @@ router.get(
   })
 );
 
-// the routes below are waiting for password reset functionality so that auth can be live
-
 router.get(
   "/new-show",
   isLoggedIn,
   isAdmin,
   catchAsync(async (req, res) => {
     req.session.newShow = {};
-    let { rows } = await db.getAllVenues();
+    let { rows } = await db.getAllVenues(req);
     res.render("new-show/venue-input", view.newShowInput(req, rows));
   })
 );
@@ -155,8 +153,6 @@ router.get(
       (song) => song.id != null
     );
 
-    // let findDBInfo = await db.findUser();
-
     !req.session.newShow.venue.id
       ? (req.session.newShow.venue.id = await db.insertNewVenue(req))
       : req.session.newShow.venue.id;
@@ -176,6 +172,9 @@ router.get(
     }
 
     await res.render("single-model", view.confirmation(req));
+    db.getAllShows(req);
+    db.getAllSongs(req);
+    db.getAllVenues(req);
     req.session.newShow.date = null;
     req.session.newShow.venue = null;
     req.session.newShow.notes = null;

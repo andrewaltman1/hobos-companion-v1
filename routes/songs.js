@@ -8,7 +8,7 @@ const view = require("../view");
 router.get(
   "/songs",
   catchAsync(async (req, res) => {
-    let { rows } = await db.getAllSongs();
+    let { rows } = await db.getAllSongs(req);
     res.render("table-map", view.allSongs(req, rows));
   })
 );

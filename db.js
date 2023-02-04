@@ -11,10 +11,34 @@ pool.connect();
 
 module.exports.pool = pool;
 
-module.exports.getAllShows = () => {
-  return pool.query(
-    'SELECT venues.id as "venueId", shows.id as "showId", name as "venueName", city, state, country, date, ST_AsGeoJSON(geom) AS geometry FROM venues JOIN shows ON shows.venue_id = venues.id ORDER BY date DESC'
-  );
+class Cache {
+  constructor(dbQuery) {
+    this.dbQuery = dbQuery;
+    this.data = (async () => await pool.query(dbQuery))();
+  }
+  async update() {
+    this.data = await pool.query(this.dbQuery);
+  }
+}
+
+const allShowsCache = new Cache(
+  'SELECT venues.id as "venueId", shows.id as "showId", name as "venueName", city, state, country, date, ST_AsGeoJSON(geom) AS geometry FROM venues JOIN shows ON shows.venue_id = venues.id ORDER BY date DESC'
+);
+
+const allVenuesCache = new Cache(
+  `SELECT city, state, country, venues.id as "venueId", name as "venueName", COUNT(*) as "total", ST_AsGeoJSON(geom) AS geometry FROM venues join shows on venues.id = venue_id group by venues.id order by "total" DESC`
+);
+
+const allSongsCache = new Cache(
+  `SELECT songs.id, title, author, COUNT(*) as "timesPlayed" FROM songs JOIN versions ON songs.id = versions.song_id WHERE songs.is_song = true GROUP BY songs.id ORDER BY "timesPlayed" DESC`
+);
+
+module.exports.getAllShows = (req) => {
+  if (req.url === "/new-show/confirmation") {
+    allShowsCache.update();
+  } else {
+    return allShowsCache.data;
+  }
 };
 
 module.exports.getShowsBySongID = (id) => {
@@ -56,10 +80,12 @@ module.exports.insertNewShow = async (req) => {
   return rows[0].id;
 };
 
-module.exports.getAllSongs = () => {
-  return pool.query(
-    `SELECT songs.id, title, author, COUNT(*) as "timesPlayed" FROM songs JOIN versions ON songs.id = versions.song_id WHERE songs.is_song = true GROUP BY songs.id ORDER BY "timesPlayed" DESC`
-  );
+module.exports.getAllSongs = (req) => {
+  if (req.url === "/new-show/confirmation") {
+    allSongsCache.update();
+  } else {
+    return allSongsCache.data;
+  }
 };
 
 module.exports.getAllSongsByAuthor = (author) => {
@@ -118,10 +144,12 @@ module.exports.insertNewVersion = async (req, song) => {
   );
 };
 
-module.exports.getAllVenues = () => {
-  return pool.query(
-    `SELECT city, state, country, venues.id as "venueId", name as "venueName", COUNT(*) as "total", ST_AsGeoJSON(geom) AS geometry FROM venues join shows on venues.id = venue_id group by venues.id order by "total" DESC`
-  );
+module.exports.getAllVenues = (req) => {
+  if (req.url === "/new-show/confirmation") {
+    allVenuesCache.update();
+  } else {
+    return allVenuesCache.data;
+  }
 };
 
 module.exports.getVenuesByState = (state) => {
@@ -179,3 +207,4 @@ module.exports.existingSongSearch = async (song) => {
   );
   return !rows[0] ? { id: null, title: song } : rows[0];
 };
+
