@@ -205,3 +205,4 @@ module.exports.existingSongSearch = async (song) => {
   );
   return !rows[0] ? { id: null, title: song } : rows[0];
 };
+
