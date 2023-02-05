@@ -15,7 +15,7 @@ const view = require("../view.js");
 router.get(
   "/",
   catchAsync(async (req, res) => {
-    let { rows } = await db.getAllShows();
+    let { rows } = await db.getAllShows(req);
     res.render("table-map", view.allShows(req, rows));
   })
 );
