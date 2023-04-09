@@ -16,8 +16,6 @@ router.get("/signup", (req, res) => {
 
 router.post("/signup", auth.crypto);
 
-// !! alert !! don't forget to edit the strategy.js file in the passport-local module so that it recognizes the "email" field of the login form. It is expecting a "username" field otherwise.
-
 router.get("/login", (req, res) => {
   res.render("user", view.login(req, res));
 });

@@ -29,10 +29,10 @@ module.exports.initialize = passport.initialize();
 module.exports.passportSession = passport.session();
 
 passport.use(
-  new LocalStrategy(function verify(email, password, cb) {
+  new LocalStrategy(function verify(username, password, cb) {
     db.pool.query(
       "SELECT id, email, is_admin, first_name, salt, hashed_password FROM users WHERE email = $1",
-      [email],
+      [username],
       function (err, row) {
         if (err) {
           return cb(err);
@@ -86,7 +86,7 @@ module.exports.crypto = (req, res, next) => {
       }
       db.pool.query(
         "INSERT INTO users (email, hashed_password, salt, encrypted_password, created_at, updated_at) VALUES ($1, $2, $3, $4, LOCALTIMESTAMP, LOCALTIMESTAMP)",
-        [req.body.email, hashedPassword, salt, "see hashed column"],
+        [req.body.username, hashedPassword, salt, "see hashed column"],
         function (err) {
           if (err) {
             return next(err);
