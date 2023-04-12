@@ -36,11 +36,20 @@ const connectSrcUrls = [
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
-      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+      // ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+      'default-src': 'self',
+      'base-uri' : 'self',
+      'font-src': ["'self'", 'https:', 'data:'],
       'script-src': ["'self'", "'unsafe-inline'", ...scriptSrcUrls],
+      'form-action': 'self',
+      'frame-ancestors': 'self',
+      'object-src': 'none',
       'worker-src': ['blob:'],
+      'script-src-attr': 'none',
       'connect-src': ["'self'", ...connectSrcUrls],
-      'img-src': ["'self'", 'data:', 'https://hoboscompanion.s3.amazonaws.com']
+      'style-src':['self', 'https:', 'unsafe-inline'],
+      'img-src': ["'self'", 'data:', 'https://hoboscompanion.s3.amazonaws.com'],
+      'upgradeInsecureRequests': null
     },
   })
 );

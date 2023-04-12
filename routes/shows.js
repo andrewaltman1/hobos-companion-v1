@@ -185,55 +185,55 @@ router.get(
 
 // the route below contains code for updating geodata
 
-router.get(
-  "/show/update",
-  catchAsync(async (req, res) => {
-    let toUpdate = await pool.query(
-      "SELECT id, name, city, state, country, geom FROM venues WHERE id = $1",
-      [id]
-    );
+// router.get(
+//   "/show/update",
+//   catchAsync(async (req, res) => {
+//     let toUpdate = await pool.query(
+//       "SELECT id, name, city, state, country, geom FROM venues WHERE id = $1",
+//       [id]
+//     );
 
-    toUpdate.rows.forEach(async (row) => {
-      const geoData = await geocoder
-        .forwardGeocode({
-          query: `${row.name}, ${row.city}, ${row.state}, ${row.country}`,
-          limit: 1,
-        })
-        .send();
+//     toUpdate.rows.forEach(async (row) => {
+//       const geoData = await geocoder
+//         .forwardGeocode({
+//           query: `${row.name}, ${row.city}, ${row.state}, ${row.country}`,
+//           limit: 1,
+//         })
+//         .send();
 
-      let addGeom = await pool.query(
-        `UPDATE venues SET geom = ST_GeomFromGeoJSON($1)  WHERE id = $2`,
-        [geoData.body.features[0].geometry, row.id]
-      );
-    });
+//       let addGeom = await pool.query(
+//         `UPDATE venues SET geom = ST_GeomFromGeoJSON($1)  WHERE id = $2`,
+//         [geoData.body.features[0].geometry, row.id]
+//       );
+//     });
 
-    res.send("thanks");
-  })
-);
+//     res.send("thanks");
+//   })
+// );
 
-router.get(
-  "/update",
-  catchAsync(async (req, res) => {
-    let allVenues = await pool.query(
-      "SELECT id, name, city, state, country FROM venues"
-    );
+// router.get(
+//   "/update",
+//   catchAsync(async (req, res) => {
+//     let allVenues = await pool.query(
+//       "SELECT id, name, city, state, country FROM venues"
+//     );
 
-    allVenues.rows.forEach(async (row) => {
-      const geoData = await geocoder
-        .forwardGeocode({
-          query: `${row.name}, ${row.city}, ${row.state}, ${row.country}`,
-          limit: 1,
-        })
-        .send();
+//     allVenues.rows.forEach(async (row) => {
+//       const geoData = await geocoder
+//         .forwardGeocode({
+//           query: `${row.name}, ${row.city}, ${row.state}, ${row.country}`,
+//           limit: 1,
+//         })
+//         .send();
 
-      let addGeom = await pool.query(
-        `UPDATE venues SET geom = ST_GeomFromGeoJSON($1)  WHERE id = $2`,
-        [geoData.body.features[0].geometry, row.id]
-      );
-    });
+//       let addGeom = await pool.query(
+//         `UPDATE venues SET geom = ST_GeomFromGeoJSON($1)  WHERE id = $2`,
+//         [geoData.body.features[0].geometry, row.id]
+//       );
+//     });
 
-    res.send("thanks");
-  })
-);
+//     res.send("thanks");
+//   })
+// );
 
 module.exports = router;
