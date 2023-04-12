@@ -19,16 +19,18 @@ app.engine('ejs', ejsMate);
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname, 'views'));
-app.use('/public', express.static(path.resolve(__dirname, 'public')));
+// app.use('/public', express.static(path.resolve(__dirname, 'public')));
 
 const scriptSrcUrls = [
   'https://api.mapbox.com/',
   'https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.js',
+  'https://hoboscompanion.s3.amazonaws.com',
 ];
 
 const connectSrcUrls = [
   'https://api.mapbox.com/',
   'https://events.mapbox.com/',
+  'https://hoboscompanion.s3.amazonaws.com',
 ];
 
 app.use(
@@ -38,6 +40,7 @@ app.use(
       'script-src': ["'self'", "'unsafe-inline'", ...scriptSrcUrls],
       'worker-src': ['blob:'],
       'connect-src': ["'self'", ...connectSrcUrls],
+      'img-src': ["'self'", 'data:', 'https://hoboscompanion.s3.amazonaws.com']
     },
   })
 );

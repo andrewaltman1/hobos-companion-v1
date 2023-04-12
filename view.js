@@ -50,9 +50,9 @@ module.exports.allShows = (req, rows) => {
       zoom: mapZoom(rows),
     },
     scripts: [
-      'public/scripts/table.js',
-      'public/scripts/mapbox.js',
-      'public/scripts/shared.js',
+      'https://hoboscompanion.s3.amazonaws.com/public/scripts/table.js',
+      'https://hoboscompanion.s3.amazonaws.com/public/scripts/mapbox.js',
+      'https://hoboscompanion.s3.amazonaws.com/public/scripts/shared.js',
     ],
   };
 };
@@ -74,7 +74,9 @@ module.exports.allSongs = (req, rows, author) => {
       rowsPartial: 'songs',
       rows: rows,
     },
-    scripts: ['public/scripts/table.js'],
+    scripts: [
+      'https://hoboscompanion.s3.amazonaws.com/public/scripts/table.js',
+    ],
   };
 };
 
@@ -103,9 +105,9 @@ module.exports.venues = (req, rows) => {
       zoom: mapZoom(rows),
     },
     scripts: [
-      'public/scripts/table.js',
-      'public/scripts/mapbox.js',
-      'public/scripts/shared.js',
+      'https://hoboscompanion.s3.amazonaws.com/public/scripts/table.js',
+      'https://hoboscompanion.s3.amazonaws.com/public/scripts/mapbox.js',
+      'https://hoboscompanion.s3.amazonaws.com/public/scripts/shared.js',
     ],
   };
 };
@@ -132,9 +134,9 @@ module.exports.venuesByCity = (req, rows) => {
       zoom: mapZoom(rows),
     },
     scripts: [
-      'public/scripts/table.js',
-      'public/scripts/mapbox.js',
-      'public/scripts/shared.js',
+      'https://hoboscompanion.s3.amazonaws.com/public/scripts/table.js',
+      'https://hoboscompanion.s3.amazonaws.com/public/scripts/mapbox.js',
+      'https://hoboscompanion.s3.amazonaws.com/public/scripts/shared.js',
     ],
   };
 };
@@ -274,7 +276,9 @@ module.exports.confirmation = (req) => {
       idString: 'confirmation-notes',
       data: req.session.newShow.newSongs.length > 0 ? sectionHTML : '',
     },
-    scripts: ['public/scripts/confirmation.js'],
+    scripts: [
+      'https://hoboscompanion.s3.amazonaws.com/public/scripts/confirmation.js',
+    ],
   };
 };
 
