@@ -19,7 +19,7 @@ app.engine('ejs', ejsMate);
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname, 'views'));
-// app.use('/public', express.static(path.resolve(__dirname, 'public')));
+app.use('/public', express.static(path.resolve(__dirname, 'public')));
 
 const scriptSrcUrls = [
   'https://api.mapbox.com/',
@@ -36,9 +36,8 @@ const connectSrcUrls = [
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
-      // ...helmet.contentSecurityPolicy.getDefaultDirectives(),
       'default-src': 'self',
-      'base-uri' : 'self',
+      'base-uri': 'self',
       'font-src': ["'self'", 'https:', 'data:'],
       'script-src': ["'self'", "'unsafe-inline'", ...scriptSrcUrls],
       'form-action': 'self',
@@ -47,9 +46,9 @@ app.use(
       'worker-src': ['blob:'],
       'script-src-attr': 'none',
       'connect-src': ["'self'", ...connectSrcUrls],
-      'style-src':['self', 'https:', 'unsafe-inline'],
+      'style-src': ['self', 'https:', 'unsafe-inline'],
       'img-src': ["'self'", 'data:', 'https://hoboscompanion.s3.amazonaws.com'],
-      'upgradeInsecureRequests': null
+      upgradeInsecureRequests: null,
     },
   })
 );
@@ -80,12 +79,10 @@ app.all('*', (req, res, next) => {
   next(new ExpressError('Page Not Found', 404));
 });
 
-// catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
 
-// error handler
 app.use(function (err, req, res) {
   // set locals, only providing error in development
   res.locals.message = err.message;
