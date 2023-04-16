@@ -1,4 +1,4 @@
-const { Pool } = require("pg");
+const { Pool } = require('pg');
 
 const pool = new Pool({
   user: process.env.DATABASE_USER,
@@ -7,7 +7,10 @@ const pool = new Pool({
   password: process.env.DATABASE_PASSWORD,
   port: process.env.DATABASE_PORT,
 });
-pool.connect();
+pool
+  .connect()
+  .then((resolve) => console.log(`Connected to DB: ${resolve.host}`))
+  .catch((err) => console.log(`DB error: ${err}`));
 
 module.exports.pool = pool;
 
@@ -32,7 +35,7 @@ const allVenuesCache = new CacheGenerator(
 );
 
 module.exports.getAllShows = (req) => {
-  if (req.url == "/new-show/confirmation") {
+  if (req.url == '/new-show/confirmation') {
     allShowsCache.update();
   } else {
     return allShowsCache.data;
@@ -47,7 +50,7 @@ module.exports.getShowsBySongID = (id) => {
 };
 
 module.exports.findUser = async () => {
-  const { rows } = await pool.query("SELECT current_user");
+  const { rows } = await pool.query('SELECT current_user');
   return rows[0];
 };
 
@@ -79,7 +82,7 @@ module.exports.insertNewShow = async (req) => {
 };
 
 module.exports.getAllSongs = (req) => {
-  if (req.url == "/new-show/confirmation") {
+  if (req.url == '/new-show/confirmation') {
     allSongsCache.update();
   } else {
     return allSongsCache.data;
@@ -143,7 +146,7 @@ module.exports.insertNewVersion = async (req, song) => {
 };
 
 module.exports.getAllVenues = (req) => {
-  if (req.url == "/new-show/confirmation") {
+  if (req.url == '/new-show/confirmation') {
     allVenuesCache.update();
   } else {
     return allVenuesCache.data;
@@ -205,4 +208,3 @@ module.exports.existingSongSearch = async (song) => {
   );
   return !rows[0] ? { id: null, title: song } : rows[0];
 };
-

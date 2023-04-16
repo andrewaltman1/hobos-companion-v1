@@ -24,30 +24,28 @@ app.use('/public', express.static(path.resolve(__dirname, 'public')));
 const scriptSrcUrls = [
   'https://api.mapbox.com/',
   'https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.js',
-  'https://hoboscompanion.s3.amazonaws.com',
 ];
 
 const connectSrcUrls = [
   'https://api.mapbox.com/',
   'https://events.mapbox.com/',
-  'https://hoboscompanion.s3.amazonaws.com',
 ];
 
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
-      'default-src': 'self',
-      'base-uri': 'self',
+      'default-src': "'self'",
+      'base-uri': "'self'",
       'font-src': ["'self'", 'https:', 'data:'],
       'script-src': ["'self'", "'unsafe-inline'", ...scriptSrcUrls],
-      'form-action': 'self',
-      'frame-ancestors': 'self',
+      'form-action': "'self'",
+      'frame-ancestors': "'self'",
       'object-src': 'none',
       'worker-src': ['blob:'],
       'script-src-attr': 'none',
       'connect-src': ["'self'", ...connectSrcUrls],
-      'style-src': ['self', 'https:', 'unsafe-inline'],
-      'img-src': ["'self'", 'data:', 'https://hoboscompanion.s3.amazonaws.com'],
+      'style-src': ["'self'", 'https:', 'unsafe-inline'],
+      'img-src': ["'self'", 'data:'],
       upgradeInsecureRequests: null,
     },
   })
