@@ -51,9 +51,17 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  if (req.headers['user-agent'] === 'ELB-HealthChecker/2.0') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
+
 app.use(auth.expressSession, auth.initialize, auth.passportSession);
 
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   var msgs = req.session.messages || [];
   res.locals.messages = msgs;
   res.locals.hasMessages = !!msgs.length;

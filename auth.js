@@ -1,20 +1,20 @@
-const db = require("./db.js");
-const session = require("express-session");
-const passport = require("passport");
-const LocalStrategy = require("passport-local");
-const crypto = require("crypto");
-const pgSession = require("connect-pg-simple")(session);
-const User = require("./models/user");
+const db = require('./db.js');
+const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const crypto = require('crypto');
+const pgSession = require('connect-pg-simple')(session);
+const User = require('./models/user');
 
 const sessionConfig = {
   store: new pgSession({
     pool: db.pool,
-    tableName: "session",
+    tableName: 'session',
     createTableIfMissing: true,
   }),
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
     httpOnly: true,
     expires: Date.now() + 1000 * 60 * 60 * 24,
@@ -31,7 +31,7 @@ module.exports.passportSession = passport.session();
 passport.use(
   new LocalStrategy(function verify(username, password, cb) {
     db.pool.query(
-      "SELECT id, email, is_admin, first_name, salt, hashed_password FROM users WHERE email = $1",
+      'SELECT id, email, is_admin, first_name, salt, hashed_password FROM users WHERE email = $1',
       [username],
       function (err, row) {
         if (err) {
@@ -39,7 +39,7 @@ passport.use(
         }
         if (!row.rows[0]) {
           return cb(null, false, {
-            message: "Incorrect email/password",
+            message: 'Incorrect email/password',
           });
         }
 
@@ -48,7 +48,7 @@ passport.use(
           row.rows[0].salt,
           310000,
           32,
-          "sha256",
+          'sha256',
           function (err, hashedPassword) {
             if (err) {
               return cb(err);
@@ -60,7 +60,7 @@ passport.use(
               )
             ) {
               return cb(null, false, {
-                message: "Incorrect email/password",
+                message: 'Incorrect email/password',
               });
             }
             let user = new User(row.rows[0]);
@@ -79,14 +79,14 @@ module.exports.crypto = (req, res, next) => {
     salt,
     310000,
     32,
-    "sha256",
+    'sha256',
     function (err, hashedPassword) {
       if (err) {
         return next(err);
       }
       db.pool.query(
-        "INSERT INTO users (email, hashed_password, salt, encrypted_password, created_at, updated_at) VALUES ($1, $2, $3, $4, LOCALTIMESTAMP, LOCALTIMESTAMP)",
-        [req.body.username, hashedPassword, salt, "see hashed column"],
+        'INSERT INTO users (email, hashed_password, salt, encrypted_password, created_at, updated_at) VALUES ($1, $2, $3, $4, LOCALTIMESTAMP, LOCALTIMESTAMP)',
+        [req.body.username, hashedPassword, salt, 'see hashed column'],
         function (err) {
           if (err) {
             return next(err);
@@ -96,7 +96,7 @@ module.exports.crypto = (req, res, next) => {
             if (err) {
               return next(err);
             }
-            res.redirect("/");
+            res.redirect('/');
           });
         }
       );
@@ -104,7 +104,7 @@ module.exports.crypto = (req, res, next) => {
   );
 };
 
-module.exports.authenticate = passport.authenticate("session");
+module.exports.authenticate = passport.authenticate('session');
 
 passport.serializeUser(function (user, cb) {
   process.nextTick(function () {
