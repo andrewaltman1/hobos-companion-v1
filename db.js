@@ -7,20 +7,23 @@ const pool = new Pool({
   password: process.env.DATABASE_PASSWORD,
   port: process.env.DATABASE_PORT,
 });
-pool
-  .connect()
-  .then((resolve) => console.log(`Connected to DB: ${resolve.host}`))
-  .catch((err) => console.log(`DB error: ${err}`));
+
+// pool
+//   .connect()
+//   .then((resolve) => console.log(`Connected to DB: ${resolve.host}`))
+//   .catch((err) => console.log(`DB error: ${err}`));
 
 module.exports.pool = pool;
 
 class CacheGenerator {
   constructor(dbQuery) {
     this.dbQuery = dbQuery;
-    this.data = (async () => await pool.query(dbQuery))();
+    this.data = [];
+    this.update();
   }
   async update() {
-    this.data = await pool.query(this.dbQuery);
+    const { rows } = await pool.query(this.dbQuery);
+    this.data = rows;
   }
 }
 
@@ -34,9 +37,10 @@ const allVenuesCache = new CacheGenerator(
   `SELECT city, state, country, venues.id as "venueId", name as "venueName", COUNT(*) as "total", ST_AsGeoJSON(geom) AS geometry FROM venues join shows on venues.id = venue_id group by venues.id order by "total" DESC`
 );
 
-module.exports.getAllShows = (req) => {
-  if (req.url == '/new-show/confirmation') {
-    allShowsCache.update();
+module.exports.getAllShows = async (req) => {
+  if (req.url === '/new-show/confirmation' || allShowsCache.data.length === 0) {
+    await allShowsCache.update();
+    return allShowsCache.data;
   } else {
     return allShowsCache.data;
   }
@@ -81,9 +85,10 @@ module.exports.insertNewShow = async (req) => {
   return rows[0].id;
 };
 
-module.exports.getAllSongs = (req) => {
-  if (req.url == '/new-show/confirmation') {
-    allSongsCache.update();
+module.exports.getAllSongs = async (req) => {
+  if (req.url === '/new-show/confirmation' || allSongsCache.data.length === 0) {
+    await allSongsCache.update();
+    return allSongsCache.data;
   } else {
     return allSongsCache.data;
   }
@@ -145,9 +150,13 @@ module.exports.insertNewVersion = async (req, song) => {
   );
 };
 
-module.exports.getAllVenues = (req) => {
-  if (req.url == '/new-show/confirmation') {
-    allVenuesCache.update();
+module.exports.getAllVenues = async (req) => {
+  if (
+    req.url === '/new-show/confirmation' ||
+    allVenuesCache.data.length === 0
+  ) {
+    await allVenuesCache.update();
+    return allVenuesCache.data;
   } else {
     return allVenuesCache.data;
   }

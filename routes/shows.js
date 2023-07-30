@@ -4,18 +4,13 @@ const db = require("../db");
 const { catchAsync, getNewGeoData, stateNameToAbrev } = require("../utils");
 const { isAdmin, isLoggedIn } = require("../middleware");
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
-const geocoder = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
+const geocoder = mbxGeocoding({ accessToken: process.env.GEOCODE_TOKEN });
 const view = require("../view.js");
-
-// router.use((req, res, next) => {
-//   console.log(new Date(req.session.newShow.date));
-//   next();
-// });
 
 router.get(
   "/",
   catchAsync(async (req, res) => {
-    let { rows } = await db.getAllShows(req);
+    let rows = await db.getAllShows(req);
     res.render("table-map", view.allShows(req, rows));
   })
 );
@@ -50,7 +45,7 @@ router.get(
   isAdmin,
   catchAsync(async (req, res) => {
     req.session.newShow = {};
-    let { rows } = await db.getAllVenues(req);
+    let rows = await db.getAllVenues(req);
     res.render("new-show/venue-input", view.newShowInput(req, rows));
   })
 );
