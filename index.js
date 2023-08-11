@@ -60,6 +60,17 @@ app.use((req, res, next) => {
   }
 });
 
+// app.use((req, res, next) => {
+//   if (req.headers['accept-encoding'].includes('br')) {
+//     console.log('in br');
+//   } else if (req.headers['accept-encoding'].includes('gzip')) {
+//     console.log('in gzip');
+//   } else {
+//     console.log('in none');
+//   }
+//   next();
+// })
+
 app.use(auth.expressSession, auth.initialize, auth.passportSession);
 
 app.use((req, res, next) => {

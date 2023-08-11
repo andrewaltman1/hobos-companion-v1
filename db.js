@@ -8,11 +8,6 @@ const pool = new Pool({
   port: process.env.DATABASE_PORT,
 });
 
-// pool
-//   .connect()
-//   .then((resolve) => console.log(`Connected to DB: ${resolve.host}`))
-//   .catch((err) => console.log(`DB error: ${err}`));
-
 module.exports.pool = pool;
 
 class CacheGenerator {
@@ -38,9 +33,12 @@ const allVenuesCache = new CacheGenerator(
 );
 
 module.exports.getAllShows = async (req) => {
-  if (req.url === '/new-show/confirmation' || allShowsCache.data.length === 0) {
+  if (allShowsCache.data.length === 0) {
     await allShowsCache.update();
     return allShowsCache.data;
+  } else if (req.url === '/new-show/confirmation') {
+    await allShowsCache.update();
+    return;
   } else {
     return allShowsCache.data;
   }
@@ -86,9 +84,12 @@ module.exports.insertNewShow = async (req) => {
 };
 
 module.exports.getAllSongs = async (req) => {
-  if (req.url === '/new-show/confirmation' || allSongsCache.data.length === 0) {
+  if (allSongsCache.data.length === 0) {
     await allSongsCache.update();
     return allSongsCache.data;
+  } else if (req.url === '/new-show/confirmation') {
+    await allSongsCache.update();
+    return;
   } else {
     return allSongsCache.data;
   }
@@ -151,12 +152,12 @@ module.exports.insertNewVersion = async (req, song) => {
 };
 
 module.exports.getAllVenues = async (req) => {
-  if (
-    req.url === '/new-show/confirmation' ||
-    allVenuesCache.data.length === 0
-  ) {
+  if (allVenuesCache.data.length === 0) {
     await allVenuesCache.update();
     return allVenuesCache.data;
+  } else if (req.url === '/new-show/confirmation') {
+    await allVenuesCache.update();
+    return;
   } else {
     return allVenuesCache.data;
   }
