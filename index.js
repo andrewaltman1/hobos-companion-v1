@@ -60,17 +60,6 @@ app.use((req, res, next) => {
   }
 });
 
-// app.use((req, res, next) => {
-//   if (req.headers['accept-encoding'].includes('br')) {
-//     console.log('in br');
-//   } else if (req.headers['accept-encoding'].includes('gzip')) {
-//     console.log('in gzip');
-//   } else {
-//     console.log('in none');
-//   }
-//   next();
-// })
-
 app.use(auth.expressSession, auth.initialize, auth.passportSession);
 
 app.use((req, res, next) => {
@@ -80,15 +69,6 @@ app.use((req, res, next) => {
   req.session.messages = [];
   next();
 });
-
-// app.post('/test-error', (req, res, next) => {
-//   console.log(req.body.stuff === 'things');
-//   if (req.body.stuff !== 'things') {
-//     res.send(req.body.stuff);
-//   } else {
-//     next(new Error('test'));
-//   }
-// });
 
 app.use('/', userRoutes);
 app.use('/', showRoutes);
