@@ -18,7 +18,7 @@
   ],
   "license": "UNLICENSED",
   "dependencies": {
-    "@mapbox/mapbox-sdk": "^0.13.2",
+    "@mapbox/mapbox-sdk": "^0.13.7",
     "connect-pg-simple": "^7.0.0",
     "ejs": "^3.1.6",
     "ejs-mate": "^3.0.0",

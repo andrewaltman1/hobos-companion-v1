@@ -14,6 +14,7 @@ const venueRoutes = require('./routes/venues');
 const helmet = require('helmet');
 const auth = require('./auth.js');
 const view = require('./view.js');
+const { catchAsync } = require('./utils');
 
 app.engine('ejs', ejsMate);
 app.use(express.urlencoded({ extended: true }));
@@ -85,16 +86,13 @@ app.all('*', (req, res, next) => {
   next(new ExpressError('Page Not Found', 404));
 });
 
-app.use(function (req, res, next) {
-  next(createError(404));
-});
-
-app.use(function (err, req, res) {
+app.use((err, req, res, next) => {
   // set locals, only providing error in development
+  console.log('in error handler');
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   // render the error page
-  res.status(err.status || 500);
+  res.status(err.statusCode || 500);
   res.render('simple-message', view.errorMessage(req, err));
 });
 

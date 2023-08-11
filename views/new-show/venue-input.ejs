@@ -1,128 +1,134 @@
 <% layout('layouts/boilerplate') %> <%- include('../partials/header') %>
 
-  <form class="show-inputs" action="/new-show/venue-check" method="POST">
-    <fieldset>
-      <legend>Date/Venue Details</legend>
-      <div id="date-input">
-        <label for="date">Date:</label>
-        <input
-          type="date"
-          name="date"
-          min="2000-07-01"
-          pattern="\d{2}\/\d{2}\/\d{4}"
-          placeholder="MM/DD/YYYY"
-          id="date"
-          required
-        />
-      </div>
-      <div id="venue-input">
-        <label for="venue-name">Venue:</label>
-        <input
-          type="text"
-          name="name"
-          placeholder="Venue Name"
-          id="venue-name"
-          autocomplete="off"
-          required
-        /><br />
-        <ul id="results"></ul>
-        <input
-          type="text"
-          name="city"
-          placeholder="City"
-          id="city"
-          required
-        /><br />
-        <input
-          type="text"
-          name="state"
-          placeholder="State"
-          id="state"
-          required
-        /><br />
-        <input
-          type="text"
-          name="country"
-          placeholder="Country"
-          id="country"
-          required
-        />
-        <input type="text" name="venueId" placeholder="venueId" id="venueId" />
-      </div>
-      <button type="submit">Submit</button>
-    </fieldset>
-  </form>
+<script defer src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.js"></script>
+
+<form class="show-inputs" action="/new-show/venue-check" method="POST">
+  <fieldset>
+    <legend>Date/Venue Details</legend>
+    <div id="date-input">
+      <label for="date">Date:</label>
+      <input
+        type="date"
+        name="date"
+        min="2000-07-01"
+        pattern="\d{2}\/\d{2}\/\d{4}"
+        placeholder="MM/DD/YYYY"
+        id="date"
+        required
+      />
+    </div>
+    <div id="venue-input">
+      <label for="venue-name">Venue:</label>
+      <input
+        type="text"
+        name="name"
+        placeholder="Venue Name"
+        id="venue-name"
+        autocomplete="off"
+        required
+      /><br />
+      <ul id="results"></ul>
+      <input
+        type="text"
+        name="city"
+        placeholder="City"
+        id="city"
+        required
+      /><br />
+      <input
+        type="text"
+        name="state"
+        placeholder="State"
+        id="state"
+        required
+      /><br />
+      <input
+        type="text"
+        name="country"
+        placeholder="Country"
+        id="country"
+        required
+      />
+      <input type="text" name="venueId" placeholder="venueId" id="venueId" />
+    </div>
+    <button type="submit">Submit</button>
+  </fieldset>
+</form>
 
 <script>
-    const showInputs = document.querySelector('.show-inputs');
-    const showResults = document.querySelector('#results')
-    const dateField = document.querySelector("#date")
-    const venueField = document.querySelector('#venue-input')
-    const nameField = document.querySelector('#venue-name')
-    const cityField = document.querySelector('#city')
-    const stateField = document.querySelector('#state')
-    const countryField = document.querySelector('#country')
-    const venueIdField = document.querySelector('#venueId')
-    const venueListJSON = <%- JSON.stringify(venueList)%>;
+  (() => {
+     window.addEventListener('DOMContentLoaded', () => {
+       const showInputs = document.querySelector('.show-inputs');
+       const showResults = document.querySelector('#results')
+       const dateField = document.querySelector("#date")
+       const venueField = document.querySelector('#venue-input')
+       const nameField = document.querySelector('#venue-name')
+       const cityField = document.querySelector('#city')
+       const stateField = document.querySelector('#state')
+       const countryField = document.querySelector('#country')
+       const venueIdField = document.querySelector('#venueId')
+       const venueListJSON = <%- JSON.stringify(venueList)%>;
 
-    venueIdField.style.display = "none";
+       venueIdField.style.display = "none";
 
-    const options = {
-    isCaseSensitive: false,
-    includeScore: false,
-    shouldSort: true,
-    includeMatches: false,
-    findAllMatches: false,
-    minMatchCharLength: 1,
-    location: 0,
-    threshold: 0.3,
-    distance: 100,
-    useExtendedSearch: false,
-    ignoreLocation: false,
-    ignoreFieldNorm: false,
-    fieldNormWeight: 1,
-    keys: [
-      "venueName"
-    ]
-  };
+       const options = {
+       isCaseSensitive: false,
+       includeScore: false,
+       shouldSort: true,
+       includeMatches: false,
+       findAllMatches: false,
+       minMatchCharLength: 1,
+       location: 0,
+       threshold: 0.3,
+       distance: 100,
+       useExtendedSearch: false,
+       ignoreLocation: false,
+       ignoreFieldNorm: false,
+       fieldNormWeight: 1,
+       keys: [
+         "venueName"
+       ]
+     };
 
-  const fuse = new Fuse(venueListJSON, options);
+     const fuse = new Fuse(venueListJSON, options);
 
-  showResults.classList.add("hide")
+     showResults.classList.add("hide")
 
-  document.querySelector('#venue-name').addEventListener('keyup', () => {
-    showResults.classList.remove("hide")
-    let results = fuse.search(event.target.value)
-    let list =  '';
-    for (i=0; i<results.length; i++) {
-       list += '<li>' + results[i].item.venueName + '</li>';
-      }
-    showResults.innerHTML = list
-    document.querySelectorAll('li').forEach(li => li.addEventListener('click', () => {
-      showResults.classList.add("hide");
-      let returnVenue = results.find(el => el.item.venueName === event.target.innerHTML);
-      nameField.value = returnVenue.item.venueName;
-      cityField.value =  returnVenue.item.city;
-      stateField.value = returnVenue.item.state;
-      countryField.value = returnVenue.item.country;
-      venueIdField.value = returnVenue.item.venueId;
-    }))
-  })
+     document.querySelector('#venue-name').addEventListener('keyup', () => {
+       showResults.classList.remove("hide")
+       let results = fuse.search(event.target.value)
+       let list =  '';
+       for (i=0; i<results.length; i++) {
+          list += '<li>' + results[i].item.venueName + '</li>';
+         }
+       showResults.innerHTML = list
+       document.querySelectorAll('li').forEach(li => li.addEventListener('click', () => {
+         showResults.classList.add("hide");
+         let returnVenue = results.find(el => el.item.venueName === event.target.innerHTML);
+         nameField.value = returnVenue.item.venueName;
+         cityField.value =  returnVenue.item.city;
+         stateField.value = returnVenue.item.state;
+         countryField.value = returnVenue.item.country;
+         venueIdField.value = returnVenue.item.venueId;
+       }))
+     })
 
-  venueField.addEventListener('input', () => {
-    let input = event.target.value;
-    const re = /\b(\w)/g;
-    if (event.target.id == "country") {
-      input.length < 4 ? countryField.value = input.toUpperCase() : countryField.value = input.toLowerCase().replaceAll(re, letter => letter.toUpperCase()
-    ) ;
-    } else if (event.target.id == "state") {
-      input.length < 3 ? stateField.value = input.toUpperCase() : stateField.value = input.toLowerCase().replaceAll(re, letter => letter.toUpperCase()
-    )
-    } else if (event.target.id == "city"){
-       cityField.value = input.toLowerCase().replaceAll(re, letter => letter.toUpperCase()
-    )
-    }
-  })
+     venueField.addEventListener('input', () => {
+       let input = event.target.value;
+       const re = /\b(\w)/g;
+       if (event.target.id == "country") {
+         input.length < 4 ? countryField.value = input.toUpperCase() : countryField.value = input.toLowerCase().replaceAll(re, letter => letter.toUpperCase()
+       ) ;
+       } else if (event.target.id == "state") {
+         input.length < 3 ? stateField.value = input.toUpperCase() : stateField.value = input.toLowerCase().replaceAll(re, letter => letter.toUpperCase()
+       )
+       } else if (event.target.id == "city"){
+          cityField.value = input.toLowerCase().replaceAll(re, letter => letter.toUpperCase()
+       )
+       }
+     })
+     })
+   })();
 </script>
 
 <%- include('../partials/footer') %>
