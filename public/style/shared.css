@@ -25,16 +25,13 @@ header {
 nav {
   display: flex;
   flex-direction: column;
-  /* justify-content: space-around; */
-  /* width: 70%; */
   margin-top: 15px;
 }
 
 nav > a {
-  /* flex: 1; */
   text-decoration: none;
   text-align: left;
-  font-family: "DM Serif Display", serif;
+  font-family: 'DM Serif Display', serif;
   text-transform: uppercase;
   color: #e0e4ccc6;
   font-size: 1.3rem;
@@ -42,7 +39,6 @@ nav > a {
 }
 
 nav > a:hover {
-  /* font-size: 2rem; */
   font-size: 1.5rem;
 }
 
@@ -56,8 +52,6 @@ nav > a:hover {
   display: flex;
   flex-flow: column-reverse nowrap;
   justify-content: space-evenly;
-  /* width: 20%; */
-  /* margin-left: 4px; */
 }
 
 #header-buttons .button {
@@ -65,7 +59,7 @@ nav > a:hover {
   padding: 4px 1px;
   border-radius: 2px;
   color: #444;
-  font: 400 1rem "Rubik", sans-serif;
+  font: 400 1rem 'Rubik', sans-serif;
   cursor: pointer;
 }
 
@@ -76,7 +70,8 @@ button#view-mode-button {
   margin-top: -9px;
 }
 
-.sign-in-button, .sign-out-button {
+.sign-in-button,
+.sign-out-button {
   background-color: #e0e4ccc6 !important;
   color: #444 !important;
   height: 30px;
@@ -90,7 +85,7 @@ button#view-mode-button {
 }
 
 #user-display {
-  font: 500 1rem "Rubik", sans-serif;
+  font: 500 1rem 'Rubik', sans-serif;
   text-align: center;
   color: #907eab;
   margin: 0px 0px 6px;
@@ -99,7 +94,6 @@ button#view-mode-button {
 #cluster-map {
   margin: auto auto 30px auto;
   width: 95vw;
-  /* height: 90vh; */
   height: 70vh;
   min-width: 250px;
   max-width: 1400px;
@@ -130,14 +124,14 @@ button#view-mode-button {
   height: 70vh;
   overflow: scroll;
   min-width: 250px;
-  font: 100 15px "Rubik", sans-serif;
+  font: 100 15px 'Rubik', sans-serif;
   margin: 0px auto;
 }
 
 .table-mode-container #about {
   margin: 6vh auto;
   max-width: 760px;
-  font: 100 1rem "Rubik", sans-serif;
+  font: 100 1rem 'Rubik', sans-serif;
 }
 
 .table-header {
@@ -150,14 +144,12 @@ button#view-mode-button {
 }
 
 .table-mode-container h1 {
-  /* margin-bottom: 4px !important; */
   font-size: 26px;
   color: #5c516d;
   font-weight: 400;
 }
 
 .table-mode-container h3 {
-  /* margin-bottom: 0px !important; */
   margin: 0px 0px 6px 0px !important;
   color: #666;
   line-height: 1.2rem;
@@ -221,7 +213,6 @@ tr td {
 
 /* make the first column of the ALL VENUES table more narrow */
 #table-column-0 {
-  /* max-width: 50px; */
   text-align: center;
 }
 
@@ -262,7 +253,6 @@ td > a:hover {
 #performance-list > a:active,
 #performance-list > a:focus {
   text-decoration: none;
-  /* border-bottom: 1px solid black; */
   font-size: 1.6rem;
   color: #49999e;
 }
@@ -277,7 +267,6 @@ td > a:hover {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  /* align-items: left; */
 }
 
 .setlist-title {
@@ -335,7 +324,6 @@ td > a:hover {
   min-width: 250px;
   max-width: 1400px;
   padding: 0.5rem;
-  /* border-radius: 1rem; */
   border-radius: 3px;
   border: 1.5px solid #1f1109ff;
 }
@@ -351,7 +339,7 @@ td > a:hover {
   max-width: 1400px;
   border: 1.5px solid #1f1109ff;
   border-radius: 0.3rem;
-  font: 100 1rem "Rubik", sans-serif;
+  font: 100 1rem 'Rubik', sans-serif;
   position: relative;
 }
 
@@ -384,7 +372,7 @@ td > a:hover {
   border-radius: 2px;
   margin: 1rem 35%;
   padding: 4px 1px;
-  font: 400 1rem "Rubik", sans-serif;
+  font: 400 1rem 'Rubik', sans-serif;
   cursor: pointer;
 }
 
@@ -412,8 +400,11 @@ input {
   overflow: scroll;
   min-width: 320px;
   max-width: 1400px;
-  font: 100 1rem "Rubik", sans-serif;
+  font: 100 1rem 'Rubik', sans-serif;
   position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
 }
 
 .show-inputs div {
@@ -442,7 +433,7 @@ input {
   margin: auto;
   border-radius: 2px;
   border: none;
-  background-color: #928f97;
+  background-color: #928f9799;
   color: #444 !important;
   height: 30px;
   width: 100px;
@@ -467,7 +458,6 @@ input {
 
 #map {
   width: 95vw;
-  /* height: 79vh; */
   height: 76vh;
   margin: auto;
 }
@@ -481,7 +471,7 @@ input {
   width: 160px;
   text-align: center;
   justify-content: center;
-  font: 400 1.2rem "Rubik", sans-serif;
+  font: 400 1.2rem 'Rubik', sans-serif;
   background-color: #aaa8ae;
   color: #444 !important;
   height: 30px;
@@ -521,7 +511,7 @@ input {
 }
 
 #set-input label {
-  font: 400 1.2rem "Rubik", sans-serif;
+  font: 400 1.2rem 'Rubik', sans-serif;
   text-align: center;
   color: #777;
 }
@@ -529,7 +519,7 @@ input {
 #set-input #songs {
   height: 36vh;
   width: 100%;
-  font-family: "Rubik", sans-serif;
+  font-family: 'Rubik', sans-serif;
 }
 
 .notes-heading {
@@ -539,14 +529,14 @@ input {
 #set-input #notes {
   height: 15vh;
   width: 100%;
-  font-family: "Rubik", sans-serif;
+  font-family: 'Rubik', sans-serif;
 }
 
 #set-input button {
   height: 40px;
   width: 160px;
   text-align: center;
-  font: 400 1.2rem "Rubik", sans-serif;
+  font: 400 1.2rem 'Rubik', sans-serif;
   background-color: #aaa8ae;
   color: #444 !important;
   height: 30px;
@@ -558,7 +548,7 @@ input {
 
 #show-confirm-bar {
   color: #928f97;
-  font-family: "Rubik", sans-serif;
+  font-family: 'Rubik', sans-serif;
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
@@ -598,12 +588,11 @@ input {
   position: relative;
   margin: auto;
   width: 95vw;
-  /* height: 100vh; */
   height: 75vh;
   min-width: 250px;
   max-width: 1400px;
   border-radius: 0.3rem;
-  font: 100 1rem "Rubik", sans-serif;
+  font: 100 1rem 'Rubik', sans-serif;
   padding: 5px 5px;
   background-color: rgba(255, 255, 255, 0.9);
 }
@@ -626,7 +615,6 @@ input {
   flex-flow: column nowrap;
   justify-content: space-evenly;
   align-items: center;
-  /* gap: 1rem; */
   margin-top: 1rem;
 }
 
@@ -649,8 +637,8 @@ input {
   width: 160px;
   margin-top: 0.4rem;
   text-align: center;
-  font: 400 1.2rem "Rubik", sans-serif;
-  background-color: #928f97;
+  font: 400 1.2rem 'Rubik', sans-serif;
+  background-color: #928f9799;
   background-color: #aaa8ae;
   color: #444 !important;
   height: 30px;
@@ -668,7 +656,6 @@ input {
   max-width: 600px;
   display: flex;
   flex-flow: column nowrap;
-  /* justify-content: space-evenly; */
   align-items: stretch;
   gap: 0.6rem;
   background-color: #c7cac722;
@@ -677,7 +664,6 @@ input {
 .song-edit-fieldset fieldset {
   display: flex;
   flex-flow: row nowrap;
-  /* justify-content: space-evenly; */
 }
 
 .show-inputs {
@@ -706,15 +692,11 @@ input {
 
 .table-mode-container__coming-soon {
   background-color: rgba(255, 255, 255, 0.9);
-  /* position: relative; */
   margin: 4vh auto;
-  /* width: fit-content; */
-  /* height: fit-content; */
   overflow: scroll;
-  /* min-width: 250px; */
-  max-width: 800px;
+  max-width: 900px;
   border-radius: 3px;
-  font: 100 1rem "Rubik", sans-serif;
+  font: 100 1rem 'Rubik', sans-serif;
   padding: 5px 5px;
 }
 
@@ -768,7 +750,7 @@ footer {
   display: flex;
   align-items: center;
   column-gap: 20px;
-  font: 100 14px "Rubik", sans-serif;
+  font: 100 14px 'Rubik', sans-serif;
   color: #bdcdcd7e;
   text-transform: uppercase;
 }
@@ -777,7 +759,6 @@ footer {
   background-color: #bdcdcd7e;
   color: #023047ea;
   border-radius: 20px;
-  /* margin-left: 16px; */
   padding: 0 5px;
   font-weight: 300;
 }
@@ -811,7 +792,7 @@ a:hover .question-mark-icon {
 /* coming soon button jacket */
 /* remove when coming soon button jacket is removed  */
 .button-jacket {
-  font-family: "Rubik";
+  font-family: 'Rubik';
   background-color: #de53a4d4;
   color: #fff;
   font-size: 14px;
@@ -837,18 +818,12 @@ a:hover .question-mark-icon {
     width: 97vw;
     max-width: 1300px;
     height: 79vh;
-    /* height: 360px; */
   }
 }
 
 @media (min-width: 450px) {
   nav > a {
-    /* flex: 1; */
     font-size: 1.4rem;
-  }
-
-  .table-mode-container__coming-soon {
-    max-width: 80vw;
   }
 }
 
@@ -859,7 +834,8 @@ a:hover .question-mark-icon {
     margin-top: 0px;
   }
 
-  .sign-in-button, .sign-out-button {
+  .sign-in-button,
+  .sign-out-button {
     width: 120px;
     height: 34px;
   }
@@ -867,10 +843,6 @@ a:hover .question-mark-icon {
   .button-jacket {
     width: 127px;
     margin-top: -25px;
-  }
-
-  .table-mode-container__coming-soon {
-
   }
 
   .table-header {
@@ -923,7 +895,8 @@ a:hover .question-mark-icon {
     margin-top: 44px;
   }
 
-  .sign-in-button, .sign-out-button {
+  .sign-in-button,
+  .sign-out-button {
     margin-top: 0px;
     margin-left: 0px;
     margin: 0px 10px;
@@ -931,18 +904,18 @@ a:hover .question-mark-icon {
     top: -5px;
     left: 2px;
   }
-  
+
   .sign-in-button {
     /* margin-top: -55px; */
     top: 0px;
   }
-  
+
   button#view-mode-button {
     width: 120px;
     height: 33px;
     margin-top: 0px;
   }
-  
+
   .button-jacket {
     /* width: 127px; */
     /* margin-top: -59px; */
@@ -967,7 +940,8 @@ a:hover .question-mark-icon {
     padding-bottom: 41px;
   }
 
-  .sign-in-button, .sign-out-button {
+  .sign-in-button,
+  .sign-out-button {
     width: 130px;
     height: 36px;
     left: 6px;
