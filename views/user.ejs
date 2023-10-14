@@ -9,11 +9,17 @@
 
   <form action="<%- form.action %>" method="post">
     <section id="username">
-      <label for="username">e-mail</label>
-      <input name="username" type="text" autocomplete="email" required autofocus />
+      <label for="username">e-mail:</label>
+      <input
+        name="username"
+        type="text"
+        autocomplete="email"
+        required
+        autofocus
+      />
     </section>
     <section id="password">
-      <label for="<%- form.password %>">password</label>
+      <label for="<%- form.password %>">password:</label>
       <input
         id="<%- form.password %>"
         name="password"

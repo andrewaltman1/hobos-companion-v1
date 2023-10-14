@@ -357,6 +357,9 @@ td > a:hover {
 #auth-forms section {
   margin: 1rem 13%;
   position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
 }
 
 #auth-forms #email {
