@@ -1,4 +1,4 @@
-const { Pool } = require('pg');
+const { Pool } = require("pg");
 
 const pool = new Pool({
   user: process.env.DATABASE_USER,
@@ -6,6 +6,9 @@ const pool = new Pool({
   database: process.env.DATABASE_NAME,
   password: process.env.DATABASE_PASSWORD,
   port: process.env.DATABASE_PORT,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 module.exports.pool = pool;
@@ -23,20 +26,20 @@ class CacheGenerator {
 }
 
 const allShowsCache = new CacheGenerator(
-  'SELECT venues.id as "venueId", shows.id as "showId", name as "venueName", city, state, country, date, ST_AsGeoJSON(geom) AS geometry FROM venues JOIN shows ON shows.venue_id = venues.id ORDER BY date DESC'
+  'SELECT venues.id as "venueId", shows.id as "showId", name as "venueName", city, state, country, date, ST_AsGeoJSON(geom) AS geometry FROM venues JOIN shows ON shows.venue_id = venues.id ORDER BY date DESC',
 );
 const allSongsCache = new CacheGenerator(
-  `SELECT songs.id, title, author, COUNT(*) as "timesPlayed" FROM songs JOIN versions ON songs.id = versions.song_id WHERE songs.is_song = true GROUP BY songs.id ORDER BY "timesPlayed" DESC`
+  `SELECT songs.id, title, author, COUNT(*) as "timesPlayed" FROM songs JOIN versions ON songs.id = versions.song_id WHERE songs.is_song = true GROUP BY songs.id ORDER BY "timesPlayed" DESC`,
 );
 const allVenuesCache = new CacheGenerator(
-  `SELECT city, state, country, venues.id as "venueId", name as "venueName", COUNT(*) as "total", ST_AsGeoJSON(geom) AS geometry FROM venues join shows on venues.id = venue_id group by venues.id order by "total" DESC`
+  `SELECT city, state, country, venues.id as "venueId", name as "venueName", COUNT(*) as "total", ST_AsGeoJSON(geom) AS geometry FROM venues join shows on venues.id = venue_id group by venues.id order by "total" DESC`,
 );
 
 module.exports.getAllShows = async (req) => {
   if (allShowsCache.data.length === 0) {
     await allShowsCache.update();
     return allShowsCache.data;
-  } else if (req.url === '/new-show/confirmation') {
+  } else if (req.url === "/new-show/confirmation") {
     await allShowsCache.update();
     return;
   } else {
@@ -47,26 +50,26 @@ module.exports.getAllShows = async (req) => {
 module.exports.getShowsBySongID = (id) => {
   return pool.query(
     'SELECT venues.id as "venueId", shows.id as "showId", songs.title, name as "venueName", city, state, country, date, ST_AsGeoJSON(geom) AS geometry FROM venues JOIN shows ON shows.venue_id = venues.id JOIN versions ON shows.id = show_id JOIN songs ON songs.id = song_id WHERE songs.id = $1 ORDER BY date DESC',
-    [id]
+    [id],
   );
 };
 
 module.exports.findUser = async () => {
-  const { rows } = await pool.query('SELECT current_user');
+  const { rows } = await pool.query("SELECT current_user");
   return rows[0];
 };
 
 module.exports.getShowByID = (id) => {
   return pool.query(
     `SELECT name, city, state, country, date, ST_AsGeoJSON(geom) AS geometry, show_notes as "showNotes", title, position, set_number as "setNumber", version_notes as "versionNotes", transition FROM shows JOIN venues ON venues.id = shows.venue_id JOIN versions ON shows.id = show_id JOIN songs ON songs.id = song_id WHERE shows.id = $1 ORDER BY position`,
-    [id]
+    [id],
   );
 };
 
 module.exports.getShowByDate = (date) => {
   return pool.query(
     `SELECT name, city, state, country, date, ST_AsGeoJSON(geom) AS geometry, show_notes as "showNotes", title, position, set_number as "setNumber", version_notes as "versionNotes", transition FROM shows JOIN venues ON venues.id = shows.venue_id JOIN versions ON shows.id = show_id JOIN songs ON songs.id = song_id WHERE shows.date = $1 ORDER BY position`,
-    [date]
+    [date],
   );
 };
 
@@ -78,7 +81,7 @@ module.exports.insertNewShow = async (req) => {
       req.session.newShow.venue.id,
       req.session.newShow.notes,
       req.user.id,
-    ]
+    ],
   );
   return rows[0].id;
 };
@@ -87,7 +90,7 @@ module.exports.getAllSongs = async (req) => {
   if (allSongsCache.data.length === 0) {
     await allSongsCache.update();
     return allSongsCache.data;
-  } else if (req.url === '/new-show/confirmation') {
+  } else if (req.url === "/new-show/confirmation") {
     await allSongsCache.update();
     return;
   } else {
@@ -98,7 +101,7 @@ module.exports.getAllSongs = async (req) => {
 module.exports.getAllSongsByAuthor = (author) => {
   return pool.query(
     `SELECT songs.id, title, author, COUNT(*) as "timesPlayed" FROM songs JOIN versions ON songs.id = versions.song_id WHERE SIMILARITY(author, $1) > 0.59 GROUP BY songs.id ORDER BY "timesPlayed" DESC`,
-    [`%${author}%`]
+    [`%${author}%`],
   );
 };
 
@@ -108,16 +111,16 @@ module.exports.getSongByID = (id) => {
           SELECT to_char(MIN(date), 'MM-DD-YYYY') as "firstTimePlayed" from shows JOIN versions on shows.id = show_id JOIN songs on songs.id = song_id WHERE songs.id = $1
           ), (
           SELECT to_char(MAX(date), 'MM-DD-YYYY') as "mostRecent" from shows JOIN versions on shows.id = show_id JOIN songs on songs.id = song_id WHERE songs.id = $1
-          ) 
+          )
           FROM songs JOIN versions ON songs.id = versions.song_id WHERE songs.id = $1 GROUP BY songs.id`,
-    [id]
+    [id],
   );
 };
 
 module.exports.insertNewSong = async (req, song) => {
   let { rows } = await pool.query(
     `INSERT INTO songs (title, created_by, created_at) VALUES ($1, $2, CURRENT_DATE) RETURNING id`,
-    [song.title, req.user.id]
+    [song.title, req.user.id],
   );
   return rows[0].id;
 };
@@ -132,7 +135,7 @@ module.exports.updateSong = async (req, song) => {
       req.user.id,
       req.body.instrumental,
       song.id,
-    ]
+    ],
   );
 };
 
@@ -147,7 +150,7 @@ module.exports.insertNewVersion = async (req, song) => {
       song.transition,
       song.versionNotes,
       req.user.id,
-    ]
+    ],
   );
 };
 
@@ -155,7 +158,7 @@ module.exports.getAllVenues = async (req) => {
   if (allVenuesCache.data.length === 0) {
     await allVenuesCache.update();
     return allVenuesCache.data;
-  } else if (req.url === '/new-show/confirmation') {
+  } else if (req.url === "/new-show/confirmation") {
     await allVenuesCache.update();
     return;
   } else {
@@ -166,28 +169,28 @@ module.exports.getAllVenues = async (req) => {
 module.exports.getVenuesByState = (state) => {
   return pool.query(
     `SELECT city, state, country, venues.id as "venueId", name as "venueName", COUNT(*) as "total", ST_AsGeoJSON(geom) AS geometry, (SELECT AVG(ST_X(geom)) AS "centerLng" FROM venues where state = $1 or country = $1), (SELECT AVG(ST_Y(geom)) AS "centerLat" FROM venues where state = $1 or country = $1) FROM venues join shows on venues.id = venue_id where state = $1 or country = $1 group by venues.id order by "total" DESC`,
-    [state]
+    [state],
   );
 };
 
 module.exports.getVenuesByCity = (city, state) => {
   return pool.query(
     `SELECT city, state, country, venues.id as "venueId", name as "venueName", COUNT(*) as total, ST_AsGeoJSON(geom) AS geometry, (SELECT AVG(ST_X(geom)) AS "centerLng" FROM venues where city = $1 AND state = $2 OR country = $2), (SELECT AVG(ST_Y(geom)) AS "centerLat" FROM venues where city = $1 AND state = $2 OR country = $2), MAX(date) as "mostRecent" FROM venues join shows on venues.id = venue_id where city = $1 AND state = $2 OR country = $2 group by venues.id ORDER BY "total" DESC`,
-    [city, state]
+    [city, state],
   );
 };
 
 module.exports.getVenueByID = (id) => {
   return pool.query(
     `SELECT venues.id AS "venueId", shows.id AS "showId", name, city, state, country, ST_AsGeoJSON(geom) AS geometry, date FROM venues JOIN shows ON venues.id = shows.venue_id WHERE venues.id = $1 ORDER BY date`,
-    [id]
+    [id],
   );
 };
 
 module.exports.getVenueGeoData = async (venueId) => {
   let { rows } = await pool.query(
     `SELECT ST_asGeoJSON(geom) as geometry from venues WHERE venues.id = $1`,
-    [venueId]
+    [venueId],
   );
   return rows[0].geometry;
 };
@@ -202,19 +205,15 @@ module.exports.insertNewVenue = async (req) => {
       req.session.newShow.venue.country,
       req.user.id,
       `${req.session.newShow.venue.geometry}`,
-    ]
+    ],
   );
   return rows[0].id;
-};
-
-module.exports.testQuery = async (req) => {
-  return await pool.query(`SELECT date from shows where id=1736`);
 };
 
 module.exports.existingSongSearch = async (song) => {
   let { rows } = await pool.query(
     `select title, id from songs where is_song = true and similarity(title, $1) > 0.67 limit 1`,
-    [song]
+    [song],
   );
   return !rows[0] ? { id: null, title: song } : rows[0];
 };
