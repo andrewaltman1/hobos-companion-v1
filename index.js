@@ -21,6 +21,8 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.set("views", path.resolve(__dirname, "views"));
 app.use("/public", express.static(path.resolve(__dirname, "public")));
+
+// optional debug logging
 // app.use("/", (req, res, next) => {
 //   console.log(`Path: ${req.path}`);
 //   console.log(`Method: ${req.method}`);
