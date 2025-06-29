@@ -109,6 +109,12 @@ app.use((err, req, res, next) => {
         err.statusCode === 404 ? "Page Not Found." : "Something went wrong.",
       stack: "",
     };
+    if (err.statusCode === 404) {
+      console.log(
+        "404 details: ",
+        `${req.method} to ${req.path} by ${req.headers["user-agent"]} querying ${JSON.stringify(req.query)}`,
+      );
+    }
     return res.render("simple-message", view.errorMessage(req, prodErr));
   }
   // render the error page
