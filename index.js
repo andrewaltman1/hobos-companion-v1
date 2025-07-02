@@ -35,9 +35,10 @@ app.use("/public", express.static(path.resolve(__dirname, "public")));
 
 app.use((req, res, next) => {
   if (
+    req.headers["user-agent"] &&
     req.headers["user-agent"].includes("Amazon-Route53-Health-Check-Service")
   ) {
-    return res.sendStatus(200);
+    res.sendStatus(200);
   } else {
     next();
   }
@@ -101,6 +102,7 @@ app.all("*", (req, res, next) => {
 
 app.use((err, req, res, next) => {
   // set locals, only providing error in development
+  if (err.statusCode === 404) err.stack = "";
   console.log("in error handler", err);
   if (req.app.get("env") === "production") {
     const prodErr = {
