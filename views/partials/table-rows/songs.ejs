@@ -4,6 +4,10 @@
   <td>
     <a href="/songs/<%- row.id %> "> <%- row.title %></a>
   </td>
-  <td><a href="/songs/author/<%- row.author ? row.author.replaceAll("/", "-") : null %>"><%- row.author %></a></td>
+  <td>
+    <% if (row.author) { %>
+      <a href="/songs/author/<%- row.author.replaceAll("/", "-") %>"><%- row.author %></a>
+    <% } %>
+  </td>
 </tr>
 <% }) %>
