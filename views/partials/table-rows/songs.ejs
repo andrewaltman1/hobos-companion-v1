@@ -4,6 +4,6 @@
   <td>
     <a href="/songs/<%- row.id %> "> <%- row.title %></a>
   </td>
-  <td><%- row.author ? `<a href="/songs/author/${row.author.replaceAll("/", "-")}">${row.author}</a>` : '' %></td>
+  <td><%= row.author ? `<a href="/songs/author/${encodeURIComponent(row.author.replaceAll("/", "-"))}">${row.author}</a>` : '' %></td>
 </tr>
 <% }) %>
