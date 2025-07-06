@@ -103,7 +103,6 @@ app.all("*", (req, res, next) => {
 app.use((err, req, res, next) => {
   // set locals, only providing error in development
   if (err.statusCode === 404) err.stack = "";
-  console.log("in error handler", err);
   if (req.app.get("env") === "production") {
     const prodErr = {
       statusCode: err.statusCode,
@@ -114,7 +113,12 @@ app.use((err, req, res, next) => {
     if (err.statusCode === 404) {
       console.log(
         "404 details: ",
-        `${req.method} to ${req.path} by ${req.headers["user-agent"]} querying ${JSON.stringify(req.query)}`,
+        `${req.method} to ${req.path} by ${req.headers["user-agent"]} querying ${JSON.stringify(req.query)} with params ${req.params}`,
+      );
+    } else {
+      console.error(
+        `${req.method} to ${req.path} by ${req.headers["user-agent"]} querying ${JSON.stringify(req.query)} with params ${req.params}`,
+        err,
       );
     }
     return res.render("simple-message", view.errorMessage(req, prodErr));
