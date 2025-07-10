@@ -113,11 +113,11 @@ app.use((err, req, res, next) => {
     if (err.statusCode === 404) {
       console.log(
         "404 details: ",
-        `${req.method} to ${req.path} by ${req.headers["user-agent"]} querying ${JSON.stringify(req.query)} with params ${req.params}`,
+        `${req.method} to ${req.path} by ${req.headers["user-agent"]} querying ${JSON.stringify(req.query)} with params ${JSON.stringify(req.params, null, 2)}`,
       );
     } else {
       console.error(
-        `${req.method} to ${req.path} by ${req.headers["user-agent"]} querying ${JSON.stringify(req.query)} with params ${req.params}`,
+        `${req.method} to ${req.path} by ${req.headers["user-agent"]} querying ${JSON.stringify(req.query)} with params ${JSON.stringify(req.params, null, 2)}`,
         err,
       );
     }
